@@ -5,5 +5,7 @@
 	<classpathentry kind="src" path="Fase1-parte/client"/>
 	<classpathentry kind="src" path="Fase1-parte/server"/>
 	<classpathentry kind="src" path="Fase1-1Parte/client/handlers"/>
+	<classpathentry kind="src" path="Fase1-Parte1/client"/>
+	<classpathentry kind="src" path="Fase1-Parte1/server"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
