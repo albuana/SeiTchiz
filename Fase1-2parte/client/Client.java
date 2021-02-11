@@ -1,4 +1,4 @@
 
-public class Server {
+public class Client {
 
 }
