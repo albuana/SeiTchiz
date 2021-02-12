@@ -14,7 +14,7 @@ public class UserInfoHandler {
 		this.user=user;	
 	}
 	public String getInfo() throws GroupException {
-		GroupCatalog group = GroupCatalog.getInstance();
-		return null;
+		GroupCatalog catalog = GroupCatalog.getInstance();
+		return catalog.infoUser(user);
 	}
 }

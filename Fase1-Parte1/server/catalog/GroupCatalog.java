@@ -37,7 +37,7 @@ public class GroupCatalog {
 		
 	}
 	
-	public static String userIsOwner(User user) {
+	public static String infoUser(User user) {
 		StringBuilder ret=new StringBuilder();
 		ArrayList<String> ehDono=new ArrayList<String>();
 		ArrayList<String> pertence=new ArrayList<String>();
