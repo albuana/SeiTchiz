@@ -1,6 +1,6 @@
 package client.handler;
 
-import client.Client;
+import client.Client2;
 import client.exceptions.UserCouldNotSendException;
 
 /**
@@ -26,8 +26,8 @@ public class CreateNewGroupHandler {
 	 * @throws UserCouldNotSendException
 	 */
 	public Object newgroup() {
-		Client.getInstance().send("newgroup",groupID);
-		return Client.getInstance().receive();
+		Client2.getInstance().send("newgroup",groupID);
+		return Client2.getInstance().receive();
 	}
 
 }

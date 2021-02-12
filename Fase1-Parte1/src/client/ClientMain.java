@@ -43,7 +43,7 @@ public class ClientMain {
 
 		//CONEXAHO
 		try {
-			Client.connect(serverAddress,clientID);
+			Client2.connect(serverAddress,clientID);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
@@ -57,7 +57,7 @@ public class ClientMain {
 			if(r instanceof String) {
 				System.out.println((String)r);
 				sc.close();
-				Client.getInstance().close(); //implementar close
+				Client2.getInstance().close(); //implementar close
 				return;
 			}
 
@@ -117,7 +117,7 @@ public class ClientMain {
 
 		System.out.print("Volte Sempre!");
 		sc.close();
-		Client.getInstance().close();
+		Client2.getInstance().close();
 
 	}
 

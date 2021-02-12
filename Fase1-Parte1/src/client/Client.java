@@ -4,61 +4,98 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
-//Alterar pacote
-public class Client {
+import client.exceptions.UserCouldNotSendException;
 
-	private static String ipServer;
-	private static String password;
-	private static String idClient;
-	private static int portServer;
+public final class Client {
 
+	private Socket socket;
+	private static Client INSTANCE;
+	private ObjectOutputStream out;
+	private ObjectInputStream in;
+	private String user;
 
-	public static void main(String[] args){
-
-		/////////  Tratamento do Input  ////////////////////////////////////////////////////
-
-		//String serverAdress = "127.0.0.1";
-		//String[] infoList = serverAdress.split(":", 2);
-
-		//ipServer = infoList[0];
-		ipServer = "127.0.0.1";
-		idClient = "123456";
-		password = "pass";
-
-		/*if(infoList.length == 2)
-			portServer = Integer.parseInt(infoList[1]);
-		else
-			*/portServer = 45678;
-		////////////////////////////////////////////////////////////////////////////////////
-
-		///////////  Criar Socket e Streams, Enviar info para o Servidor //////////////////
-		
-		Socket clientSocket;
-		ObjectInputStream in;
-		ObjectOutputStream out;
-
-		try {
-			clientSocket = new Socket(ipServer, portServer);
-			//in = new ObjectInputStream(clientSocket.getInputStream());
-			out = new ObjectOutputStream(clientSocket.getOutputStream());
-			
-			out.writeObject(ipServer);
-			out.writeObject(portServer);
-			out.writeObject(idClient);
-			out.writeObject(password);
-			
-		} catch (UnknownHostException e) {
-			System.out.println("Ocorreu um problema na ligaho");
-		} catch (IOException e) {
-			System.out.println("Ocorreu um problema na ligaho");
-		}
-
-		/////////////////////////////////////////////////////////////////////////////////////
-
-
-		//Nao esquecer de fechar o socket e as streams
+	/**
+	 * Returns the Client singleton instance
+	 * @return Client singleton
+	 */
+	public static Client getInstance() {
+		return INSTANCE;
 	}
+	
+	/**
+	 * Client constructor
+	 * @param server address serveraddress
+	 * @param user
+	 */
+	private Client(String serveraddress, String user) {
+		//TODO
+	}
+
+	/**
+	 * Returns the Client singleton instance after creating the Client
+	 * @param userID 
+	 * @param server address serveraddress
+	 * @return Client singleton
+	 */
+	public static Client connect(String serveraddress, String userID) {
+		INSTANCE = new Client(serveraddress, userID);
+		return INSTANCE;
+	}
+
+	/**
+	 * Sends data
+	 * @param objs-data to be sent, such as function name, parameters of the function as well as data relevant to such function
+	 * @throws UserCouldNotSendException
+	 */
+	public void send(Object... objs) throws UserCouldNotSendException{
+		try {
+			List<Object> list = new ArrayList<>();
+			for(int i = 0; i < objs.length; i++)
+				list.add(objs[i]);
+
+			out.writeObject(list);
+			out.flush();
+		} catch (IOException e) {
+			throw new UserCouldNotSendException(e.getMessage());
+		}
+	}
+
+	/**
+	 * Receives objects as a response from the server
+	 * @return response from server
+	 */
+	public Object receive() {
+		try {
+			return in.readObject();
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		} 
+		return null;
+	}
+
+	/**
+	 * closes socket connection and open streams
+	 */
+	public void close(){
+		try {
+			this.out.close();
+			this.in.close();
+			this.socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 
+	 * @return UserID
+	 */
+	public String getUserID() {
+		return user;
+	}
+
 
 }
