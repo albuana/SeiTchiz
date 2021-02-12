@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import com.sun.tools.sjavac.server.RequestHandler;
+import server.RequestHandler;
 
 import client.exeptions.UserCouldSendException;
 import client.handler.LoginUserHandler;
