@@ -1,5 +1,6 @@
 package server;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -11,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import server.handler.RequestHandler;
-//import server.handlers.LoginUserHandler;
-import server.catalog.UserCatalog;
 import server.domain.User;
 import server.exceptions.NotWellFormedException;
 
@@ -62,94 +61,106 @@ public class ServerThread extends Thread{
 	 * Runs the server thread responsible for receiving and dealing with a client's requests
 	 * @since 1.0
 	 */
-	//	@SuppressWarnings("unchecked")
+//	public void run(){
+//
+//		try {
+//			List<Object> list = (ArrayList<Object>) inStream.readObject();
+//			if(((String)list.get(0)).equals("login")) {
+//				String userID = (String) list.get(1);
+//				LoginUserHandler loginUserHandler = new LoginUserHandler(userID);
+//
+//				//a flag que diz se o utilizador eh novo ou nao
+//				Boolean flagNewUser = loginUserHandler.loginGetFlag();
+//				send(flagNewUser);
+//
+//				//o que o cliente envia que o servidor vai receber:
+//				boolean success = false;
+//				if(flagNewUser.booleanValue()) {
+//					//se a flag for true, ou seja se o utilizador ainda naho existe no sistema
+//					success = loginUserHandler.register(userID,pass);
+//				}else {
+//					//se a flag for false ou seja se o utilizador jah existe no sistema
+//					success = loginUserHandler.login(userID,pass);
+//				}
+//				send(success);
+//				if(success)
+//					currentUser = UserCatalog.getInstance().getUser(userID);
+//			} //login close
+//
+//			while(true) {
+//				//clients function
+//				String function = null;
+//				List<Object> params = null;
+//
+//				try {
+//					//call function
+//					List<Object> objs = (ArrayList<Object>) inStream.readObject();
+//					function = (String) objs.get(0);
+//					params = objs.subList(1, objs.size());
+//
+//					//if(currentUser != null)
+//					params.add(currentUser);
+//
+//
+//					Class<?>[] c = new Class[params.size()];
+//
+//					System.out.println(function);
+//					for (int i = 0; i < c.length; i++) {
+//						c[i] =  params.get(i).getClass();
+//					}
+//
+//					System.out.println("Method: " + function);
+//					Method m = RequestHandler.class.getMethod(function, c);
+//					Object result = m.invoke(null , params.toArray());					
+//					System.out.println(result);
+//					send(result);
+//				}catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException e) {
+//					e.printStackTrace();
+//					break;
+//				}catch(NoSuchMethodException e) {
+//					send((new NotWellFormedException()).getMessage()); //mandar erro ao utilizador
+//				}catch(InvocationTargetException e) {
+//					send(e.getCause().getMessage()); //mandar erro ao utilizador
+//				}catch(SocketException | EOFException e) {
+//					System.out.println("The client disconnected from server");
+//					break;
+//				} 
+//			}
+//			outStream.close();
+//			inStream.close();
+//			socket.close();
+//		} //try close
+//		catch (IOException e) {
+//			e.printStackTrace();
+//		} catch (ClassNotFoundException e1) {
+//			e1.printStackTrace();
+//		}
+//
+//	}
+
+
+
 	//	public void run(){
+	//
+	//		///Teste passagem de informacao///
+	//
 	//		try {
-	//			List<Object> list = (ArrayList<Object>) inStream.readObject();
-	//			if(((String)list.get(0)).equals("login")) {
-	//				String userID = (String) list.get(1);
-	//				LoginUserHandler loginUserHandler = new LoginUserHandler(userID);
-	//				//a flag que diz se o utilizador eh novo ou nao
-	//				Boolean flagNewUser = loginUserHandler.loginGetFlag();
 	//
-	//				send(flagNewUser);
-	//
-	//				//o que o cliente envia que o servidor vai receber:
-	//				boolean success = false;
-	//				if(flagNewUser.booleanValue()) {
-	//					success = loginUserHandler.register(currentUser);
-	//				} else {
-	//					//se a flag for false ou seja se o utilizador jah existe no sistema
-	//					success = loginUserHandler.login(currentUser);
-	//				}
-	//				send(success);
-	//				if(success)
-	//					currentUser = UserCatalog.getInstance().getUser(userID);
-	//			}
-	//			while(true) {
-	//				//clients function
-	//				String function = null;
-	//				List<Object> params = null;
-	//
-	//				try {
-	//					//call function
-	//					List<Object> objs = (ArrayList<Object>) inStream.readObject();
-	//					function = (String) objs.get(0);
-	//					params = objs.subList(1, objs.size());
-	//
-	//					//if(currentUser != null)
-	//					params.add(currentUser);
-	//
-	//
-	//					Class<?>[] c = new Class[params.size()];
-	//
-	//					System.out.println(function);
-	//					for (int i = 0; i < c.length; i++) {
-	//						c[i] =  params.get(i).getClass();
-	//					}
-	//
-	//					System.out.println("Method: " + function);
-	//					Method m = RequestHandler.class.getMethod(function, c);
-	//					Object result = m.invoke(null , params.toArray());					
-	//					System.out.println(result);
-	//					send(result);
-	//				}catch (ClassNotFoundException | SecurityException | IllegalAccessException | IllegalArgumentException e) {
-	//					e.printStackTrace();
-	//					break;
-	//				}catch(NoSuchMethodException e) {
-	//					send((new NotWellFormedException()).getMessage()); //mandar erro ao utilizador
-	//				}catch(InvocationTargetException e) {
-	//					send(e.getCause().getMessage()); //mandar erro ao utilizador
-	//				}catch(SocketException | EOFException e) {
-	//					System.out.println("The client disconnected from server");
-	//					break;
-	//				} 
-	//			}
-	//
-	//			outStream.close();
-	//			inStream.close();
-	//			socket.close();
-	//
+	//			String a = (String) inStream.readObject();
+	//			System.out.println(a);
 	//		} catch (IOException e) {
-	//			e.printStackTrace();
-	//		} catch (ClassNotFoundException e1) {
-	//			// TODO Auto-generated catch block
-	//			e1.printStackTrace();
-	//		} catch (InvalidKeyException e) {
-	//			// TODO Auto-generated catch block
-	//			e.printStackTrace();
-	//		} catch (NoSuchAlgorithmException e) {
-	//			// TODO Auto-generated catch block
-	//			e.printStackTrace();
-	//		} catch (SignatureException e) {
-	//			// TODO Auto-generated catch block
+	//			System.out.println("Falha na Ligaho");
+	//
+	//		} catch (ClassNotFoundException e) {
 	//			e.printStackTrace();
 	//		}
+	//
+	//		///// Fim do teste /////////////
+	//
 	//	}
-	//}
 
 
-
+	@SuppressWarnings("unchecked")
 	public void run(){
 
 		///Teste passagem de informacao///
@@ -165,7 +176,68 @@ public class ServerThread extends Thread{
 			e.printStackTrace();
 		}
 
+		while(true) {
+			//clients function
+			String function = null;
+			List<Object> params = null;
+
+			try {
+				//call function
+				List<Object> objs = (ArrayList<Object>) inStream.readObject();
+				function = (String) objs.get(0);
+				params = objs.subList(1, objs.size());
+
+				//if(currentUser != null)
+				params.add(currentUser);
+
+
+				Class<?>[] c = new Class[params.size()];
+
+				System.out.println(function);
+				for (int i = 0; i < c.length; i++) {
+					c[i] =  params.get(i).getClass();
+				}
+
+				System.out.println("Method: " + function);
+				Method m = RequestHandler.class.getMethod(function, c);
+				Object result = m.invoke(null , params.toArray());					
+				System.out.println(result);
+				send(result);
+			}catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException e) {
+				e.printStackTrace();
+				break;
+			}catch(NoSuchMethodException e) {
+				send((new NotWellFormedException()).getMessage()); //mandar erro ao utilizador
+			}catch(InvocationTargetException e) {
+				send(e.getCause().getMessage()); //mandar erro ao utilizador
+			}catch(SocketException | EOFException e) {
+				System.out.println("The client disconnected from server");
+				break;
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+		}
+		try {
+			outStream.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			inStream.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			socket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		///// Fim do teste /////////////
 
 	}
+
 }

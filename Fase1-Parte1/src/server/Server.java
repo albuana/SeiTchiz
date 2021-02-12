@@ -47,13 +47,13 @@ public class Server {
 	public void startServer () throws IOException{
 
 		try {
-			this.serverSocket = new ServerSocket(this.port);
+			serverSocket = new ServerSocket(this.port);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		while(true) {
-			Socket clientSoket = this.serverSocket.accept();
+			Socket clientSoket = serverSocket.accept();
 			ServerThread newThread = new ServerThread(clientSoket);
 			newThread.start();
 		}

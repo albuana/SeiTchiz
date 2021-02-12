@@ -1,6 +1,5 @@
 package client;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
@@ -25,9 +24,9 @@ public class ClientMain {
 	/**
 	 * 
 	 * @param args -command line parameters
-	 * @throws UserCouldNotException
+	 * @throws UserCouldNotSendException 
 	 */
-	public static void main(String[] args) throws UserCouldNotSendException, IOException {
+	public static void main(String[] args) throws UserCouldNotSendException {
 
 		Scanner sc = new Scanner(System.in);
 		if(args.length == 0 || args.length < 5) {
@@ -52,10 +51,10 @@ public class ClientMain {
 		if(r instanceof String) {
 			System.out.println((String)r);
 			sc.close();
-			Client.getInstance().close(); //nao esqwuecer de implementar close
+			Client.getInstance().close();
 			return;
 		}
-
+		
 		//MOSTRAR FUNCIONALIDADES
 		showMenu();
 
