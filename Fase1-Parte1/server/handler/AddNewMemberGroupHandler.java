@@ -1,7 +1,6 @@
 package server.handler;
 
 import java.io.IOException;
-import java.util.List;
 
 import server.catalog.GroupCatalog;
 import server.catalog.UserCatalog;

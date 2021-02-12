@@ -1,12 +1,9 @@
 package server.handler;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
-import server.domain.Group;
 import server.domain.User;
 import server.exceptions.UserNotExistException;
 import server.exceptions.group.GroupException;
@@ -19,7 +16,6 @@ import server.exceptions.group.UserCouldNotCreateGroupException;
  */
 public final class RequestHandler {
 	
-
 	/**
 	 * Creation of group
 	 * @param groupId - group is created with this name
@@ -30,7 +26,7 @@ public final class RequestHandler {
 	 * @throws ClassNotFoundException 
 	 * @see server.handlers.CreateGroupHandler
 	 */
-	public static boolean create(String groupId, User user) throws UserCouldNotCreateGroupException, IOException, ClassNotFoundException {
+	public static boolean create(String groupId, User user) throws UserCouldNotCreateGroupException {
 		return new CreateGroupHandler(groupId, user).create();
 	}
 	
