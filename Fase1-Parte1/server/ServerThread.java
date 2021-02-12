@@ -75,7 +75,7 @@ public class ServerThread extends Thread{
 				String a = (String) inStream.readObject();
 				System.out.println(a);
 			} catch (IOException e) {
-				System.out.println("Falha na Ligação");
+				System.out.println("Falha na Ligaho");
 				
 			}
 			

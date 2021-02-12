@@ -50,9 +50,9 @@ public class Client {
 			out.writeObject(password);
 			
 		} catch (UnknownHostException e) {
-			System.out.println("Ocorreu um problema na ligação");
+			System.out.println("Ocorreu um problema na ligaho");
 		} catch (IOException e) {
-			System.out.println("Ocorreu um problema na ligação");
+			System.out.println("Ocorreu um problema na ligaho");
 		}
 
 		/////////////////////////////////////////////////////////////////////////////////////
