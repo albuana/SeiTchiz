@@ -2,8 +2,6 @@ package server.domain;
 
 import java.util.ArrayList;
 
-import jdk.internal.org.jline.terminal.Size;
-
 public class Group {
 	public User user;
 	public String groupId;
@@ -34,7 +32,7 @@ public class Group {
 	
 	public String info() {
 		StringBuilder ret=new StringBuilder("O grupo tem: "+user.getUsername()+" como dono /n");
-		ret.append("Os utilizadores pertencentes ao grupo são: /n");
+		ret.append("Os utilizadores pertencentes ao grupo saho: /n");
 		for (int i = 0; i < members.size(); i++){
 			ret.append("Utilizador: "+members.get(i).getUsername());
 		}

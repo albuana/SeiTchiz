@@ -8,8 +8,10 @@ import java.util.Set;
 
 import server.domain.Group;
 import server.domain.User;
+import server.exceptions.UserNotExistException;
 import server.exceptions.group.GroupException;
 import server.exceptions.group.GroupNotExistException;
+import server.exceptions.group.UserCouldNotCreateGroupException;
 /**
  * 
  * Handles every request from server, calls right handler for every request
@@ -28,7 +30,7 @@ public final class RequestHandler {
 	 * @throws ClassNotFoundException 
 	 * @see server.handlers.CreateGroupHandler
 	 */
-	public static boolean create(String groupId, User user) throws server.exceptions.group.UserCouldNotCreateGroupException, IOException, ClassNotFoundException {
+	public static boolean create(String groupId, User user) throws UserCouldNotCreateGroupException, IOException, ClassNotFoundException {
 		return new CreateGroupHandler(groupId, user).create();
 	}
 	
@@ -46,7 +48,7 @@ public final class RequestHandler {
 	 * @throws ClassNotFoundException 
 	 * @see server.handlers.AddNewMemberGroupHandler
 	 */
-	public static boolean addu(String newUser, String groupId, User owner) throws server.exceptions.UserNotExistException, ClassNotFoundException, server.exceptions.group.GroupException, IOException {
+	public static boolean addu(String newUser, String groupId, User owner) throws UserNotExistException, ClassNotFoundException, GroupException, IOException {
 		return new AddNewMemberGroupHandler(groupId,newUser,owner).addMember();
 	}
 
@@ -63,13 +65,9 @@ public final class RequestHandler {
 	 * @throws ClassNotFoundException 
 	 */
 	
-<<<<<<< HEAD
 	public static boolean removeu(String oldUser, String groupId, User owner) throws GroupException, 
-=======
-	public static boolean removeu(String oldUser, String groupId, User owner) throws server.exceptions.group.GroupException, 
-																		IOException, server.exceptions.UserNotExistException, ClassNotFoundException {
+																		IOException, UserNotExistException, ClassNotFoundException {
 		
->>>>>>> branch 'main' of https://github.com/albuana/SeiTchiz.git
 		return new RemoveMemberGroupHandler(oldUser, groupId,  owner).removeMember();
 	}
 	
