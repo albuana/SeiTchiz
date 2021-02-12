@@ -21,7 +21,7 @@ public final class Client {
 	 * Returns the Client singleton instance
 	 * @return Client singleton
 	 */
-	public Client getInstance() {
+	public static Client getInstance() {
 		if(INSTANCE == null)
 			INSTANCE = new Client();
 		
@@ -55,7 +55,7 @@ public final class Client {
 	 * @param server address serverAddress
 	 * @return Client singleton
 	 */
-	public Client connect(String serverAddress, String userID) {
+	public static Client connect(String serverAddress, String userID) {
 		//NAO E NECESSARIO USERID
 		String[] infoList = serverAddress.split(":", 2);
 
