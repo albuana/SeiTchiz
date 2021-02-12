@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import server.RequestHandler;
+import client.handler.RequestHandler;
 import client.exceptions.CommandNotExistException;
 import client.exceptions.UserCouldNotSendException;
 import client.handler.LoginUserHandler;
