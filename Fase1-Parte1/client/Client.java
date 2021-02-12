@@ -14,7 +14,6 @@ public class Client {
 	private static String idClient;
 	private static int portServer;
 
-
 	public static void main(String[] args){
 
 		/////////  Tratamento do Input  ////////////////////////////////////////////////////
@@ -30,35 +29,35 @@ public class Client {
 		/*if(infoList.length == 2)
 			portServer = Integer.parseInt(infoList[1]);
 		else
-			*/portServer = 45678;
-		////////////////////////////////////////////////////////////////////////////////////
+		 */portServer = 45678;
+		 ////////////////////////////////////////////////////////////////////////////////////
 
-		///////////  Criar Socket e Streams, Enviar info para o Servidor //////////////////
-		
-		Socket clientSocket;
-		ObjectInputStream in;
-		ObjectOutputStream out;
+		 ///////////  Criar Socket e Streams, Enviar info para o Servidor //////////////////
 
-		try {
-			clientSocket = new Socket(ipServer, portServer);
-			//in = new ObjectInputStream(clientSocket.getInputStream());
-			out = new ObjectOutputStream(clientSocket.getOutputStream());
-			
-			out.writeObject(ipServer);
-			out.writeObject(portServer);
-			out.writeObject(idClient);
-			out.writeObject(password);
-			
-		} catch (UnknownHostException e) {
-			System.out.println("Ocorreu um problema na ligaho");
-		} catch (IOException e) {
-			System.out.println("Ocorreu um problema na ligaho");
-		}
+		 Socket clientSocket;
+		 ObjectInputStream in;
+		 ObjectOutputStream out;
 
-		/////////////////////////////////////////////////////////////////////////////////////
+		 try {
+			 clientSocket = new Socket(ipServer, portServer);
+			 //in = new ObjectInputStream(clientSocket.getInputStream());
+			 out = new ObjectOutputStream(clientSocket.getOutputStream());
+
+			 out.writeObject(ipServer);
+			 out.writeObject(portServer);
+			 out.writeObject(idClient);
+			 out.writeObject(password);
+
+		 } catch (UnknownHostException e) {
+			 System.out.println("Ocorreu um problema na ligaho");
+		 } catch (IOException e) {
+			 System.out.println("Ocorreu um problema na ligaho");
+		 }
+
+		 /////////////////////////////////////////////////////////////////////////////////////
 
 
-		//Nao esquecer de fechar o socket e as streams hey
+		 //Nao esquecer de fechar o socket e as streams hey
 	}
 
 }
