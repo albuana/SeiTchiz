@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import server.RequestHandler;
-
-import client.exeptions.UserCouldSendException;
+import client.exceptions.CommandNotExistException;
+import client.exceptions.UserCouldNotSendException;
 import client.handler.LoginUserHandler;
 
 /**
@@ -27,7 +27,7 @@ public class ClientMain {
 	 * @param args -command line parameters
 	 * @throws UserCouldNotException
 	 */
-	public static void main(String[] args) throws UserCouldSendException {
+	public static void main(String[] args) throws UserCouldNotSendException {
 
 		Scanner sc = new Scanner(System.in);
 		if(args.length == 0 || args.length < 5) {
