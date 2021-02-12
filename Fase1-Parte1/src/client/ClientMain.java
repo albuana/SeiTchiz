@@ -21,13 +21,13 @@ public class ClientMain {
 	= Arrays.asList("follow","unfollow","viewfollowers","post",
 			"wall","like","newgroup","addu","removeu","ginfo",
 			"msg","collect","history","menu","quit"); 
-	
+
 	/**
 	 * 
 	 * @param args -command line parameters
 	 * @throws UserCouldNotException
 	 */
-	public static void main(String[] args) throws UserCouldNotSendException {
+	public static void main(String[] args) throws UserCouldNotSendException, IOException {
 
 		Scanner sc = new Scanner(System.in);
 		if(args.length == 0 || args.length < 5) {
@@ -42,28 +42,18 @@ public class ClientMain {
 		System.out.println("**********  Bem vindos ao SeiTchiz  **********");
 
 		//CONEXAHO
-		try {
-			Client2.connect(serverAddress,clientID);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
+		Client.connect(serverAddress,clientID);
 
 		LoginUserHandler login = new LoginUserHandler(serverAddress, clientID);
 
 		//LOGIN
 		Object r;
-		try {
-			r = login.login();
-			if(r instanceof String) {
-				System.out.println((String)r);
-				sc.close();
-				Client2.getInstance().close(); //implementar close
-				return;
-			}
-
-
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		r = login.login();
+		if(r instanceof String) {
+			System.out.println((String)r);
+			sc.close();
+			Client.getInstance().close(); //nao esqwuecer de implementar close
+			return;
 		}
 
 		//MOSTRAR FUNCIONALIDADES
@@ -117,7 +107,8 @@ public class ClientMain {
 
 		System.out.print("Volte Sempre!");
 		sc.close();
-		Client2.getInstance().close();
+		Client.getInstance().close();
+
 
 	}
 

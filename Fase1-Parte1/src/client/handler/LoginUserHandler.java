@@ -1,5 +1,8 @@
 package client.handler;
 
+import client.Client;
+import client.exceptions.UserCouldNotSendException;
+
 public class LoginUserHandler {
 	
 	private String userID;
@@ -15,6 +18,16 @@ public class LoginUserHandler {
 		this.pass = pass;
 	}
 	
+	/**
+	 * Sends a call for the login function in the server and waits for the response
+	 * @return true if the user was able to login and a string if an error occurred if anything failed
+	 * @throws UserCouldNotSendException
+	 */
+	public Object login() throws UserCouldNotSendException {
+		Client client = Client.getInstance();
+		client.send("login",userID);
+		return Client.getInstance().receive();
+	}
 	
 
 }
