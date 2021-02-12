@@ -69,7 +69,7 @@ public final class Client {
 	 * @param objs-data to be sent, such as function name, parameters of the function as well as data relevant to such function
 	 * @throws UserCouldNotSendException
 	 */
-	public void send(Object[] objs){
+	public void send(Object... objs){
 		try {
 			ArrayList<Object> list = new ArrayList<Object>();
 			for(int i = 0; i < objs.length; i++)
