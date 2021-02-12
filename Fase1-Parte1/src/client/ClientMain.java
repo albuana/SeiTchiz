@@ -29,7 +29,7 @@ public class ClientMain {
 	public static void main(String[] args) throws UserCouldNotSendException {
 
 		Scanner sc = new Scanner(System.in);
-		if(args.length == 0 || args.length < 5) {
+		if(args.length == 0 || args.length >=4) {
 			System.out.println("Exemplo de utlizacao : SeiTchiz <serverAddress> <clientID>"); 
 			sc.close();
 			return;
