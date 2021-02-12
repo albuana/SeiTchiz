@@ -52,7 +52,6 @@ public class Server {
 		try {
 			this.serverSocket = new ServerSocket(this.port);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -60,9 +59,6 @@ public class Server {
 			Socket clientSoket = this.serverSocket.accept();
 			ServerThread newThread = new ServerThread(clientSoket);
 			newThread.run();
-
 		}
-
 	}
-	
 }

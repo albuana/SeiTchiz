@@ -71,8 +71,6 @@ public final class RequestHandler {
 	 */
 	
 	public static boolean removeu(String oldUser, String groupId, User owner) throws GroupException, 
-																		IOException, UserNotExistException, ClassNotFoundException {
-		
 		return new RemoveMemberGroupHandler(oldUser, groupId,  owner).removeMember();
 	}
 	
