@@ -2,9 +2,6 @@ package server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
 
 /**
  * 
@@ -58,7 +55,7 @@ public class Server {
 		while(true) {
 			Socket clientSoket = this.serverSocket.accept();
 			ServerThread newThread = new ServerThread(clientSoket);
-			newThread.run();
+			newThread.start();
 		}
 	}
 }
