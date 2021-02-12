@@ -15,6 +15,9 @@ public class Server {
 	private static Server INSTANCE = null;
 	public static final String DATA_PATH = "./Data/";
 	
+	private ServerSocket serverSocket;
+
+	
 	private int port;
 	
 	public static Server getInstance() {
@@ -44,10 +47,22 @@ public class Server {
 	/**
 	 * Starts the server socket and the loop for new server threads
 	 */
-	public void startServer (){
-		
-		//TODO
-		
+	public void startServer () throws IOException{
+
+		try {
+			this.serverSocket = new ServerSocket(this.port);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		while(true) {
+			Socket clientSoket = this.serverSocket.accept();
+			ServerThread newThread = new ServerThread(clientSoket);
+			newThread.run();
+
+		}
+
 	}
 	
 }
