@@ -44,7 +44,7 @@ public final class Client {
 		
 		try {
 			Client.socket = new Socket(ipServer, portServer);
-			//Client.in = new ObjectInputStream(Client.socket.getInputStream());
+			Client.in = new ObjectInputStream(Client.socket.getInputStream());
 			Client.out = new ObjectOutputStream(Client.socket.getOutputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
