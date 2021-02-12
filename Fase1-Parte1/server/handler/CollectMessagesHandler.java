@@ -4,17 +4,15 @@ import java.util.List;
 
 import server.domain.User;
 
-public class HistoryHandler {
+public class CollectMessagesHandler {
 
-	public HistoryHandler(String groupId, User user) {
+	public CollectMessagesHandler(String groupId, User user) {
 		// TODO Auto-generated constructor stub
 	}
 
-	public List<Object> getHistory() {
+	public List<Object> collect() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	//TODO
 
 }
