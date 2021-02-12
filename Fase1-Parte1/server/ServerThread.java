@@ -64,10 +64,25 @@ public class ServerThread extends Thread{
 	 */
 	@SuppressWarnings("unchecked")
 	public void run(){
-
+		
+	
 		try {
+			
+			///Teste passagem de informacao///
+			
+			try {
+				
+				String a = (String) inStream.readObject();
+				System.out.println(a);
+			} catch (IOException e) {
+				System.out.println("Falha na Ligação");
+				
+			}
+			
+			///// Fim do teste /////////////
+			
 			List<Object> list = (ArrayList<Object>) inStream.readObject();
-
+			
 			while(true) {
 				//clients function
 				String function = null;

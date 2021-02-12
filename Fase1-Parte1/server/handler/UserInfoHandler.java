@@ -9,8 +9,9 @@ import server.domain.User;
 import server.exceptions.group.GroupException;
 
 public class UserInfoHandler {
-	private User user;	
-	private UserInfoHandler (User user) {
+	private User user;
+	
+	public UserInfoHandler (User user) {
 		this.user=user;	
 	}
 	public String getInfo() throws GroupException {

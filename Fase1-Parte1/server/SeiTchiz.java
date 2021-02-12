@@ -10,7 +10,7 @@ public class SeiTchiz {
 	
 	public static void main(String[] args) throws NumberFormatException, IOException{
 		System.out.println("servidor: main");
-		Server server = Server.create(1000);
+		Server server = Server.create(45678);
 		server.startServer();
 	}
 

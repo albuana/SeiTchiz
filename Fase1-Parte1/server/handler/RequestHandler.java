@@ -84,9 +84,10 @@ public final class RequestHandler {
 	 * Shows user info
 	 * @param user 
 	 * @return groups where the user belongs, and groups where the user is an owner
+	 * @throws GroupException 
 	 * @see server.handlers.UserInfoHandler
 	 */
-	public static String uinfo(User user) {
+	public static String uinfo(User user) throws GroupException {
 		return new UserInfoHandler(user).getInfo();
 	}
 	
