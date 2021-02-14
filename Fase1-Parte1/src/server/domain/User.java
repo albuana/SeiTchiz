@@ -89,6 +89,18 @@ public class User {
 		groupMessages.get(groupId).add(object);	
 	}
 	
+	public void removeGroup(String groupId) {
+		if(groupMessages.containsKey(groupId))
+			groupMessages.remove(groupId);
+	}
+	
+	public void addGroup(String groupId) {
+		if(!groupMessages.containsKey(groupId)) {
+			groupMessages.put(groupId, null);		
+		}
+		
+	}
+	
 
 	
 

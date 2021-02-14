@@ -36,7 +36,7 @@ public class RemoveMemberGroupHandler {
 		User newbie = UserCatalog.getInstance().getUser(newUser);
 		if(newbie == null)
 			throw new UserNotExistException();
-		
+		newbie.removeGroup(groupId);
 		group.removeMember(newbie);
 		return true;
 	}

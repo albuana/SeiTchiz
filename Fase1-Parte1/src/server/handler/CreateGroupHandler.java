@@ -30,6 +30,7 @@ public class CreateGroupHandler {
 	 * @throws IOException if an error occurs while creating the group
 	 */
 	public boolean create() throws UserCouldNotCreateGroupException {
+		user.addGroup(groupID);
 		return GroupCatalog.getInstance().addGroup(groupID, user.getUsername());	
 	}
 	

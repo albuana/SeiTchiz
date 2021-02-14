@@ -21,7 +21,8 @@ public class MessageGroupHandler {
 		}
 		Group group = GroupCatalog.getInstance().getGroup(groupId);
 		for(int i=0;i<group.members.size();i++) {
-			group.members.get(i).sentMessageToGroup(groupId, object);
+			if(group.members.get(i).getUsername()!=user.getUsername())
+				group.members.get(i).sentMessageToGroup(groupId, object);
 		}
 		return true;
 	}
