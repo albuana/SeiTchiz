@@ -9,20 +9,19 @@ import client.exceptions.UserCouldNotSendException;
 
 public final class Client {
 
-	private static Socket socket;
-	private static Client INSTANCE = null;
-	private static ObjectOutputStream out;
-	private static ObjectInputStream in;
-	private static String userID;
-	private static String password;
-	private static String serverAddress;
-
+	private Socket socket;
+    private static Client INSTANCE = null;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
+    private String userID;
+    private String password;
+    private String serverAddress;
 
 	/**
 	 * Returns the Client singleton instance
 	 * @return Client singleton
 	 */
-	public static Client getInstance() {
+	public Client getInstance() {
 		return INSTANCE;
 	}
 	
@@ -43,9 +42,9 @@ public final class Client {
 			portServer = 45678;
 		
 		try {
-			Client.socket = new Socket(ipServer, portServer);
-			Client.in = new ObjectInputStream(Client.socket.getInputStream());
-			Client.out = new ObjectOutputStream(Client.socket.getOutputStream());
+			this.socket = new Socket(ipServer, portServer);
+			//this.in = new ObjectInputStream(this.socket.getInputStream());
+			this.out = new ObjectOutputStream(this.socket.getOutputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
@@ -101,9 +100,9 @@ public final class Client {
 	 */
 	public void close(){
 		try {
-			Client.out.close();
-			Client.in.close();
-			Client.socket.close();
+			this.out.close();
+			this.in.close();
+			this.socket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -114,15 +113,15 @@ public final class Client {
 	 * @return UserID
 	 */
 	public String getUserID() {
-		return Client.userID;
+		return this.userID;
 	}
 	
 	public String getServerAddress() {
-		return Client.serverAddress;
+		return this.serverAddress;
 	}
 	
 	public boolean hasPassword(String password) {
-		return Client.password.equals(password);
+		return this.password.equals(password);
 	}
 
 }

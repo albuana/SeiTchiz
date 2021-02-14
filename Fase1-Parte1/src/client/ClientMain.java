@@ -29,29 +29,32 @@ public class ClientMain {
 	public static void main(String[] args) throws UserCouldNotSendException {
 
 		Scanner sc = new Scanner(System.in);
-		if(args.length == 0 || args.length >=4) {
-			System.out.println("Exemplo de utlizacao : SeiTchiz <serverAddress> <clientID>"); 
-			sc.close();
+		System.out.print("Exemplo de utlizacao : SeiTchiz <serverAddress> <clientID> <password>: "); 
+		
+		String input=sc.nextLine();
+		String[] info=input.split(" ");
+		if(info.length<3) {
+			System.out.println("Erro no input");
 			return;
 		}
-
-		String serverAddress = args[0];
-		String clientID = args[1];
+		String serverAddress = info[0];
+		String clientID = info[1];
+		String password = info[2];
 
 		System.out.println("**********  Bem vindos ao SeiTchiz  **********");
 
 		//CONEXAHO
-		Client.connect(serverAddress,clientID);
+		Client newClient = Client.connect(serverAddress,clientID);
 
-		LoginUserHandler login = new LoginUserHandler(serverAddress, clientID);
+		LoginUserHandler login = new LoginUserHandler(clientID, password);
 
 		//LOGIN
-		Object r;
-		r = login.login();
+		
+		Object r = login.login(newClient);
 		if(r instanceof String) {
 			System.out.println((String)r);
 			sc.close();
-			Client.getInstance().close();
+			newClient.getInstance().close();
 			return;
 		}
 		
@@ -106,7 +109,7 @@ public class ClientMain {
 
 		System.out.print("Volte Sempre!");
 		sc.close();
-		Client.getInstance().close();
+		newClient.getInstance().close();
 
 
 	}

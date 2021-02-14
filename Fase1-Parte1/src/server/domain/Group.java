@@ -2,6 +2,7 @@ package server.domain;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import server.exceptions.group.UserAlreadyInGroupException;
 import server.exceptions.group.UserDoesNotInGroupException;
@@ -96,6 +97,11 @@ public class Group {
 		}
 		return ret.toString();
 
+	}
+	
+	public void sendMessage(Object object) {
+		
+		
 	}
 
 }

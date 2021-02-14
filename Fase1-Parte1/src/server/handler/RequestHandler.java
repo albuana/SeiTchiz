@@ -108,6 +108,22 @@ public final class RequestHandler {
 	}
 	
 	/**
+	 * Shows every not seen yet message
+	 * @param groupId
+	 * @param user
+	 * @return true if message is sent && false if message is not sent
+	 * @throws GroupNotExistException - if something went wrong with the group
+	 * @throws UserDoesNotBelongToGroupException - if user doesn't belong to group
+	 * @throws IOException
+	 * @throws NoSuchAlgorithmException 
+	 * @throws ClassNotFoundException 
+	 * @see server.handlers.CollectMessagesHandler
+	 */
+	public static boolean messageGroup (String groupId, User user, Object object) throws GroupNotExistException, IOException, ClassNotFoundException {
+		return new MessageGroupHandler(groupId,user).message(object);
+	}
+	
+	/**
 	 * Shows every message that is already archived
 	 * @param groupId
 	 * @param user

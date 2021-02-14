@@ -23,10 +23,10 @@ public class LoginUserHandler {
 	 * @return true if the user was able to login and a string if an error occurred if anything failed
 	 * @throws UserCouldNotSendException
 	 */
-	public Object login() throws UserCouldNotSendException {
-		Client client = Client.getInstance();
-		client.send("login",userID);
-		return Client.getInstance().receive();
+	public Object login(Client newClient) throws UserCouldNotSendException {
+		Client client = newClient.getInstance();
+		client.send("login",userID, pass);
+		return newClient.getInstance().receive();
 	}
 	
 

@@ -51,11 +51,13 @@ public class Server {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
+		
 		while(true) {
 			Socket clientSoket = serverSocket.accept();
 			ServerThread newThread = new ServerThread(clientSoket);
-			newThread.start();
+			newThread.run();
+			;
 		}
 	}
 }

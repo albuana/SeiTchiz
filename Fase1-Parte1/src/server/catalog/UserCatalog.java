@@ -15,6 +15,8 @@ public class UserCatalog {
 	 * @return the user catalog singleton
 	 */
 	public static UserCatalog getInstance() {
+		if(INSTANCE == null)
+			INSTANCE = new UserCatalog();
 		return INSTANCE;
 	}
 

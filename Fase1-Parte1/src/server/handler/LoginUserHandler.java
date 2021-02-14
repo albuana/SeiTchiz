@@ -1,6 +1,7 @@
 package server.handler;
 
 import server.catalog.UserCatalog;
+import server.domain.User;
 
 
 /**
@@ -37,6 +38,26 @@ public class LoginUserHandler {
 		}
 
 		return flag;
+	}
+
+	public boolean register(String userID2, String password) {
+		UserCatalog users = UserCatalog.getInstance();
+		User newUser=new User(userID2, password);
+		if(users.getUser(userID2)!=null) {
+			users.addUser(newUser);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean login(String userID2, String password) {
+		UserCatalog users = UserCatalog.getInstance();
+		User loginUser=users.getUser(userID2);
+		if(loginUser!=null) {
+			if(loginUser.getPassword()==password)
+				return true;
+		}
+		return false;
 	}
 
 }
