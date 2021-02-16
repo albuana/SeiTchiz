@@ -26,6 +26,7 @@ public class LoginUserHandler {
 	public Object login(Client newClient) throws UserCouldNotSendException {
 		Client client = newClient.getInstance();
 		client.send("login",userID, pass);
+		System.out.println("a");
 		return newClient.getInstance().receive();
 	}
 	

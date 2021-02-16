@@ -1,5 +1,6 @@
 package client;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +15,7 @@ import client.handler.LoginUserHandler;
  *Client main , receives command line parameters and starts the client as well as handling the function parameter distinction
  *@since 1.0 
  */
-public class ClientMain {
+public class SeiTchiz {
 
 	private static final List<String> AVAILABLE_METHODS 
 	= Arrays.asList("follow","unfollow","viewfollowers","post",
@@ -25,21 +26,22 @@ public class ClientMain {
 	 * 
 	 * @param args -command line parameters
 	 * @throws UserCouldNotSendException 
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) throws UserCouldNotSendException {
+	public static void main(String[] args) throws UserCouldNotSendException, IOException {
 
 		Scanner sc = new Scanner(System.in);
-		System.out.print("Exemplo de utlizacao : SeiTchiz <serverAddress> <clientID> <password>: "); 
 		
-		String input=sc.nextLine();
-		String[] info=input.split(" ");
-		if(info.length<3) {
-			System.out.println("Erro no input");
+//		String input=sc.nextLine();
+//		String[] info=input.split(" ");
+		if(args.length<3) {
+			System.out.print("Exemplo de utlizacao : SeiTchiz <serverAddress> <clientID> [password] "); 
+			sc.close();
 			return;
 		}
-		String serverAddress = info[0];
-		String clientID = info[1];
-		String password = info[2];
+		String serverAddress = args[0];
+		String clientID = args[1];
+		String password = args[2];
 
 		System.out.println("**********  Bem vindos ao SeiTchiz  **********");
 
@@ -49,7 +51,6 @@ public class ClientMain {
 		LoginUserHandler login = new LoginUserHandler(clientID, password);
 
 		//LOGIN
-		
 		Object r = login.login(newClient);
 		if(r instanceof String) {
 			System.out.println((String)r);

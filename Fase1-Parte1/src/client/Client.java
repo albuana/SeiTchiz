@@ -9,13 +9,13 @@ import client.exceptions.UserCouldNotSendException;
 
 public final class Client {
 
-	private Socket socket;
-    private static Client INSTANCE = null;
-    private ObjectOutputStream out;
-    private ObjectInputStream in;
-    private String userID;
-    private String password;
-    private String serverAddress;
+	private Socket socket = null;
+	private static Client INSTANCE = null;
+	private ObjectOutputStream out;
+	private ObjectInputStream in;
+	private String userID;
+	private String password;
+	private String serverAddress;
 
 	/**
 	 * Returns the Client singleton instance
@@ -24,44 +24,47 @@ public final class Client {
 	public Client getInstance() {
 		return INSTANCE;
 	}
-	
+
 	/**
 	 * Client constructor
 	 * @param server address serverAddress
 	 * @param user
+	 * @throws IOException 
 	 */
-	private Client(String serverAddress, String userID) {
+	private Client(String serverAddress, String userID) throws IOException {
 		String[] infoList = serverAddress.split(":", 2);
 
 		String ipServer = infoList[0];
 		int portServer;
-		
+
 		if(infoList.length == 2)
 			portServer = Integer.parseInt(infoList[1]);
 		else
 			portServer = 45678;
 		
-		try {
-			this.socket = new Socket(ipServer, portServer);
-			//this.in = new ObjectInputStream(this.socket.getInputStream());
-			this.out = new ObjectOutputStream(this.socket.getOutputStream());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	
-		
+		System.out.println("oiii");
+
+//		String ipServer = "127.0.0.1";
+//		int portServer = 45678;
+		socket = new Socket(ipServer, portServer);
+		System.out.println("Connected"); 
+		out = new ObjectOutputStream(socket.getOutputStream());
+		in = new ObjectInputStream(socket.getInputStream());
+		this.userID =userID;
 	}
-	
+
 	/**
 	 * Returns the Client singleton instance after creating the Client and connecting to the server
 	 * @param userID 
 	 * @param server address serverAddress
 	 * @return Client singleton
+	 * @throws IOException 
 	 */
-	public static Client connect(String serverAddress, String userID) {
+	public static Client connect(String serverAddress, String userID) throws IOException {
 		INSTANCE = new Client(serverAddress, userID);
 		return INSTANCE;
 	}
-	
+
 
 	/**
 	 * Sends data
@@ -77,8 +80,8 @@ public final class Client {
 			out.writeObject(list);
 			out.flush();
 		} catch (IOException e) {
-				e.printStackTrace();
-			
+			e.printStackTrace();
+
 		}
 	}
 
@@ -115,11 +118,11 @@ public final class Client {
 	public String getUserID() {
 		return this.userID;
 	}
-	
+
 	public String getServerAddress() {
 		return this.serverAddress;
 	}
-	
+
 	public boolean hasPassword(String password) {
 		return this.password.equals(password);
 	}
