@@ -10,10 +10,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import server.domain.User;
+import server.file.FileManager;
 
 public class UserCatalog {
 	private static UserCatalog INSTANCE = null;
 	private static Map<String,User> userList;
+	private FileManager loginInfo;
 	
 
 	/**
@@ -33,32 +35,13 @@ public class UserCatalog {
 	 */
 	private UserCatalog () throws IOException {
 		userList = new HashMap<>();
-		createFile();
+		loginInfo=new FileManager("loginInfo.txt");
 		initiateUserList();
 
 
 	}
 
-	private void createFile(){
-		File loginInfo = new File("loginInfo.txt");
 
-		if(!loginInfo.exists())
-			try {
-				loginInfo.createNewFile();
-				System.out.println("inicializa2");
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-	}
-	
-	private void writeFile(String userID2, String password) throws IOException {
-	    String str = "\n"+userID2+ " " + password;
-	    FileOutputStream outputStream = new FileOutputStream("loginInfo.txt");
-	    byte[] strToBytes = str.getBytes();
-	    outputStream.write(strToBytes);
-	    outputStream.close();
-	}
 	
 	private void initiateUserList() throws IOException {
 	    BufferedReader read = new BufferedReader( new FileReader ("loginInfo.txt"));
@@ -92,7 +75,7 @@ public class UserCatalog {
 	 * @throws IOException if an error occurs whilst writing in the user's database
 	 */
 	public void addUser(User user) throws IOException {
-		writeFile(user.getUsername(),user.getPassword());
+		loginInfo.writeFileUser(user.getUsername(),user.getPassword());
 		userList.put(user.getUsername(), user);
 	}
 }
