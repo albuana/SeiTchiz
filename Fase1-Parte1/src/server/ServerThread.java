@@ -81,7 +81,7 @@ public class ServerThread extends Thread{
 				//a flag que diz se o utilizador eh novo ou nao
 				Boolean flagNewUser = loginUserHandler.loginGetFlag();
 				send(flagNewUser);
-
+ 
 				//o que o cliente envia que o servidor vai receber:
 				boolean success = false;
 				if(flagNewUser.booleanValue()) {
