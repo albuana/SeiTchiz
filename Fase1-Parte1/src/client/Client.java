@@ -21,7 +21,7 @@ public final class Client {
 	 * Returns the Client singleton instance
 	 * @return Client singleton
 	 */
-	public Client getInstance() {
+	public static Client getInstance() {
 		return INSTANCE;
 	}
 

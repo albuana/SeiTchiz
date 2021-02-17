@@ -1,5 +1,7 @@
 package server.handler;
 
+import java.io.IOException;
+
 import server.catalog.UserCatalog;
 import server.domain.User;
 
@@ -40,11 +42,11 @@ public class LoginUserHandler {
 		return flag;
 	}
 
-	public boolean register(String userID2, String password) {
+	public boolean register(String userID2, String password) throws ClassNotFoundException, IOException {
 		UserCatalog users = UserCatalog.getInstance();
 		User newUser=new User(userID2, password);
 		if(users.getUser(userID2)!=null) {
-			users.addUser(newUser);
+			users.addUser(newUser); 
 			return true;
 		}
 		return false;

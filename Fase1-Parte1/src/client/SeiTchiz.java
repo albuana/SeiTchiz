@@ -32,11 +32,9 @@ public class SeiTchiz {
 
 		Scanner sc = new Scanner(System.in);
 		
-//		String input=sc.nextLine();
-//		String[] info=input.split(" ");
 		if(args.length<3) {
 			System.out.print("Exemplo de utlizacao : SeiTchiz <serverAddress> <clientID> [password] "); 
-			sc.close();
+			sc.close(); 
 			return;
 		}
 		String serverAddress = args[0];
@@ -46,16 +44,16 @@ public class SeiTchiz {
 		System.out.println("**********  Bem vindos ao SeiTchiz  **********");
 
 		//CONEXAHO
-		Client newClient = Client.connect(serverAddress,clientID);
+		Client.connect(serverAddress,clientID);
 
 		LoginUserHandler login = new LoginUserHandler(clientID, password);
 
 		//LOGIN
-		Object r = login.login(newClient);
+		Object r = login.login();   
 		if(r instanceof String) {
 			System.out.println((String)r);
 			sc.close();
-			newClient.getInstance().close();
+			Client.getInstance().close();
 			return;
 		}
 		
@@ -110,7 +108,7 @@ public class SeiTchiz {
 
 		System.out.print("Volte Sempre!");
 		sc.close();
-		newClient.getInstance().close();
+		Client.getInstance().close();
 
 
 	}
