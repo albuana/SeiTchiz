@@ -1,4 +1,5 @@
 package server;
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -13,7 +14,6 @@ public class Server {
 	public static final String DATA_PATH = "./Data/";
 	
 	private ServerSocket serverSocket;
-
 	
 	private int port;
 	
@@ -26,10 +26,13 @@ public class Server {
 	 * @param port the server's port 
 	 * @throws IOException 
 	 */
-	public static Server create(int port) throws IOException {
+	public static Server create(int port) throws IOException {			
 		INSTANCE = new Server(port);
 		return INSTANCE;
 
+	}
+	public void destroy() throws IOException {
+		serverSocket.close();
 	}
 	
 	/**
@@ -51,7 +54,6 @@ public class Server {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 		
 		while(true) {
 			Socket clientSoket = serverSocket.accept();

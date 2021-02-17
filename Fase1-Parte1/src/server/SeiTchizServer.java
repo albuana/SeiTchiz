@@ -21,6 +21,7 @@ public class SeiTchizServer {
 		System.out.println("servidor: main");
 		Server server = Server.create(Integer.parseInt(args[0]));
 		server.startServer();
+		server.destroy();
 	}
 
 }
