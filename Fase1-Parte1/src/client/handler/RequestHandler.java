@@ -7,7 +7,7 @@ import client.exceptions.UserCouldNotSendException;
  * Handles the requests
  *
  */
-public class RequestHandler {
+public class RequestHandler { 
 	
 	/**
 	 * Calls new group handler
