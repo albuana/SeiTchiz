@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileManager {
+public class FileManager { 
 	private String fileName;
 	private File file; 
 
