@@ -6,10 +6,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import client.handler.RequestHandler;
 import client.exceptions.CommandNotExistException;
 import client.exceptions.UserCouldNotSendException;
 import client.handler.LoginUserHandler;
-import client.handler.RequestHandler;
 
 /**
  *Client main , receives command line parameters and starts the client as well as handling the function parameter distinction

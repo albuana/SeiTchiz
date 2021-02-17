@@ -1,7 +1,6 @@
 package server;
 
 import java.io.EOFException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -78,7 +77,7 @@ public class ServerThread extends Thread{
 				String password = (String) list.get(2);
 				
 				LoginUserHandler loginUserHandler = new LoginUserHandler(userID, password);
-				
+
 				//a flag que diz se o utilizador eh novo ou nao
 				Boolean flagNewUser = loginUserHandler.loginGetFlag();
 				send(flagNewUser);
@@ -94,10 +93,8 @@ public class ServerThread extends Thread{
 				}
 
 				send(success);
-				if(success) 
+				if(success)
 					currentUser = UserCatalog.getInstance().getUser(userID);
-				
-					
 			} //login close
 
 
