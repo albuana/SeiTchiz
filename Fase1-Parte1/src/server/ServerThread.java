@@ -1,6 +1,7 @@
 package server;
 
 import java.io.EOFException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -16,6 +17,7 @@ import server.handler.RequestHandler;
 import server.catalog.UserCatalog;
 import server.domain.User;
 import server.exceptions.NotWellFormedException;
+import server.exceptions.UserCouldNotLoginException;
 
 /**
  * Creates new thread for every client and executes functions and sends of objects from server
@@ -70,35 +72,35 @@ public class ServerThread extends Thread{
 	public void run(){
 
 		try {
-			
+
 			List<Object> list = (ArrayList<Object>) inStream.readObject();
 			if(((String)list.get(0)).equals("login")) {
 				String userID = (String) list.get(1);
 				String password = (String) list.get(2);
-				
+
 				LoginUserHandler loginUserHandler = new LoginUserHandler(userID, password);
 
 				//a flag que diz se o utilizador eh novo ou nao
 				Boolean flagNewUser = loginUserHandler.loginGetFlag();
 				send(flagNewUser);
- 
+
 				//o que o cliente envia que o servidor vai receber:
 				boolean success = false;
 				if(flagNewUser.booleanValue()) {
 					//se a flag for true, ou seja se o utilizador ainda naho existe no sistema
 					success = loginUserHandler.register(userID,password);
+					System.out.println("Sou um utilizador novo");
 				}else {
 					//se a flag for false ou seja se o utilizador jah existe no sistema
 					success = loginUserHandler.login(userID,password);
+
+					System.out.println("Sou um utilizador que já existe");
 				}
 
 				send(success);
-				if(success)
+				if(success) 
 					currentUser = UserCatalog.getInstance().getUser(userID);
 			} //login close
-
-
-
 
 			while(true) {
 				//clients function
@@ -111,8 +113,8 @@ public class ServerThread extends Thread{
 					function = (String) objs.get(0);
 					params = objs.subList(1, objs.size());
 
-					//if(currentUser != null)
-					params.add(currentUser);
+					if(currentUser != null)
+						params.add(currentUser);
 
 
 					Class<?>[] c = new Class[params.size()];
@@ -147,6 +149,9 @@ public class ServerThread extends Thread{
 			e.printStackTrace();
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
+		} catch (UserCouldNotLoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}

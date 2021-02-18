@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import client.exceptions.UserCouldNotSendException;
 
 public final class Client {
- 
+
 	private Socket socket = null;
 	private static Client INSTANCE = null;
 	private ObjectOutputStream out;

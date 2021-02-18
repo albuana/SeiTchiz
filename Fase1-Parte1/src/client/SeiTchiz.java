@@ -1,4 +1,4 @@
- package client;
+package client;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -19,8 +19,9 @@ public class SeiTchiz {
 
 	private static final List<String> AVAILABLE_METHODS 
 	= Arrays.asList("follow","unfollow","viewfollowers","post",
-			"wall","like","newgroup","addu","removeu","ginfo",
-			"msg","collect","history","menu","quit"); 
+            "wall","like","newgroup","addu","removeu","ginfo",
+            "msg","collect","history","menu","quit", "f", "u", "v",
+            "p", "w", "l", "n", "a", "r", "g", "m", "c", "h", "m", "q");
 
 	/**
 	 * 
@@ -31,10 +32,12 @@ public class SeiTchiz {
 	public static void main(String[] args) throws UserCouldNotSendException, IOException {
 
 		Scanner sc = new Scanner(System.in);
-		
+
+		//		String input=sc.nextLine();
+		//		String[] info=input.split(" ");
 		if(args.length<3) {
 			System.out.print("Exemplo de utlizacao : SeiTchiz <serverAddress> <clientID> [password] "); 
-			sc.close(); 
+			sc.close();
 			return;
 		}
 		String serverAddress = args[0];
@@ -49,14 +52,14 @@ public class SeiTchiz {
 		LoginUserHandler login = new LoginUserHandler(clientID, password);
 
 		//LOGIN
-		Object r = login.login();   
+		Object r = login.login();
 		if(r instanceof String) {
 			System.out.println((String)r);
 			sc.close();
 			Client.getInstance().close();
 			return;
 		}
-		
+
 		//MOSTRAR FUNCIONALIDADES
 		showMenu();
 
@@ -83,25 +86,26 @@ public class SeiTchiz {
 					aux[2] = String.join(" ",Arrays.copyOfRange(parameters, 2, parameters.length));
 					parameters = aux;
 				}
+				
+				
+					String[] params = new String[parameters.length - 1];		
+					Class<?>[] c = new Class[parameters.length - 1];
 
-				String[] params = new String[parameters.length - 1];		
-				Class<?>[] c = new Class[parameters.length - 1];
+					System.out.println(function);
+					for (int i = 0; i < c.length; i++) {
+						c[i] =  parameters[i + 1].getClass();
+						params[i] = parameters[i + 1];
+					}
 
-				System.out.println(function);
-				for (int i = 0; i < c.length; i++) {
-					c[i] =  parameters[i + 1].getClass();
-					params[i] = parameters[i + 1];
+					System.out.println("Method: " + function);
+					Method m = RequestHandler.class.getMethod(function, c);
+					Object result = m.invoke(null , params);
+					System.out.println("\t ****** RESPOSTA ******");
+					System.out.println(result);
+				}catch(Exception e) {
+					e.printStackTrace();
 				}
-
-				System.out.println("Method: " + function);
-				Method m = RequestHandler.class.getMethod(function, c);
-
-				Object result = m.invoke(null , params);
-				System.out.println("\t ****** RESPOSTA ******");
-				System.out.println(result);
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
+			
 
 		}
 

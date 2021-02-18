@@ -7,7 +7,7 @@ import client.exceptions.UserCouldNotSendException;
  * Handles the requests
  *
  */
-public class RequestHandler { 
+public class RequestHandler {
 	
 	/**
 	 * Calls new group handler
@@ -17,6 +17,11 @@ public class RequestHandler {
 	 */
 	public static Object newgroup(String groupID) throws UserCouldNotSendException {
 		return new CreateNewGroupHandler(groupID).newgroup();
+
+	}
+	
+	public static Object follow(String userID){
+		return new FollowHandler().addFollower(userID);
 
 	}
 

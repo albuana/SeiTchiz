@@ -6,7 +6,7 @@ import client.exceptions.UserCouldNotSendException;
 /**
  * 
  * Handles the Create New Group operation
- * 
+ *
  */
 public class CreateNewGroupHandler {
 
@@ -17,9 +17,9 @@ public class CreateNewGroupHandler {
 	 * @param groupId
 	 */
 	public CreateNewGroupHandler(String groupID) {
-		this.groupID = groupID; 
+		this.groupID = groupID;
 	}
- 
+
 	/**
 	 * Executes the client side operation of the create new Group operation
 	 * @return the result of the operation

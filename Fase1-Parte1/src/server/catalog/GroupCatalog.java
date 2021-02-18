@@ -13,7 +13,7 @@ import server.exceptions.group.UserCouldNotCreateGroupException;
 
 public class GroupCatalog {
 	public static final String GROUPS_DIRECTORY = Server.DATA_PATH+"/groups/";
-	private static GroupCatalog INSTANCE = null;
+	private static GroupCatalog INSTANCE = new GroupCatalog();
 	private static ArrayList<Group> groupsList = null;
 
 	/**
@@ -39,14 +39,19 @@ public class GroupCatalog {
 	 * @throws UserCouldNotCreateGroupException if group id already in use
 	 * @throws IOException if an error occurs whilst writing in the user's database
 	 */
-	public boolean addGroup(String groupID, String owner) throws UserCouldNotCreateGroupException {
+	public boolean addGroup(String groupID, String owner) throws UserCouldNotCreateGroupException, IOException {
 
 		String [] groupFolders = new File(GROUPS_DIRECTORY).list();
 
 		for (String g:groupFolders) {
 			if(!g.equals(groupID)) throw new UserCouldNotCreateGroupException();
 		}
-		groupsList.add(new Group(groupID, UserCatalog.getInstance().getUser(owner)));
+		try {
+			groupsList.add(new Group(groupID, UserCatalog.getInstance().getUser(owner)));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return true;
 	}
 

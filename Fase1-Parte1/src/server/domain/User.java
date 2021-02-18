@@ -80,7 +80,7 @@ public class User {
 			return messages;
 		}
 		else {
-			System.out.println("Grupo não existe");
+			System.out.println("Grupo nï¿½o existe");
 			return null;
 		}
 	}

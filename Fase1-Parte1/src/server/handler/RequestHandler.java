@@ -26,7 +26,7 @@ public final class RequestHandler {
 	 * @throws ClassNotFoundException 
 	 * @see server.handlers.CreateGroupHandler
 	 */
-	public static boolean create(String groupId, User user) throws UserCouldNotCreateGroupException {
+	public static boolean create(String groupId, User user) throws UserCouldNotCreateGroupException, IOException {
 		return new CreateGroupHandler(groupId, user).create();
 	}
 	
@@ -106,7 +106,7 @@ public final class RequestHandler {
 	public static List<Object> collect (String groupId, User user) throws GroupNotExistException, IOException, ClassNotFoundException {
 		return new CollectMessagesHandler(groupId,user).collect();
 	}
-	
+	 
 	/**
 	 * Shows every not seen yet message
 	 * @param groupId
@@ -134,10 +134,13 @@ public final class RequestHandler {
 	 * @throws ClassNotFoundException 
 	 * @see server.handlers.HistoryHandler
 	 */
-	public static List<Object> history(String groupId, User user) throws GroupNotExistException, IOException, ClassNotFoundException {
-		return new HistoryHandler(groupId, user).getHistory();
-	}
-	
+//	public static List<Object> history(String groupId, User user) throws GroupNotExistException, IOException, ClassNotFoundException {
+//		return new HistoryHandler(groupId, user).getHistory();
+//	}
+//	
+//	public static boolean follow(String toFollowId) throws UserNotExistException, IOException{
+//		return  new FollowerHandler().follow(toFollowId);
+//	}
 	
 	
 
