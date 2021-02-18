@@ -11,10 +11,10 @@ public class Follow {
 	
 
 	private static Follow INSTANCE = null;
-	private static ArrayList<String> userIDfollowersList;
+	private static ArrayList<User> userIDfollowersList;
 
-	private Follow() {
-		userIDfollowersList = new ArrayList<String>();
+	public Follow() {
+		userIDfollowersList = new ArrayList<User>();
 	}
 	
 	public static Follow getInstance() {
@@ -23,11 +23,11 @@ public class Follow {
 		return INSTANCE;
 	}
 	
-	public void follow(String userID) throws UserNotExistException, IOException {
-        if(UserCatalog.getInstance().getUser(userID)==null || UserCatalog.getInstance().getUser(userID).equals(Client.getInstance().getUserID()))
-            throw new UserNotExistException();
+	public static boolean follow(User userID) throws UserNotExistException, IOException {
+		 if(UserCatalog.getInstance().getUser(userID.getUsername())==null || UserCatalog.getInstance().getUser(userID.getUsername()).equals(Client.getInstance().getUserID()))
+	            throw new UserNotExistException();
 
-        userIDfollowersList.add(userID);
-    }
+	        return userIDfollowersList.add(userID);
+	    }
 
 }

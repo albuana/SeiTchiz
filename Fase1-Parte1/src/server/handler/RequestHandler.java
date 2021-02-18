@@ -3,7 +3,8 @@ package server.handler;
 import java.io.IOException;
 import java.util.List;
 
-
+import server.catalog.UserCatalog;
+import server.domain.Follow;
 import server.domain.User;
 import server.exceptions.UserNotExistException;
 import server.exceptions.group.GroupException;
@@ -80,16 +81,6 @@ public final class RequestHandler {
 	public static String ginfo (String groupId, User currentUser) throws GroupException {
 		return new GroupInfoHandler(groupId,currentUser).getInfo();
 	}
-	/**
-	 * Shows user info
-	 * @param user 
-	 * @return groups where the user belongs, and groups where the user is an owner
-	 * @throws GroupException 
-	 * @see server.handlers.UserInfoHandler
-	 */
-	public static String uinfo(User user) throws GroupException {
-		return new UserInfoHandler(user).getInfo();
-	}
 	
 	/**
 	 * Shows every not seen yet message
@@ -138,9 +129,10 @@ public final class RequestHandler {
 //		return new HistoryHandler(groupId, user).getHistory();
 //	}
 //	
-//	public static boolean follow(String toFollowId) throws UserNotExistException, IOException{
-//		return  new FollowerHandler().follow(toFollowId);
-//	}
+	@SuppressWarnings("static-access")
+	public static boolean follow(String userID) throws UserNotExistException, IOException{
+		return  new Follow().follow(UserCatalog.getInstance().getUser(userID));
+	}
 	
 	
 

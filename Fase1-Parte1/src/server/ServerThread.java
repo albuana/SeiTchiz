@@ -18,6 +18,8 @@ import server.catalog.UserCatalog;
 import server.domain.User;
 import server.exceptions.NotWellFormedException;
 import server.exceptions.UserCouldNotLoginException;
+import server.exceptions.UserNotExistException;
+import server.exceptions.group.UserCouldNotCreateGroupException;
 
 /**
  * Creates new thread for every client and executes functions and sends of objects from server
@@ -103,42 +105,42 @@ public class ServerThread extends Thread{
 			} //login close
 
 			while(true) {
-				//clients function
-				String function = null;
-				List<Object> params = null;
 
 				try {
+					String function = null;
+					List<Object> params = null;
+
+
 					//call function
 					List<Object> objs = (ArrayList<Object>) inStream.readObject();
-					function = (String) objs.get(0);
+					function = ((String) objs.get(0)).toLowerCase();
 					params = objs.subList(1, objs.size());
 
 					if(currentUser != null)
 						params.add(currentUser);
 
 
-					Class<?>[] c = new Class[params.size()];
 
-					System.out.println(function);
-					for (int i = 0; i < c.length; i++) {
-						c[i] =  params.get(i).getClass();
+					if(function.equals("follow")) {
+						RequestHandler.follow((String) params.get(0));
 					}
 
-					System.out.println("Method: " + function);
-					Method m = RequestHandler.class.getMethod(function, c);
-					Object result = m.invoke(null , params.toArray());					
-					System.out.println(result);
-					send(result);
-				}catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException e) {
+					if(function == "newgroup") {
+						RequestHandler.create((String) params.get(0), (User)params.get(0));
+					}
+
+				}catch (ClassNotFoundException | IllegalArgumentException e) {
 					e.printStackTrace();
 					break;
-				}catch(NoSuchMethodException e) {
-					send((new NotWellFormedException()).getMessage()); //mandar erro ao utilizador
-				}catch(InvocationTargetException e) {
-					send(e.getCause().getMessage()); //mandar erro ao utilizador
 				}catch(SocketException | EOFException e) {
 					System.out.println("The client disconnected from server");
 					break;
+				} catch (UserCouldNotCreateGroupException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (UserNotExistException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				} 
 			}
 			outStream.close();

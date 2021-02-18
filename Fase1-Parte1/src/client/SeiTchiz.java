@@ -33,8 +33,6 @@ public class SeiTchiz {
 
 		Scanner sc = new Scanner(System.in);
 
-		//		String input=sc.nextLine();
-		//		String[] info=input.split(" ");
 		if(args.length<3) {
 			System.out.print("Exemplo de utlizacao : SeiTchiz <serverAddress> <clientID> [password] "); 
 			sc.close();
