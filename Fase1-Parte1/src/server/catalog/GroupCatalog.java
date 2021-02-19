@@ -95,7 +95,7 @@ public class GroupCatalog {
 			if(groupsList.get(i).getOwner()==user) {
 				ehDono.add(groupsList.get(i).getGroupID());
 			}
-			if(groupsList.get(i).members.contains(user)) {
+			if(groupsList.get(i).membersList.contains(user)) {
 				pertence.add(user.getUsername());
 			}
 		}

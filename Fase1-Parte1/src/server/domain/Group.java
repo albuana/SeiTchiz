@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import server.FileManager;
+import server.Server;
+import server.catalog.UserCatalog;
 import server.exceptions.group.UserAlreadyInGroupException;
 import server.exceptions.group.UserDoesNotInGroupException;
 
@@ -11,7 +14,12 @@ import server.exceptions.group.UserDoesNotInGroupException;
 public class Group {
 	public User owner;
 	public String groupID;
-	public ArrayList<User> members;
+	public ArrayList<User> membersList;
+
+	public FileManager messages;
+	public FileManager members;
+	public ArrayList<String> messagesHistory;
+
 
 	/**
 	 * 
@@ -21,10 +29,36 @@ public class Group {
 	 * @throws IOException if anything happens whilst writing in the group groupInfo file
 	 * @throws ClassNotFoundException 
 	 */
-	public Group(String groupID, User owner) {
+	public Group(String groupID, User owner) throws IOException {
 		this.owner=owner;
 		this.groupID=groupID;
-		this.members=new ArrayList<>();
+		this.membersList=new ArrayList<>();
+		String pathMessages= Server.DATA_PATH + "groups/" + groupID + "/" + "message.txt";
+		String pathMembers= Server.DATA_PATH + "groups/" + groupID + "/" + "members.txt";
+		this.messages=new FileManager(pathMessages);
+		this.members=new FileManager(pathMembers);
+		initializeMembersList();
+		initializeMessages();
+
+	}
+
+	private void initializeMessages() throws IOException {
+		ArrayList<String> list=messages.fileToList();
+		for(int i=0;i<list.size();i++) {
+			String message=list.get(i);
+			messagesHistory.add(message);
+				
+		}
+		
+	}
+
+	private void initializeMembersList() throws IOException {
+		ArrayList<String> list=members.fileToList();
+		UserCatalog users = UserCatalog.getInstance();
+		for(int i=0;i<list.size();i++) {
+			String user=list.get(i);
+			membersList.add(users.getUser(user));		
+		}
 	}
 
 	/**
@@ -48,7 +82,7 @@ public class Group {
 	 * @return the members of this group
 	 */
 	public ArrayList<User> getUsers() {
-		return members;
+		return membersList;
 	}
 
 	/**
@@ -58,10 +92,12 @@ public class Group {
 	 * @throws UserAlreadyInGroupException if the given user is already in the group
 	 */
 	public void addMember(User user) throws IOException, UserAlreadyInGroupException {
-		if(!members.add(user))
+		if(!membersList.add(user))
 			throw new UserAlreadyInGroupException();
-		else
-			members.add(user);
+		else {
+			membersList.add(user);
+			members.writeFile(user.getUsername());
+		}
 	}
 
 	/**
@@ -73,10 +109,10 @@ public class Group {
 	 * @trowns UserDoesNotBelongToGroupException if the given user is not in the group
 	 */
 	public void removeMember(User user) throws UserDoesNotInGroupException {
-		if(!members.remove(user))
+		if(!membersList.remove(user))
 			throw new UserDoesNotInGroupException();
 		else
-			members.remove(user);
+			membersList.remove(user);
 	}
 
 	/**
@@ -85,15 +121,15 @@ public class Group {
 	 * @return true if the given user is in this group
 	 */
 	public boolean hasMember(User user) {
-		return members.contains(user);
+		return membersList.contains(user);
 	}
 
 
 	public String info() {
 		StringBuilder ret=new StringBuilder("O grupo tem: "+owner.getUsername()+" como dono /n");
 		ret.append("Os utilizadores pertencentes ao grupo saho: /n");
-		for (int i = 0; i < members.size(); i++){
-			ret.append("Utilizador: "+members.get(i).getUsername());
+		for (int i = 0; i < membersList.size(); i++){
+			ret.append("Utilizador: "+membersList.get(i).getUsername());
 		}
 		return ret.toString();
 
