@@ -3,6 +3,8 @@ package server.domain;
 import java.util.HashMap;
 import java.util.List;
 
+import com.sun.xml.internal.bind.v2.runtime.RuntimeUtil.ToStringAdapter;
+
 /**
  * 
  * Class that handles a user's information
@@ -99,6 +101,10 @@ public class User {
 			groupMessages.put(groupId, null);		
 		}
 		
+	}
+	
+	public String toString() {
+		return username;
 	}
 	
 

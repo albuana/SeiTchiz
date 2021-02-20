@@ -75,6 +75,13 @@ public class Follow {
 
 	}
 
+	/**
+	 * unfollow an user
+	 * @param userID
+	 * @param currentUserID
+	 * @return
+	 * @throws IOException
+	 */
 	public String unfollow(User userID, String currentUserID) throws IOException  {
 
 
@@ -90,19 +97,39 @@ public class Follow {
 				//if the user dont have a follow list it does not have follows
 				if(!Follow.userIDfollowersList.containsKey(currentUserID)) {
 					return "O user nao tem seguidores";
-					
-					
+
+
 				}else if(!Follow.userIDfollowersList.get(currentUserID).contains(userID)) {
 					return "o user nao segue "+userID.getUsername();
 				}else {
 
-		
-		Follow.userIDfollowersList.get(currentUserID).remove(userID);
-		return userID.getUsername()+" já não é seguido/a";
 
-	
+					Follow.userIDfollowersList.get(currentUserID).remove(userID);
+					return userID.getUsername()+" já não é seguido/a";
+
+
+				}
+
 	}
+	/**
+	 * return a string of followed users
+	 * @return
+	 */
+	public String viewFollowers(String userID) {
+		StringBuilder ret = new StringBuilder();
+		ret.append("[ ");
 
-}
+		if(Follow.userIDfollowersList.containsKey(userID)) {
+			ArrayList list = userIDfollowersList.get(userID);
+			for(int i = 0; i<list.size(); i++)
+				if(i == list.size()-1)
+					ret.append(list.get(i).toString()+" ");
+				else
+					ret.append(list.get(i).toString()+", ");
+			
+		}
+		ret.append("]");
+		return ret.toString();
+	}
 
 }

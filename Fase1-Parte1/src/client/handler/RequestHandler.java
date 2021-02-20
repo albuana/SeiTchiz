@@ -29,5 +29,10 @@ public class RequestHandler {
 		return new FollowHandler().unfollow(userID);
 
 	}
+	
+	public static String viewfollowers(){
+		return new FollowHandler().viewFollowers();
+
+	}
 
 }

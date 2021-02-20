@@ -34,5 +34,10 @@ public class FollowerHandler {
 		Follow.getInstance().unfollow(userID, currentUserID);
 		return "User com ID "+userID+" ja nao é seguido";
 	}
+	public String viewFollowers(String userID) throws  IOException {
+		Follow.getInstance().viewFollowers(userID);
+		return "Lista";
+	}
+	
 
 }

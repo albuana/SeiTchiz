@@ -136,10 +136,7 @@ public final class RequestHandler {
 	 * @param userID
 	 * @param currentUserID
 	 * @return
-	 * @throws UserNotExistException
 	 * @throws IOException
-	 * @throws UserAlreadyFollowedException
-	 * @throws UserFollowingHimSelfException
 	 */
 	public static String follow(String userID, String currentUserID) throws IOException{
 		return  Follow.getInstance().follow(UserCatalog.getInstance().getUser(userID), currentUserID);
@@ -150,15 +147,21 @@ public final class RequestHandler {
 	 * @param userID
 	 * @param currentUserID
 	 * @return
-	 * @throws UserNotExistException
 	 * @throws IOException
-	 * @throws UserAlreadyFollowedException
-	 * @throws UserFollowingHimSelfException
 	 */
 	public static String unfollow(String userID, String currentUserID) throws IOException{
 		return  Follow.getInstance().unfollow(UserCatalog.getInstance().getUser(userID), currentUserID);
 	}
 	
+	/**
+	 * returns string with list of follows
+	 * @param userID
+	 * @return
+	 * @throws IOException
+	 */
+	public static String viewFollowers(String userID) throws IOException{
+		return  Follow.getInstance().viewFollowers(userID);
+	}
 	
 
 }
