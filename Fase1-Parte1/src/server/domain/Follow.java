@@ -12,12 +12,13 @@ public class Follow {
 
 	private static Follow INSTANCE = null;
 	private static HashMap<String, ArrayList<User>> userIDfollowersList;
-
+	private static ArrayList<String> userlist;
 	/**
 	 * Follow private constructor
 	 */
 	private Follow() {
 		userIDfollowersList = new HashMap<String, ArrayList<User>>();
+		userlist = new  ArrayList<String>();
 	}
 
 	public static Follow getInstance() {
@@ -68,6 +69,7 @@ public class Follow {
 
 					//If it is the first following of the current user it will create a new entry on de hasMap with the new follwed
 					ArrayList<User> followerList = new ArrayList<User>();
+					userlist.add(currentUserID);
 					followerList.add(userID);
 					Follow.userIDfollowersList.put(currentUserID, followerList);
 					return userID.getUsername()+" foi seguido/a";
@@ -119,6 +121,30 @@ public class Follow {
 		StringBuilder ret = new StringBuilder();
 		ret.append("[ ");
 
+		for(String user : userlist) {
+			if(!(userIDfollowersList.get(user).size() == 0)) {
+				
+				ArrayList<User> list = userIDfollowersList.get(user);
+				for(User a : list) {
+					
+					if(a.getUsername().equals(userID))
+						ret.append(user+" ,");
+				}
+			}
+		}
+
+		ret.append("]");
+		return ret.toString();
+	}
+
+
+	//////////Lista de pessoas a seguir////////////
+
+	/*
+	public String viewFollowers(String userID) {
+		StringBuilder ret = new StringBuilder();
+		ret.append("[ ");
+
 		if(Follow.userIDfollowersList.containsKey(userID)) {
 			ArrayList list = userIDfollowersList.get(userID);
 			for(int i = 0; i<list.size(); i++)
@@ -126,10 +152,15 @@ public class Follow {
 					ret.append(list.get(i).toString()+" ");
 				else
 					ret.append(list.get(i).toString()+", ");
-			
+
+		}else {
+			return "Não segue ninguem";
 		}
 		ret.append("]");
 		return ret.toString();
 	}
+	 */
 
+
+	//////////Lista de pessoas que seguem o user////////////
 }

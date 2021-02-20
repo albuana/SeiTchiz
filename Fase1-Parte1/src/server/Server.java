@@ -58,7 +58,7 @@ public class Server {
 		while(true) {
 			Socket clientSoket = serverSocket.accept();
 			ServerThread newThread = new ServerThread(clientSoket);
-			newThread.run();
+			newThread.start();
 		}
 	}
 }
