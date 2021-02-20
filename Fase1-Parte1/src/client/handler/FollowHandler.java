@@ -9,5 +9,12 @@ public class FollowHandler {
 		return (String) Client.getInstance().receive();
 		
 	}
+	
+	public String unfollow(String userID) {
+		Client.getInstance().send("unfollow",userID);
+		return (String) Client.getInstance().receive();
+		
+	}
+
 
 }

@@ -124,6 +124,10 @@ public class ServerThread extends Thread{
 					if(function.equals("follow")) {
 						send(RequestHandler.follow((String) params.get(0), currentUser.getUsername()));
 					}
+					
+					if(function.equals("unfollow")) {
+						send(RequestHandler.unfollow((String) params.get(0), currentUser.getUsername()));
+					}
 
 					if(function.equals("newgroup")) {
 						send(RequestHandler.create((String) params.get(0), (User)params.get(0)));

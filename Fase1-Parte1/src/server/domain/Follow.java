@@ -53,7 +53,7 @@ public class Follow {
 					//if the user is already in the list it checks if the user to follow is not already being followed
 					if(Follow.userIDfollowersList.get(currentUserID).contains(userID)) {
 						try {
-							return userID.getUsername()+" já esta a ser seguido";
+							return userID.getUsername()+" já esta a ser seguido/a";
 						} catch (Exception e) {
 
 							e.printStackTrace();
@@ -62,7 +62,7 @@ public class Follow {
 
 					//If it is not it will add the new following to the the list
 					Follow.userIDfollowersList.get(currentUserID).add(userID);
-					return userID.getUsername()+" foi seguido";
+					return userID.getUsername()+" foi seguido/a";
 
 				}else {
 
@@ -70,9 +70,39 @@ public class Follow {
 					ArrayList<User> followerList = new ArrayList<User>();
 					followerList.add(userID);
 					Follow.userIDfollowersList.put(currentUserID, followerList);
-					return userID.getUsername()+" foi seguido";
+					return userID.getUsername()+" foi seguido/a";
 				}
 
 	}
+
+	public String unfollow(User userID, String currentUserID) throws IOException  {
+
+
+		//This condition verifies if the user exists
+		if(userID == null || UserCatalog.getInstance().getUser(userID.getUsername())==null) {
+			return "O user nao existe";
+		}else
+			//This checks if the user to unfollow is not him self
+			if(userID.getUsername().equals(currentUserID)) {
+				return "O user nao se pode deixar de seguir a ele proprio";
+
+			}else
+				//if the user dont have a follow list it does not have follows
+				if(!Follow.userIDfollowersList.containsKey(currentUserID)) {
+					return "O user nao tem seguidores";
+					
+					
+				}else if(!Follow.userIDfollowersList.get(currentUserID).contains(userID)) {
+					return "o user nao segue "+userID.getUsername();
+				}else {
+
+		
+		Follow.userIDfollowersList.get(currentUserID).remove(userID);
+		return userID.getUsername()+" já não é seguido/a";
+
+	
+	}
+
+}
 
 }

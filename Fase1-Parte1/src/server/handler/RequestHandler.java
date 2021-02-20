@@ -144,6 +144,20 @@ public final class RequestHandler {
 	public static String follow(String userID, String currentUserID) throws IOException{
 		return  Follow.getInstance().follow(UserCatalog.getInstance().getUser(userID), currentUserID);
 	}
+
+	/**
+	 * unFollow Handler
+	 * @param userID
+	 * @param currentUserID
+	 * @return
+	 * @throws UserNotExistException
+	 * @throws IOException
+	 * @throws UserAlreadyFollowedException
+	 * @throws UserFollowingHimSelfException
+	 */
+	public static String unfollow(String userID, String currentUserID) throws IOException{
+		return  Follow.getInstance().unfollow(UserCatalog.getInstance().getUser(userID), currentUserID);
+	}
 	
 	
 

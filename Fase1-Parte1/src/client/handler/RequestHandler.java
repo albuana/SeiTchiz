@@ -24,5 +24,10 @@ public class RequestHandler {
 		return new FollowHandler().addFollower(userID);
 
 	}
+	
+	public static String unfollow(String userID){
+		return new FollowHandler().unfollow(userID);
+
+	}
 
 }
