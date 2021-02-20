@@ -4,9 +4,9 @@ import client.Client;
 
 public class FollowHandler {
 
-	public Object addFollower(String userID) {
+	public String addFollower(String userID) {
 		Client.getInstance().send("Follow",userID);
-		return Client.getInstance().receive();
+		return (String) Client.getInstance().receive();
 		
 	}
 

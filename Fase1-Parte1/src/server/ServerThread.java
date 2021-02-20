@@ -17,9 +17,7 @@ import server.handler.RequestHandler;
 import server.catalog.UserCatalog;
 import server.domain.User;
 import server.exceptions.NotWellFormedException;
-import server.exceptions.UserAlreadyFollowedException;
 import server.exceptions.UserCouldNotLoginException;
-import server.exceptions.UserFollowingHimSelfException;
 import server.exceptions.UserNotExistException;
 import server.exceptions.group.UserCouldNotCreateGroupException;
 
@@ -124,11 +122,11 @@ public class ServerThread extends Thread{
 
 
 					if(function.equals("follow")) {
-						RequestHandler.follow((String) params.get(0), currentUser.getUsername());
+						send(RequestHandler.follow((String) params.get(0), currentUser.getUsername()));
 					}
 
-					if(function == "newgroup") {
-						RequestHandler.create((String) params.get(0), (User)params.get(0));
+					if(function.equals("newgroup")) {
+						send(RequestHandler.create((String) params.get(0), (User)params.get(0)));
 					}
 
 				}catch (ClassNotFoundException | IllegalArgumentException e) {
@@ -139,13 +137,7 @@ public class ServerThread extends Thread{
 					break;
 				} catch (UserCouldNotCreateGroupException e) {
 					e.printStackTrace();
-				} catch (UserNotExistException e) {
-					e.printStackTrace();
-				} catch (UserAlreadyFollowedException e) {
-					e.printStackTrace();
-				} catch (UserFollowingHimSelfException e) {
-					e.printStackTrace();
-				} 
+				}
 			}
 			outStream.close();
 			inStream.close();

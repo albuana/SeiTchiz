@@ -20,7 +20,7 @@ public class RequestHandler {
 
 	}
 	
-	public static Object follow(String userID){
+	public static String follow(String userID){
 		return new FollowHandler().addFollower(userID);
 
 	}

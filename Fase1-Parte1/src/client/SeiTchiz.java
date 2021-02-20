@@ -19,9 +19,9 @@ public class SeiTchiz {
 
 	private static final List<String> AVAILABLE_METHODS 
 	= Arrays.asList("follow","unfollow","viewfollowers","post",
-            "wall","like","newgroup","addu","removeu","ginfo",
-            "msg","collect","history","menu","quit", "f", "u", "v",
-            "p", "w", "l", "n", "a", "r", "g", "m", "c", "h", "m", "q");
+			"wall","like","newgroup","addu","removeu","ginfo",
+			"msg","collect","history","menu","quit", "f", "u", "v",
+			"p", "w", "l", "n", "a", "r", "g", "m", "c", "h", "m", "q");
 
 	/**
 	 * 
@@ -58,6 +58,11 @@ public class SeiTchiz {
 			return;
 		}
 
+		
+		if((Boolean) Client.getInstance().receive() == true) {
+			System.out.println("User logado");
+		}
+		
 		//MOSTRAR FUNCIONALIDADES
 		showMenu();
 
@@ -84,8 +89,8 @@ public class SeiTchiz {
 					aux[2] = String.join(" ",Arrays.copyOfRange(parameters, 2, parameters.length));
 					parameters = aux;
 				}
-				
-				
+
+
 					String[] params = new String[parameters.length - 1];		
 					Class<?>[] c = new Class[parameters.length - 1];
 
@@ -100,10 +105,10 @@ public class SeiTchiz {
 					Object result = m.invoke(null , params);
 					System.out.println("\t ****** RESPOSTA ******");
 					System.out.println(result);
-				}catch(Exception e) {
-					e.printStackTrace();
-				}
-			
+			//	}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
 
 		}
 

@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import server.domain.Follow;
 import server.domain.User;
-import server.exceptions.UserAlreadyFollowedException;
-import server.exceptions.UserFollowingHimSelfException;
 import server.exceptions.UserNotExistException;
 
 public class FollowerHandler {
@@ -27,7 +25,7 @@ public class FollowerHandler {
 	 * @throws UserAlreadyFollowedException
 	 * @throws UserFollowingHimSelfException
 	 */
-	public String follow(User userID, String currentUserID) throws UserNotExistException, IOException, UserAlreadyFollowedException, UserFollowingHimSelfException {
+	public String follow(User userID, String currentUserID) throws  IOException {
 		Follow.getInstance().follow(userID, currentUserID);
 		return "User com ID "+userID+" foi seguido";
 	}
