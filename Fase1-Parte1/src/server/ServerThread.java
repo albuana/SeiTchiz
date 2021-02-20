@@ -17,7 +17,9 @@ import server.handler.RequestHandler;
 import server.catalog.UserCatalog;
 import server.domain.User;
 import server.exceptions.NotWellFormedException;
+import server.exceptions.UserAlreadyFollowedException;
 import server.exceptions.UserCouldNotLoginException;
+import server.exceptions.UserFollowingHimSelfException;
 import server.exceptions.UserNotExistException;
 import server.exceptions.group.UserCouldNotCreateGroupException;
 
@@ -122,7 +124,7 @@ public class ServerThread extends Thread{
 
 
 					if(function.equals("follow")) {
-						RequestHandler.follow((String) params.get(0));
+						RequestHandler.follow((String) params.get(0), currentUser.getUsername());
 					}
 
 					if(function == "newgroup") {
@@ -136,10 +138,12 @@ public class ServerThread extends Thread{
 					System.out.println("The client disconnected from server");
 					break;
 				} catch (UserCouldNotCreateGroupException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (UserNotExistException e) {
-					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (UserAlreadyFollowedException e) {
+					e.printStackTrace();
+				} catch (UserFollowingHimSelfException e) {
 					e.printStackTrace();
 				} 
 			}
@@ -152,7 +156,6 @@ public class ServerThread extends Thread{
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
 		} catch (UserCouldNotLoginException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

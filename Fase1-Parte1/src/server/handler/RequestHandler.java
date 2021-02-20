@@ -6,6 +6,8 @@ import java.util.List;
 import server.catalog.UserCatalog;
 import server.domain.Follow;
 import server.domain.User;
+import server.exceptions.UserAlreadyFollowedException;
+import server.exceptions.UserFollowingHimSelfException;
 import server.exceptions.UserNotExistException;
 import server.exceptions.group.GroupException;
 import server.exceptions.group.GroupNotExistException;
@@ -122,6 +124,8 @@ public final class RequestHandler {
 	 * @throws GroupNotExistException - if something went wrong with the group
 	 * @throws UserDoesNotBelongToGroupException - if user doesn't belong to group
 	 * @throws IOException 
+	 * @throws UserAlreadyFollowedException 
+	 * @throws UserFollowingHimSelfException 
 	 * @throws ClassNotFoundException 
 	 * @see server.handlers.HistoryHandler
 	 */
@@ -129,9 +133,18 @@ public final class RequestHandler {
 //		return new HistoryHandler(groupId, user).getHistory();
 //	}
 //	
-	@SuppressWarnings("static-access")
-	public static boolean follow(String userID) throws UserNotExistException, IOException{
-		return  new Follow().follow(UserCatalog.getInstance().getUser(userID));
+	/**
+	 * Follow Handler
+	 * @param userID
+	 * @param currentUserID
+	 * @return
+	 * @throws UserNotExistException
+	 * @throws IOException
+	 * @throws UserAlreadyFollowedException
+	 * @throws UserFollowingHimSelfException
+	 */
+	public static boolean follow(String userID, String currentUserID) throws UserNotExistException, IOException, UserAlreadyFollowedException, UserFollowingHimSelfException{
+		return  Follow.getInstance().follow(UserCatalog.getInstance().getUser(userID), currentUserID);
 	}
 	
 	

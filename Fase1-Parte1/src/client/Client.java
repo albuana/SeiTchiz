@@ -10,7 +10,7 @@ import client.exceptions.UserCouldNotSendException;
 public final class Client {
 
 	private Socket socket = null;
-	private static Client INSTANCE = null;
+	private static Client INSTANCE;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private String userID;
