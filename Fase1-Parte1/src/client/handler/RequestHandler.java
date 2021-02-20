@@ -15,7 +15,7 @@ public class RequestHandler {
 	 * @return
 	 * @throws UserCouldNotSendException 
 	 */
-	public static Object newgroup(String groupID) throws UserCouldNotSendException {
+	public static boolean newgroup(String groupID) throws UserCouldNotSendException {
 		return new CreateNewGroupHandler(groupID).newgroup();
 
 	}

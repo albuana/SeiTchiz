@@ -31,6 +31,7 @@ public final class RequestHandler {
 		return new CreateGroupHandler(groupId, user).create();
 	}
 	
+
 	
 	/**
 	 * Adds user to group

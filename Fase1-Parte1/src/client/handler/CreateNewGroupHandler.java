@@ -25,9 +25,10 @@ public class CreateNewGroupHandler {
 	 * @return the result of the operation
 	 * @throws UserCouldNotSendException
 	 */
-	public Object newgroup() throws UserCouldNotSendException {
+	public boolean newgroup() throws UserCouldNotSendException {
 		Client.getInstance().send("newgroup",groupID);
-		return Client.getInstance().receive();
+		return (boolean) Client.getInstance().receive();
 	}
 
 }
+

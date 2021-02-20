@@ -6,16 +6,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import server.FileManager;
 import server.Server;
 import server.domain.Group;
 import server.domain.User;
+import server.exceptions.group.UserAlreadyInGroupException;
 import server.exceptions.group.UserCouldNotCreateGroupException;
 
 public class GroupCatalog {
-	public static final String GROUPS_DIRECTORY = Server.DATA_PATH+"/groups/";
 	private static GroupCatalog INSTANCE = new GroupCatalog();
-	private static ArrayList<Group> groupsList = null;
-
+	private static ArrayList<Group> groupsList;
+	public static final String GROUPS_DIRECTORY = Server.DATA_PATH+"groups/";
+    public static final String GROUP_INFO_FILE_NAME = "groupinfo.txt";
+    public static final String GROUP_COLLECT_FILE_NAME = "groupcollect.txt";
+    public static final String GROUP_HISTORY_FILE_NAME = "grouphistory.txt";
 	/**
 	 * 
 	 * @return GroupCatalog singleton instance
@@ -26,9 +30,41 @@ public class GroupCatalog {
 
 	/**
 	 * GroupCatalog constructor that does not need parameters
+	 * @throws IOException 
+	 * @throws UserAlreadyInGroupException 
 	 */
-	private GroupCatalog () {
+	private GroupCatalog (){
 		groupsList = new ArrayList<Group>();
+		try {
+			initializeGroupCatalog();
+		} catch (UserAlreadyInGroupException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private void initializeGroupCatalog() throws UserAlreadyInGroupException, IOException{
+		String [] groupFolders = new File(GROUPS_DIRECTORY).list();
+		if(groupFolders!=null) {
+			for (String g:groupFolders) {
+				groupsList.add(initializeGroup(g));
+			}
+		}
+
+		
+	}
+
+	private Group initializeGroup(String g) throws IOException, UserAlreadyInGroupException{
+		FileManager groupInfo=new FileManager(GROUPS_DIRECTORY+g,GROUP_INFO_FILE_NAME);
+		ArrayList<String> members=groupInfo.fileToList();
+		UserCatalog users = UserCatalog.getInstance();
+		Group group=new Group(g, users.getUser(members.get(0)));
+		members.remove(0); //remove o a primeira linha que é o dono
+		for(int i=1;i<members.size();i++) {
+			group.membersList.add(users.getUser(members.get(i)));
+		}
+		return group;
 	}
 
 	/**
@@ -42,17 +78,30 @@ public class GroupCatalog {
 	public boolean addGroup(String groupID, String owner) throws UserCouldNotCreateGroupException, IOException {
 
 		String [] groupFolders = new File(GROUPS_DIRECTORY).list();
-
-		for (String g:groupFolders) {
-			if(!g.equals(groupID)) throw new UserCouldNotCreateGroupException();
+		if(groupFolders==null) {
+			createGroupFiles(groupID, UserCatalog.getInstance().getUser(owner));
+			groupsList.add(new Group(groupID, UserCatalog.getInstance().getUser(owner)));
+			return true;
 		}
+		for (String g:groupFolders)
+			if(!g.equals(groupID)) throw new UserCouldNotCreateGroupException();
+
 		try {
+			createGroupFiles(groupID, UserCatalog.getInstance().getUser(owner));
 			groupsList.add(new Group(groupID, UserCatalog.getInstance().getUser(owner)));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return true;
+
+	}
+
+	private void createGroupFiles(String groupID, User user) throws IOException {
+		String path=GROUPS_DIRECTORY+groupID;
+		FileManager groupInfo=new FileManager(path,GROUP_INFO_FILE_NAME);
+		new FileManager(path,GROUP_COLLECT_FILE_NAME);
+		new FileManager(path,GROUP_HISTORY_FILE_NAME);	
+		groupInfo.writeFile(user.getUsername()); //Primeiro nome da lista é o dono
 	}
 
 	/**

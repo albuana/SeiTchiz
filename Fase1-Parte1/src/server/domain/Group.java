@@ -15,10 +15,13 @@ public class Group {
 	public User owner;
 	public String groupID;
 	public ArrayList<User> membersList;
+	public ArrayList<String> collect;
+	public ArrayList<String> history;
+	public static final String GROUPS_DIRECTORY = Server.DATA_PATH+"groups/";
+	public static final String GROUP_INFO_FILE_NAME = "groupinfo.txt";
+    public static final String GROUP_COLLECT_FILE_NAME = "groupcollect.txt";
+    public static final String GROUP_HISTORY_FILE_NAME = "grouphistory.txt";
 
-	public FileManager messages;
-	public FileManager members;
-	public ArrayList<String> messagesHistory;
 
 
 	/**
@@ -33,33 +36,20 @@ public class Group {
 		this.owner=owner;
 		this.groupID=groupID;
 		this.membersList=new ArrayList<>();
-		String pathMessages= Server.DATA_PATH + "groups/" + groupID + "/" + "message.txt";
-		String pathMembers= Server.DATA_PATH + "groups/" + groupID + "/" + "members.txt";
-		this.messages=new FileManager(pathMessages);
-		this.members=new FileManager(pathMembers);
-		initializeMembersList();
 		initializeMessages();
+
 
 	}
 
 	private void initializeMessages() throws IOException {
-		ArrayList<String> list=messages.fileToList();
-		for(int i=0;i<list.size();i++) {
-			String message=list.get(i);
-			messagesHistory.add(message);
-				
-		}
+		String path=GROUPS_DIRECTORY+groupID+"/";
+		FileManager collectMessages= new FileManager(path,GROUP_COLLECT_FILE_NAME);
+		FileManager historyMessages= new FileManager(path,GROUP_HISTORY_FILE_NAME);
+		collect=collectMessages.fileToList();
+		history=historyMessages.fileToList();
 		
 	}
 
-	private void initializeMembersList() throws IOException {
-		ArrayList<String> list=members.fileToList();
-		UserCatalog users = UserCatalog.getInstance();
-		for(int i=0;i<list.size();i++) {
-			String user=list.get(i);
-			membersList.add(users.getUser(user));		
-		}
-	}
 
 	/**
 	 * 
@@ -95,8 +85,9 @@ public class Group {
 		if(!membersList.add(user))
 			throw new UserAlreadyInGroupException();
 		else {
+			FileManager groupMembers=new FileManager(GROUPS_DIRECTORY+groupID,GROUP_INFO_FILE_NAME);
+			groupMembers.writeFile(user.getUsername());
 			membersList.add(user);
-			members.writeFile(user.getUsername());
 		}
 	}
 
@@ -108,11 +99,14 @@ public class Group {
 	 * @throws ClassNotFoundException
 	 * @trowns UserDoesNotBelongToGroupException if the given user is not in the group
 	 */
-	public void removeMember(User user) throws UserDoesNotInGroupException {
+	public void removeMember(User user) throws UserDoesNotInGroupException, IOException {
 		if(!membersList.remove(user))
 			throw new UserDoesNotInGroupException();
-		else
+		else {
+			FileManager groupMembers=new FileManager(GROUPS_DIRECTORY+groupID,GROUP_INFO_FILE_NAME);
+			groupMembers.removeFromFile(user.getUsername());
 			membersList.remove(user);
+		}
 	}
 
 	/**

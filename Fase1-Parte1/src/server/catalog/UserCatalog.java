@@ -10,7 +10,7 @@ import server.Server;
 import server.domain.User;
 import server.FileManager;
 public class UserCatalog {
-	public static final String USERS_FILE_PATH = Server.DATA_PATH + "users/" + "users.txt";
+	public static final String USERS_FILE_PATH = Server.DATA_PATH + "users/";
 	private static UserCatalog INSTANCE;
 	private static Map<String,User> userList;
 	private static FileManager file;
@@ -33,7 +33,7 @@ public class UserCatalog {
 	 */
 	private UserCatalog () throws IOException {
 		userList = new HashMap<>();
-		file=new FileManager(USERS_FILE_PATH);
+		file=new FileManager(USERS_FILE_PATH,"users.txt");
 		initiateUserList();
 
 

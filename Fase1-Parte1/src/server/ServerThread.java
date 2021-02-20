@@ -134,7 +134,7 @@ public class ServerThread extends Thread{
 					}
 
 					if(function.equals("newgroup")) {
-						send(RequestHandler.create((String) params.get(0), (User)params.get(0)));
+						send(RequestHandler.create((String) params.get(0), currentUser));
 					}
 					
 
