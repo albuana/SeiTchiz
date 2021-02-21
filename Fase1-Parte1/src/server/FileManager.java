@@ -77,7 +77,7 @@ public class FileManager {
 		String line;
 		while((line=read.readLine())!=null) {
 			String trimmedLine = line.trim();
-			if(trimmedLine!=str) {
+			if(trimmedLine.equals(line)) {
 	            writer.write(line + System.getProperty("line.separator"));
 			}
 		}

@@ -10,7 +10,6 @@ import java.util.List;
 public class User {
 	private String username;	
 	private String password;
-	private HashMap <String, List<Object>> groupMessages;
 
 	
 	/**
@@ -70,36 +69,8 @@ public class User {
 			return false;
 		return true;
 	}
-	
-	public List<Object> seeMessagesGroup(String groupId) {
-		if(groupMessages.containsKey(groupId)) {
-			List<Object> messages=groupMessages.get(groupId);
-			for(int i=0;i<groupMessages.get(groupId).size();i++) {
-				groupMessages.get(groupId).remove(i);
-			}
-			return messages;
-		}
-		else {
-			System.out.println("Grupo n�o existe");
-			return null;
-		}
-	}
-	
-	public void sentMessageToGroup(String groupId, Object object) {
-		groupMessages.get(groupId).add(object);	
-	}
-	
-	public void removeGroup(String groupId) {
-		if(groupMessages.containsKey(groupId))
-			groupMessages.remove(groupId);
-	}
-	
-	public void addGroup(String groupId) {
-		if(!groupMessages.containsKey(groupId)) {
-			groupMessages.put(groupId, null);		
-		}
-		
-	}
+
+
 	
 	public String toString() {
 		return username;

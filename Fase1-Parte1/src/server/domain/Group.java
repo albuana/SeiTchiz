@@ -82,12 +82,16 @@ public class Group {
 	 * @throws UserAlreadyInGroupException if the given user is already in the group
 	 */
 	public void addMember(User user) throws IOException, UserAlreadyInGroupException {
-		if(!membersList.add(user))
+		if(membersList.contains(user))
 			throw new UserAlreadyInGroupException();
-		else {
-			FileManager groupMembers=new FileManager(GROUPS_DIRECTORY+groupID,GROUP_INFO_FILE_NAME);
-			groupMembers.writeFile(user.getUsername());
-			membersList.add(user);
+		else {			
+			if(!membersList.add(user)) {
+				FileManager groupMembers=new FileManager(GROUPS_DIRECTORY+groupID,GROUP_INFO_FILE_NAME);
+				String str =user.getUsername()+"\n";
+				groupMembers.writeFile(str);
+				membersList.add(user);
+			}
+
 		}
 	}
 

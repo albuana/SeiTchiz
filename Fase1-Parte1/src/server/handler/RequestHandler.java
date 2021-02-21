@@ -47,7 +47,7 @@ public final class RequestHandler {
 	 * @see server.handlers.AddNewMemberGroupHandler
 	 */
 	public static boolean addu(String newUser, String groupId, User owner) throws UserNotExistException, ClassNotFoundException, GroupException, IOException {
-		return new AddNewMemberGroupHandler(groupId,newUser,owner).addMember();
+		return new AddNewMemberGroupHandler(newUser,groupId,owner).addMember();
 	}
 
 	

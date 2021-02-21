@@ -84,14 +84,16 @@ public class GroupCatalog {
 			return true;
 		}
 		for (String g:groupFolders)
-			if(!g.equals(groupID)) throw new UserCouldNotCreateGroupException();
-
+			if(g.equals(groupID)) 
+				throw new UserCouldNotCreateGroupException();
+		
 		try {
 			createGroupFiles(groupID, UserCatalog.getInstance().getUser(owner));
 			groupsList.add(new Group(groupID, UserCatalog.getInstance().getUser(owner)));
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new UserCouldNotCreateGroupException();
 		}
+
 		return true;
 
 	}
@@ -101,7 +103,7 @@ public class GroupCatalog {
 		FileManager groupInfo=new FileManager(path,GROUP_INFO_FILE_NAME);
 		new FileManager(path,GROUP_COLLECT_FILE_NAME);
 		new FileManager(path,GROUP_HISTORY_FILE_NAME);	
-		groupInfo.writeFile(user.getUsername()); //Primeiro nome da lista é o dono
+		groupInfo.writeFile(user.getUsername()+"\n"); //Primeiro nome da lista é o dono
 	}
 
 	/**

@@ -48,7 +48,6 @@ public class AddNewMemberGroupHandler {
 		User newbie = UserCatalog.getInstance().getUser(newUser);
 		if(newbie == null)
 			throw new UserNotExistException();
-		newbie.addGroup(groupId);
 		group.addMember(newbie);
 		return true;
 	}

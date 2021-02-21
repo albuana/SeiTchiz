@@ -19,6 +19,7 @@ import server.domain.User;
 import server.exceptions.NotWellFormedException;
 import server.exceptions.UserCouldNotLoginException;
 import server.exceptions.UserNotExistException;
+import server.exceptions.group.GroupException;
 import server.exceptions.group.UserCouldNotCreateGroupException;
 
 /**
@@ -137,6 +138,14 @@ public class ServerThread extends Thread{
 						send(RequestHandler.create((String) params.get(0), currentUser));
 					}
 					
+					if(function.equals("addu")) {
+						send(RequestHandler.addu((String) params.get(0), (String) params.get(1), currentUser));
+					}
+					
+					if(function.equals("removeu")) {
+						send(RequestHandler.removeu((String) params.get(0), (String) params.get(1), currentUser));
+					}
+					
 
 				}catch (ClassNotFoundException | IllegalArgumentException e) {
 					e.printStackTrace();
@@ -145,6 +154,12 @@ public class ServerThread extends Thread{
 					System.out.println("The client disconnected from server");
 					break;
 				} catch (UserCouldNotCreateGroupException e) {
+					e.printStackTrace();
+				} catch (UserNotExistException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (GroupException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
