@@ -14,7 +14,7 @@ public class Message {
 	 */
 	public Message(String msg, String groupId) {
 		this.msg = msg;
-		this.viewers = GroupCatalog.getInstance().getGroup(groupId).membersList;
+		this.viewers = GroupCatalog.getInstance().getGroup(groupId).getUsers();
 	}
 	
 }

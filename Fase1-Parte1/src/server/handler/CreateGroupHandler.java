@@ -1,7 +1,7 @@
 package server.handler;
 
 import server.domain.User;
-import server.exceptions.group.UserCouldNotCreateGroupException;
+import server.exceptions.group.GroupAlreadyExistException;
 
 import java.io.IOException;
 
@@ -26,10 +26,10 @@ public class CreateGroupHandler {
 	
 	/**
 	 * @return true if the group was successfully created
-	 * @throws UserCouldNotCreateGroupException if the group already exists
+	 * @throws GroupAlreadyExistException if the group already exists
 	 * @throws IOException if an error occurs while creating the group
 	 */
-	public boolean create() throws UserCouldNotCreateGroupException, IOException {
+	public boolean newgroup() throws GroupAlreadyExistException, IOException {
 		return GroupCatalog.getInstance().addGroup(groupID, user.getUsername());	
 	}
 	

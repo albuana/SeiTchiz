@@ -13,7 +13,6 @@ import client.handler.LoginUserHandler;
 
 /**
  *Client main , receives command line parameters and starts the client as well as handling the function parameter distinction
- *@since 1.0 
  */
 public class SeiTchiz {
 

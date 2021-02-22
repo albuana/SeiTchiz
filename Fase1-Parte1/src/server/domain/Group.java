@@ -12,15 +12,13 @@ import server.exceptions.group.UserDoesNotInGroupException;
 
 
 public class Group {
-	public User owner;
-	public String groupID;
-	public ArrayList<User> membersList;
-	public ArrayList<String> collect;
-	public ArrayList<String> history;
-	public static final String GROUPS_DIRECTORY = Server.DATA_PATH+"groups/";
-	public static final String GROUP_INFO_FILE_NAME = "groupinfo.txt";
-    public static final String GROUP_COLLECT_FILE_NAME = "groupcollect.txt";
-    public static final String GROUP_HISTORY_FILE_NAME = "grouphistory.txt";
+	private User owner;
+	private String groupID;
+	private ArrayList<User> membersList;
+	private static final String GROUPS_DIRECTORY = Server.DATA_PATH+"groups/";
+	private static final String GROUP_INFO_FILE_NAME = "groupinfo.txt";
+	private static final String GROUP_COLLECT_FILE_NAME = "groupcollect.txt";
+	private static final String GROUP_HISTORY_FILE_NAME = "grouphistory.txt";
 
 
 
@@ -45,8 +43,8 @@ public class Group {
 		String path=GROUPS_DIRECTORY+groupID+"/";
 		FileManager collectMessages= new FileManager(path,GROUP_COLLECT_FILE_NAME);
 		FileManager historyMessages= new FileManager(path,GROUP_HISTORY_FILE_NAME);
-		collect=collectMessages.fileToList();
-		history=historyMessages.fileToList();
+		collectMessages.fileToList();
+		historyMessages.fileToList();
 		
 	}
 
@@ -101,7 +99,7 @@ public class Group {
 	 * @throws UserDoesNotInGroupException 
 	 * @throws IOException if an error occurs whilst writing in the groupInfo file
 	 * @throws ClassNotFoundException
-	 * @trowns UserDoesNotBelongToGroupException if the given user is not in the group
+	 * @throws UserDoesNotBelongToGroupException if the given user is not in the group
 	 */
 	public void removeMember(User user) throws UserDoesNotInGroupException, IOException {
 		if(!membersList.remove(user))
@@ -123,15 +121,15 @@ public class Group {
 	}
 
 
-	public String info() {
-		StringBuilder ret=new StringBuilder("O grupo tem: "+owner.getUsername()+" como dono /n");
-		ret.append("Os utilizadores pertencentes ao grupo saho: /n");
-		for (int i = 0; i < membersList.size(); i++){
-			ret.append("Utilizador: "+membersList.get(i).getUsername());
-		}
-		return ret.toString();
-
-	}
+//	public String info() {
+//		StringBuilder ret=new StringBuilder("O grupo tem: "+owner.getUsername()+" como dono /n");
+//		ret.append("Os utilizadores pertencentes ao grupo saho: /n");
+//		for (int i = 0; i < membersList.size(); i++){
+//			ret.append("Utilizador: "+membersList.get(i).getUsername());
+//		}
+//		return ret.toString();
+//
+//	}
 	
 	public void sendMessage(Object object) {
 		

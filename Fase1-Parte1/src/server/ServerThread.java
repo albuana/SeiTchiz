@@ -1,7 +1,6 @@
 package server;
 
 import java.io.EOFException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -18,13 +17,9 @@ import server.catalog.UserCatalog;
 import server.domain.User;
 import server.exceptions.NotWellFormedException;
 import server.exceptions.UserCouldNotLoginException;
-import server.exceptions.UserNotExistException;
-import server.exceptions.group.GroupException;
-import server.exceptions.group.UserCouldNotCreateGroupException;
 
 /**
  * Creates new thread for every client and executes functions and sends of objects from server
- * @since 1.0
  */
 public class ServerThread extends Thread{
 	private Socket socket = null;
@@ -37,7 +32,6 @@ public class ServerThread extends Thread{
 	 * 
 	 * @param inSoc the client's socket
 	 * @throws IOException
-	 * @since 1.0
 	 */
 	public ServerThread(Socket inSoc) throws IOException {
 		this.socket = inSoc;
@@ -66,11 +60,7 @@ public class ServerThread extends Thread{
 
 	/**
 	 * Runs the server thread responsible for receiving and dealing with a client's requests
-	 * @since 1.0
 	 */
-
-
-
 	@SuppressWarnings("unchecked")
 	public void run(){
 
@@ -106,79 +96,54 @@ public class ServerThread extends Thread{
 			} //login close
 
 			while(true) {
+				//clients function
+				String function = null;
+				List<Object> params = null;
 
 				try {
-					String function = null;
-					List<Object> params = null;
-
-
 					//call function
 					List<Object> objs = (ArrayList<Object>) inStream.readObject();
-					function = ((String) objs.get(0)).toLowerCase();
+					function = (String) objs.get(0);
 					params = objs.subList(1, objs.size());
 
-					if(currentUser != null)
-						params.add(currentUser);
-
-
-
-					if(function.equals("follow")) {
-						send(RequestHandler.follow((String) params.get(0), currentUser.getUsername()));
+					//if(currentUser != null)
+					params.add(currentUser);
+					
+					
+					Class<?>[] c = new Class[params.size()];
+					
+					System.out.println(function);
+					for (int i = 0; i < c.length; i++) {
+						c[i] =  params.get(i).getClass();
 					}
 					
-					if(function.equals("unfollow")) {
-						send(RequestHandler.unfollow((String) params.get(0), currentUser.getUsername()));
-					}
-					
-					if(function.equals("viewfollowers")) {
-						send(RequestHandler.viewFollowers(currentUser.getUsername()));
-					}
-
-					if(function.equals("newgroup")) {
-						send(RequestHandler.create((String) params.get(0), currentUser));
-					}
-					
-					if(function.equals("addu")) {
-						send(RequestHandler.addu((String) params.get(0), (String) params.get(1), currentUser));
-					}
-					
-					if(function.equals("removeu")) {
-						send(RequestHandler.removeu((String) params.get(0), (String) params.get(1), currentUser));
-					}
-					
-					if(function.equals("ginfo")) {
-						send(RequestHandler.ginfo((String) params.get(0), currentUser));
-					}
-					
-
-				}catch (ClassNotFoundException | IllegalArgumentException e) {
+					System.out.println("Method: " + function);
+					Method m = RequestHandler.class.getMethod(function, c);
+					Object result = m.invoke(null , params.toArray());					
+					System.out.println(result);
+					send(result);
+				}catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException e) {
 					e.printStackTrace();
 					break;
+				}catch(NoSuchMethodException e) {
+					send((new NotWellFormedException()).getMessage()); //mandar erro ao utilizador
+				}catch(InvocationTargetException e) {
+					send(e.getCause().getMessage()); //mandar erro ao utilizador
 				}catch(SocketException | EOFException e) {
 					System.out.println("The client disconnected from server");
 					break;
-				} catch (UserCouldNotCreateGroupException e) {
-					e.printStackTrace();
-				} catch (UserNotExistException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (GroupException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				} 
 			}
 			outStream.close();
 			inStream.close();
 			socket.close();
+
 		} //try close
-		catch (IOException e) {
+		catch (IOException | UserCouldNotLoginException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
-		} catch (UserCouldNotLoginException e) {
-			e.printStackTrace();
 		}
-
 	}
 }
 

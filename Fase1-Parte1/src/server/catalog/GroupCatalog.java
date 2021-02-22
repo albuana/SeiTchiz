@@ -11,15 +11,15 @@ import server.Server;
 import server.domain.Group;
 import server.domain.User;
 import server.exceptions.group.UserAlreadyInGroupException;
-import server.exceptions.group.UserCouldNotCreateGroupException;
+import server.exceptions.group.GroupAlreadyExistException;
 
 public class GroupCatalog {
 	private static GroupCatalog INSTANCE = new GroupCatalog();
 	private static ArrayList<Group> groupsList;
-	public static final String GROUPS_DIRECTORY = Server.DATA_PATH+"groups/";
-    public static final String GROUP_INFO_FILE_NAME = "groupinfo.txt";
-    public static final String GROUP_COLLECT_FILE_NAME = "groupcollect.txt";
-    public static final String GROUP_HISTORY_FILE_NAME = "grouphistory.txt";
+	private static final String GROUPS_DIRECTORY = Server.DATA_PATH+"groups/";
+	private static final String GROUP_INFO_FILE_NAME = "groupinfo.txt";
+	private static final String GROUP_COLLECT_FILE_NAME = "groupcollect.txt";
+	private static final String GROUP_HISTORY_FILE_NAME = "grouphistory.txt";
 	/**
 	 * 
 	 * @return GroupCatalog singleton instance
@@ -61,7 +61,7 @@ public class GroupCatalog {
 		UserCatalog users = UserCatalog.getInstance();
 		Group group=new Group(g, users.getUser(members.get(0)));
 		for(int i=0;i<members.size();i++) {
-			group.membersList.add(users.getUser(members.get(i)));
+			group.getUsers().add(users.getUser(members.get(i)));
 		}
 		return group;
 	}
@@ -71,10 +71,10 @@ public class GroupCatalog {
 	 * @param groupID Id of the group to add
 	 * @param owner who created the group
 	 * @return true if successful
-	 * @throws UserCouldNotCreateGroupException if group id already in use
+	 * @throws GroupAlreadyExistException if group id already in use
 	 * @throws IOException if an error occurs whilst writing in the user's database
 	 */
-	public boolean addGroup(String groupID, String owner) throws UserCouldNotCreateGroupException, IOException {
+	public boolean addGroup(String groupID, String owner) throws GroupAlreadyExistException, IOException {
 
 		String [] groupFolders = new File(GROUPS_DIRECTORY).list();
 		if(groupFolders==null) {
@@ -84,13 +84,13 @@ public class GroupCatalog {
 		}
 		for (String g:groupFolders)
 			if(g.equals(groupID)) 
-				throw new UserCouldNotCreateGroupException();
+				throw new GroupAlreadyExistException();
 		
 		try {
 			createGroupFiles(groupID, UserCatalog.getInstance().getUser(owner));
 			groupsList.add(new Group(groupID, UserCatalog.getInstance().getUser(owner)));
 		} catch (IOException e) {
-			throw new UserCouldNotCreateGroupException();
+			throw new GroupAlreadyExistException();
 		}
 
 		return true;
@@ -102,7 +102,7 @@ public class GroupCatalog {
 		FileManager groupInfo=new FileManager(path,GROUP_INFO_FILE_NAME);
 		new FileManager(path,GROUP_COLLECT_FILE_NAME);
 		new FileManager(path,GROUP_HISTORY_FILE_NAME);	
-		groupInfo.writeFile(user.getUsername()+"\n"); //Primeiro nome da lista é o dono
+		groupInfo.writeFile(user.getUsername()+"\n"); //Primeiro nome da lista ï¿½ o dono
 	}
 
 	/**
@@ -136,41 +136,41 @@ public class GroupCatalog {
 		return groupsList.stream().filter(g -> g.hasMember(user)).collect(Collectors.toList());
 	}
 
-	public static String infoUser(User user) {
-		StringBuilder ret=new StringBuilder();
-		ArrayList<String> ehDono=new ArrayList<String>();
-		ArrayList<String> pertence=new ArrayList<String>();
-
-		for (int i = 0; i < groupsList.size(); i++){
-			if(groupsList.get(i).getOwner()==user) {
-				ehDono.add(groupsList.get(i).getGroupID());
-			}
-			if(groupsList.get(i).membersList.contains(user)) {
-				pertence.add(user.getUsername());
-			}
-		}
-
-		if(ehDono==null)
-			ret.append("Naho eh dono de nenhum grupo /n");
-		else {
-			ret.append("Eh dono de: \n");
-			for (int i = 0; i < ehDono.size(); i++){
-				ret.append(ehDono.get(i)+"\n");
-			}
-		}
-		if(pertence==null) {
-			ret.append("Naho pertence a nenhum grupo /n");
-		}
-		else {
-			ret.append("Pertence a: \n");
-			for (int i = 0; i < pertence.size(); i++){
-				ret.append(pertence.get(i)+"\n");
-			}
-		}
-
-		return ret.toString();
-
-	}
+//	public static String infoUser(User user) {
+//		StringBuilder ret=new StringBuilder();
+//		ArrayList<String> ehDono=new ArrayList<String>();
+//		ArrayList<String> pertence=new ArrayList<String>();
+//
+//		for (int i = 0; i < groupsList.size(); i++){
+//			if(groupsList.get(i).getOwner()==user) {
+//				ehDono.add(groupsList.get(i).getGroupID());
+//			}
+//			if(groupsList.get(i).getUsers().contains(user)) {
+//				pertence.add(user.getUsername());
+//			}
+//		}
+//
+//		if(ehDono==null)
+//			ret.append("Naho eh dono de nenhum grupo /n");
+//		else {
+//			ret.append("Eh dono de: \n");
+//			for (int i = 0; i < ehDono.size(); i++){
+//				ret.append(ehDono.get(i)+"\n");
+//			}
+//		}
+//		if(pertence==null) {
+//			ret.append("Naho pertence a nenhum grupo /n");
+//		}
+//		else {
+//			ret.append("Pertence a: \n");
+//			for (int i = 0; i < pertence.size(); i++){
+//				ret.append(pertence.get(i)+"\n");
+//			}
+//		}
+//
+//		return ret.toString();
+//
+//	}
 
 }	
 

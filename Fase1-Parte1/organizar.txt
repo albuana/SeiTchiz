@@ -1,0 +1,5 @@
+Server
+Login: UserCouldNotLoginException
+newgroup: GroupAlreadyExistException
+addu: UserAlreadyInGroupException; GroupNotExistException; UserNotOwnerException
+removeu: UserDoesNotInGroupException; GroupNotExistException; UserNotOwnerException

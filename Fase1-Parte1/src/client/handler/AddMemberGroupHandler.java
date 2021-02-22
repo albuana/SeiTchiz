@@ -22,11 +22,9 @@ public class AddMemberGroupHandler {
 	 * @return the result of the operation
 	 * @throws UserCouldNotSendException
 	 */
-	public String addMember() throws UserCouldNotSendException {
+	public Object addMember() throws UserCouldNotSendException {
 		Client.getInstance().send("addu",groupID , newUser);
-		boolean res=(boolean) Client.getInstance().receive();
-		if(res) 
-			return newUser+ " Adicionado ao grupo " + groupID;
-		return "Não foi possivel adicionar" + newUser + " a " + groupID;
+		Object result = Client.getInstance().receive();
+		return result;
 	}
 }

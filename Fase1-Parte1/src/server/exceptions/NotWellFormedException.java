@@ -6,9 +6,6 @@ package server.exceptions;
 public class NotWellFormedException extends Exception{
 	private static final long serialVersionUID = 1L;
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	public NotWellFormedException() {
 		super("Check again how this command is called");
 	}

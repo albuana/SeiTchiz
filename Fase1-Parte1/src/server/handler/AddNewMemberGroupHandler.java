@@ -9,6 +9,7 @@ import server.domain.User;
 import server.exceptions.UserNotExistException;
 import server.exceptions.group.GroupException;
 import server.exceptions.group.GroupNotExistException;
+import server.exceptions.group.UserAlreadyInGroupException;
 import server.exceptions.group.UserNotOwnerException;
 /**
  * Handles addition of new user to group 
@@ -48,6 +49,8 @@ public class AddNewMemberGroupHandler {
 		User newbie = UserCatalog.getInstance().getUser(newUser);
 		if(newbie == null)
 			throw new UserNotExistException();
+		if(group.getUsers().contains(newUser))
+			throw new UserAlreadyInGroupException();
 		group.addMember(newbie);
 		return true;
 	}

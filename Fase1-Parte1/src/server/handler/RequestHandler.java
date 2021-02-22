@@ -1,7 +1,6 @@
 package server.handler;
 
 import java.io.IOException;
-import java.util.List;
 
 import server.catalog.UserCatalog;
 import server.domain.Follow;
@@ -9,7 +8,7 @@ import server.domain.User;
 import server.exceptions.UserNotExistException;
 import server.exceptions.group.GroupException;
 import server.exceptions.group.GroupNotExistException;
-import server.exceptions.group.UserCouldNotCreateGroupException;
+import server.exceptions.group.GroupAlreadyExistException;
 /**
  * 
  * Handles every request from server, calls right handler for every request
@@ -22,13 +21,13 @@ public final class RequestHandler {
 	 * @param groupId - group is created with this name
 	 * @param user - String with userID
 	 * @return true if group is created with success
-	 * @throws UserCouldNotCreateGroupException - creation of group failed, mostly because groupID already exists for another group
+	 * @throws GroupAlreadyExistException - creation of group failed, mostly because groupID already exists for another group
 	 * @throws IOException
 	 * @throws ClassNotFoundException 
 	 * @see server.handlers.CreateGroupHandler
 	 */
-	public static boolean create(String groupId, User user) throws UserCouldNotCreateGroupException, IOException {
-		return new CreateGroupHandler(groupId, user).create();
+	public static boolean newgroup(String groupId, User user) throws GroupAlreadyExistException, IOException {
+		return new CreateGroupHandler(groupId, user).newgroup();
 	}
 	
 
@@ -95,10 +94,10 @@ public final class RequestHandler {
 	 * @throws ClassNotFoundException 
 	 * @see server.handlers.CollectMessagesHandler
 	 */
-	public static List<Object> collect (String groupId, User user) throws GroupNotExistException, IOException, ClassNotFoundException {
-		return new CollectMessagesHandler(groupId,user).collect();
-	}
-	 
+//	public static List<Object> collect (String groupId, User user) throws GroupNotExistException, IOException, ClassNotFoundException {
+//		return new CollectMessagesHandler(groupId,user).collect();
+//	}
+//	 
 	/**
 	 * Shows every not seen yet message
 	 * @param groupId
@@ -111,7 +110,7 @@ public final class RequestHandler {
 	 * @throws ClassNotFoundException 
 	 * @see server.handlers.CollectMessagesHandler
 	 */
-	public static boolean messageGroup (String groupId, User user, Object object) throws GroupNotExistException, IOException, ClassNotFoundException {
+	public static boolean msg(String groupId, User user, Object object) throws GroupNotExistException, IOException, ClassNotFoundException {
 		return new MessageGroupHandler(groupId,user).message(object);
 	}
 	

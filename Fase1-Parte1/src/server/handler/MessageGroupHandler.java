@@ -1,7 +1,5 @@
 package server.handler;
 
-import java.util.List;
-
 import server.catalog.GroupCatalog;
 import server.domain.Group;
 import server.domain.User;
@@ -20,9 +18,9 @@ public class MessageGroupHandler {
 			return false;
 		}
 		Group group = GroupCatalog.getInstance().getGroup(groupId);
-		for(int i=0;i<group.membersList.size();i++) {
-			if(group.membersList.get(i).getUsername()!=user.getUsername())
-				group.membersList.get(i).sentMessageToGroup(groupId, object);
+		for(int i=0;i<group.getUsers().size();i++) {
+			if(group.getUsers().get(i).getUsername()!=user.getUsername())
+				group.getUsers().get(i).sentMessageToGroup(groupId, object);
 		}
 		return true;
 	}

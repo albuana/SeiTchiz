@@ -12,12 +12,9 @@ public class RemoveOldMemberGroupHandler {
 		this.oldUser=oldUser;
 	}
 
-	public String removeMember() {
+	public Object removeMember() {
 		Client.getInstance().send("removeu",groupID , oldUser);
-		boolean res=(boolean) Client.getInstance().receive();
-		if(res) 
-			return oldUser+ " removido ao grupo " + groupID;
-		return "Não foi possivel remover" + oldUser + " a " + groupID;
+		Object result = Client.getInstance().receive();
+		return result;
 	}
-
 }

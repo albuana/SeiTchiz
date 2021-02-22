@@ -28,7 +28,7 @@ public final class Client {
 	/**
 	 * Client constructor
 	 * @param server address serverAddress
-	 * @param user
+	 * @param userID
 	 * @throws IOException 
 	 */
 	private Client(String serverAddress, String userID) throws IOException {
@@ -42,10 +42,6 @@ public final class Client {
 		else
 			portServer = 45678;
 		
-		System.out.println("oiii");
-
-//		String ipServer = "127.0.0.1";
-//		int portServer = 45678;
 		socket = new Socket(ipServer, portServer);
 		System.out.println("Connected"); 
 		out = new ObjectOutputStream(socket.getOutputStream());

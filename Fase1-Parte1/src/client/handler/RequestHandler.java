@@ -1,13 +1,7 @@
 package client.handler;
 
-import java.io.IOException;
 
 import client.exceptions.UserCouldNotSendException;
-import server.domain.User;
-import server.exceptions.UserNotExistException;
-import server.exceptions.group.GroupException;
-import server.handler.AddNewMemberGroupHandler;
-import server.handler.GroupInfoHandler;
 
 /**
  * 
@@ -22,15 +16,15 @@ public class RequestHandler {
 	 * @return
 	 * @throws UserCouldNotSendException 
 	 */
-	public static String newgroup(String groupID) throws UserCouldNotSendException {
+	public static Object newgroup(String groupID) throws UserCouldNotSendException {
 		return new CreateNewGroupHandler(groupID).newgroup();
 	}
 	
-	public static String addu(String newUser, String groupId) throws UserCouldNotSendException {
+	public static Object addu(String newUser, String groupId) throws UserCouldNotSendException {
 		return new AddMemberGroupHandler(groupId,newUser).addMember();
 	}
 	
-	public static String removeu(String oldUser, String groupId) throws UserCouldNotSendException {
+	public static Object removeu(String oldUser, String groupId) throws UserCouldNotSendException {
 		return new RemoveOldMemberGroupHandler(groupId,oldUser).removeMember();
 	}
 	
@@ -46,7 +40,7 @@ public class RequestHandler {
 		return new FollowHandler().viewFollowers();
 	}
 	
-	public static String ginfo(String groupId){
+	public static Object ginfo(String groupId){
 		return new InfoHandler(groupId).getInfo();
 	}
 
