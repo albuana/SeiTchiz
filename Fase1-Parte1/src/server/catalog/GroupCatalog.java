@@ -60,8 +60,7 @@ public class GroupCatalog {
 		ArrayList<String> members=groupInfo.fileToList();
 		UserCatalog users = UserCatalog.getInstance();
 		Group group=new Group(g, users.getUser(members.get(0)));
-		members.remove(0); //remove o a primeira linha que é o dono
-		for(int i=1;i<members.size();i++) {
+		for(int i=0;i<members.size();i++) {
 			group.membersList.add(users.getUser(members.get(i)));
 		}
 		return group;

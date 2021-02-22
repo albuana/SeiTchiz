@@ -34,7 +34,7 @@ public class SeiTchiz {
 		Scanner sc = new Scanner(System.in);
 
 		if(args.length<3) {
-			System.out.print("Exemplo de utlizacao : SeiTchiz <serverAddress> <clientID> [password] "); 
+			System.out.print("Example: SeiTchiz <serverAddress> <clientID> [password] "); 
 			sc.close();
 			return;
 		}
@@ -42,7 +42,7 @@ public class SeiTchiz {
 		String clientID = args[1];
 		String password = args[2];
 
-		System.out.println("**********  Bem vindos ao SeiTchiz  **********");
+		System.out.println("**********  Welcome to SeiTchiz  **********");
 
 		//CONEXAHO
 		Client.connect(serverAddress,clientID);
@@ -60,7 +60,7 @@ public class SeiTchiz {
 
 		
 		if((Boolean) Client.getInstance().receive() == true) {
-			System.out.println("User logado");
+			System.out.println("User logged in");
 		}
 		
 		//MOSTRAR FUNCIONALIDADES
@@ -103,7 +103,7 @@ public class SeiTchiz {
 					System.out.println("Method: " + function);
 					Method m = RequestHandler.class.getMethod(function, c);
 					Object result = m.invoke(null , params);
-					System.out.println("\t ****** RESPOSTA ******");
+					System.out.println("\t ****** RESPONSE ******");
 					System.out.println(result);
 			//	}
 			}catch(Exception e) {
@@ -113,7 +113,6 @@ public class SeiTchiz {
 		}
 
 
-		System.out.print("Volte Sempre!");
 		sc.close();
 		Client.getInstance().close();
 

@@ -146,6 +146,10 @@ public class ServerThread extends Thread{
 						send(RequestHandler.removeu((String) params.get(0), (String) params.get(1), currentUser));
 					}
 					
+					if(function.equals("ginfo")) {
+						send(RequestHandler.ginfo((String) params.get(0), currentUser));
+					}
+					
 
 				}catch (ClassNotFoundException | IllegalArgumentException e) {
 					e.printStackTrace();

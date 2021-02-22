@@ -34,6 +34,7 @@ public class GroupInfoHandler {
 			throw new UserDoesNotBelongToGroupException();
 		this.user = user;
 	}
+
 	/**
 	 * Gets owner and total number of members of this group, if currentUser is owner of group
 	 * returns also user names of members
@@ -45,7 +46,7 @@ public class GroupInfoHandler {
 		ArrayList<User> hash = group.getUsers();
 
 		
-		sb.append("Dono:" + (group.getOwner() == null ? "Inexistente" : group.getOwner().getUsername()) + "\n");
+		sb.append("Owner:" + (group.getOwner() == null ? "Inexistente" : group.getOwner().getUsername()) + "\n");
 		sb.append("Number of users: " + hash.size());
 
 		if(user.equals(group.getOwner()))

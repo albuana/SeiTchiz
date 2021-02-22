@@ -7,6 +7,7 @@ import server.domain.User;
 import server.exceptions.UserNotExistException;
 import server.exceptions.group.GroupException;
 import server.handler.AddNewMemberGroupHandler;
+import server.handler.GroupInfoHandler;
 
 /**
  * 
@@ -43,6 +44,10 @@ public class RequestHandler {
 	
 	public static String viewfollowers(){
 		return new FollowHandler().viewFollowers();
+	}
+	
+	public static String ginfo(String groupId){
+		return new InfoHandler(groupId).getInfo();
 	}
 
 
