@@ -11,6 +11,8 @@ import server.Server;
 import server.domain.Group;
 import server.domain.User;
 import server.exceptions.group.UserAlreadyInGroupException;
+import server.exceptions.group.UserDoesNotBelongToGroupException;
+import server.exceptions.group.UserNotOwnerException;
 import server.exceptions.group.GroupAlreadyExistException;
 
 public class GroupCatalog {
@@ -52,7 +54,7 @@ public class GroupCatalog {
 			}
 		}
 
-		
+
 	}
 
 	private Group initializeGroup(String g) throws IOException, UserAlreadyInGroupException{
@@ -85,7 +87,7 @@ public class GroupCatalog {
 		for (String g:groupFolders)
 			if(g.equals(groupID)) 
 				throw new GroupAlreadyExistException();
-		
+
 		try {
 			createGroupFiles(groupID, UserCatalog.getInstance().getUser(owner));
 			groupsList.add(new Group(groupID, UserCatalog.getInstance().getUser(owner)));
@@ -102,7 +104,7 @@ public class GroupCatalog {
 		FileManager groupInfo=new FileManager(path,GROUP_INFO_FILE_NAME);
 		new FileManager(path,GROUP_COLLECT_FILE_NAME);
 		new FileManager(path,GROUP_HISTORY_FILE_NAME);	
-		groupInfo.writeFile(user.getUsername()+"\n"); //Primeiro nome da lista � o dono
+		groupInfo.writeFile(user.getUsername()+"\n"); //Primeiro nome da lista eh o dono
 	}
 
 	/**
@@ -136,41 +138,34 @@ public class GroupCatalog {
 		return groupsList.stream().filter(g -> g.hasMember(user)).collect(Collectors.toList());
 	}
 
-//	public static String infoUser(User user) {
-//		StringBuilder ret=new StringBuilder();
-//		ArrayList<String> ehDono=new ArrayList<String>();
-//		ArrayList<String> pertence=new ArrayList<String>();
-//
-//		for (int i = 0; i < groupsList.size(); i++){
-//			if(groupsList.get(i).getOwner()==user) {
-//				ehDono.add(groupsList.get(i).getGroupID());
-//			}
-//			if(groupsList.get(i).getUsers().contains(user)) {
-//				pertence.add(user.getUsername());
-//			}
-//		}
-//
-//		if(ehDono==null)
-//			ret.append("Naho eh dono de nenhum grupo /n");
-//		else {
-//			ret.append("Eh dono de: \n");
-//			for (int i = 0; i < ehDono.size(); i++){
-//				ret.append(ehDono.get(i)+"\n");
-//			}
-//		}
-//		if(pertence==null) {
-//			ret.append("Naho pertence a nenhum grupo /n");
-//		}
-//		else {
-//			ret.append("Pertence a: \n");
-//			for (int i = 0; i < pertence.size(); i++){
-//				ret.append(pertence.get(i)+"\n");
-//			}
-//		}
-//
-//		return ret.toString();
-//
-//	}
+	public String infoUser(User user) {
+		StringBuilder pertence=new StringBuilder();
+		StringBuilder ehDono=new StringBuilder();
+		for(Group g: groupsList) {
+			if(g.hasMember(user)){
+				pertence.append(g.getGroupID()+"; ");
+			}
+			if(g.getOwner().equals(user)){
+				ehDono.append(g.getGroupID()+"; ");
+			}
+		}
+		StringBuilder retorno=new StringBuilder();
 
+		if(ehDono.length()==0) {
+			retorno.append("Unfortunatly you can execute this action, you're not the owner of any group\n");
+		} else {
+			retorno.append("É dono de: \n");
+			retorno.append(ehDono);
+		}
+
+		if(pertence.length()==0) {
+			retorno.append("Unfortunatly you can execute this action, you're not member of any group\n");
+		} else {
+			retorno.append("\nPertence a: \n");
+			retorno.append(pertence);
+		}
+
+		return retorno.toString();
+	}
 }	
 

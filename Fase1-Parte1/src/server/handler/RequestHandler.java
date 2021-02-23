@@ -8,6 +8,7 @@ import server.domain.User;
 import server.exceptions.UserNotExistException;
 import server.exceptions.group.GroupException;
 import server.exceptions.group.GroupNotExistException;
+import server.exceptions.group.UserDoesNotBelongToGroupException;
 import server.exceptions.group.GroupAlreadyExistException;
 /**
  * 
@@ -82,6 +83,10 @@ public final class RequestHandler {
 		return new GroupInfoHandler(groupId,currentUser).getInfo();
 	}
 	
+	public static String ginfo (User currentUser) throws GroupException {
+		return new GroupInfoHandler(currentUser).getInfo();
+	}
+	
 	/**
 	 * Shows every not seen yet message
 	 * @param groupId
@@ -106,12 +111,11 @@ public final class RequestHandler {
 	 * @throws GroupNotExistException - if something went wrong with the group
 	 * @throws UserDoesNotBelongToGroupException - if user doesn't belong to group
 	 * @throws IOException
-	 * @throws NoSuchAlgorithmException 
 	 * @throws ClassNotFoundException 
 	 * @see server.handlers.CollectMessagesHandler
 	 */
-	public static boolean msg(String groupId, User user, Object object) throws GroupNotExistException, IOException, ClassNotFoundException {
-		return new MessageGroupHandler(groupId,user).message(object);
+	public static boolean msg(String content, String groupId, User sender) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException {
+		return new MessageGroupHandler(content, groupId, sender).sendmsg();
 	}
 	
 	/**

@@ -36,10 +36,10 @@ public class LoginUserHandler {
 
 		UserCatalog users = UserCatalog.getInstance();
 		if(users.getUser(userID) == null) {
-			System.out.println(users.getUser(userID) == null);
+//			System.out.println(users.getUser(userID) == null);
 			flag = true;
 		}
-		System.out.println("Se esta flag der false entao deve fazer login: " + flag);
+//		System.out.println("Se esta flag der false entao deve fazer login: " + flag);
 		return flag;
 	}
 
@@ -58,8 +58,8 @@ public class LoginUserHandler {
 		UserCatalog users = UserCatalog.getInstance();
 		User loginUser=users.getUser(userID);
 		if(loginUser!=null) {
-			System.out.println(loginUser.getPassword());
-			System.out.println(password);
+//			System.out.println(loginUser.getPassword());
+//			System.out.println(password);
 
 			if(loginUser.getPassword().equals(password)) {
 				return true;

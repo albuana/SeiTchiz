@@ -8,7 +8,7 @@ public class UserCouldNotSendException extends Exception {
 	
 	/**
 	 * {@inheritDoc}
-	 */ 
+	 */
 	public UserCouldNotSendException(String message) {
 		super("Something went wrong with your connexion to the server " + message);
 	}

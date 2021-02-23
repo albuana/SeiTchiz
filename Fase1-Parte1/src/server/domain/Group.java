@@ -20,6 +20,7 @@ public class Group {
 	private static final String GROUP_COLLECT_FILE_NAME = "groupcollect.txt";
 	private static final String GROUP_HISTORY_FILE_NAME = "grouphistory.txt";
 
+	private FileManager groupInfoFM, groupCollectFM, groupHistoryFM;
 
 
 	/**
@@ -35,8 +36,7 @@ public class Group {
 		this.groupID=groupID;
 		this.membersList=new ArrayList<>();
 		initializeMessages();
-
-
+		//membersList.add(owner);
 	}
 
 	private void initializeMessages() throws IOException {
@@ -83,11 +83,11 @@ public class Group {
 		if(membersList.contains(user))
 			throw new UserAlreadyInGroupException();
 		else {			
-			if(!membersList.add(user)) {
+			if(membersList.add(user)) {
 				FileManager groupMembers=new FileManager(GROUPS_DIRECTORY+groupID,GROUP_INFO_FILE_NAME);
 				String str =user.getUsername()+"\n";
 				groupMembers.writeFile(str);
-				membersList.add(user);
+//				membersList.add(user);
 			}
 
 		}
@@ -120,6 +120,19 @@ public class Group {
 		return membersList.contains(user);
 	}
 
+	/**
+	 * @return the group's collect file manager
+	 */
+	public FileManager getGroupCollectFileManager() {
+		return groupCollectFM;
+	}
+	
+	/**
+	 * @return the group's history file manager
+	 */
+	public FileManager getGroupHistoryFileManager() {
+		return groupHistoryFM;
+	}
 
 //	public String info() {
 //		StringBuilder ret=new StringBuilder("O grupo tem: "+owner.getUsername()+" como dono /n");
@@ -131,9 +144,9 @@ public class Group {
 //
 //	}
 	
-	public void sendMessage(Object object) {
-		
-		
-	}
+//	public void sendMessage(Object object) {
+//		
+//		
+//	}
 
 }

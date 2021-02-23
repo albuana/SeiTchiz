@@ -43,6 +43,10 @@ public class RequestHandler {
 	public static Object ginfo(String groupId){
 		return new InfoHandler(groupId).getInfo();
 	}
+	
+	public static Object ginfo(){
+		return new InfoHandler().getInfo();
+	}
 
 
 }
