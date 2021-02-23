@@ -1,12 +1,13 @@
 package server.domain;
 
-
+import java.util.ArrayList;
 
 public class Message {
 	
 	private User sender;
 	private String content;
 	private Group group;
+	private ArrayList<User> viewers;
 	
 	/**
 	 * Message Class constructor
@@ -17,18 +18,17 @@ public class Message {
 		this.sender = sender;
 		this.content = content;
 		this.group = group;
+		this.viewers=group.getUsers();
 	}
 	
 	/**
 	 * 
 	 * @return content of the message
 	 */
-	public final Object getContent() {
+	public final String getContent() {
 		return content;
 	}
 
-	
-	
 	/**
 	 * 
 	 * @return the sender
@@ -44,6 +44,20 @@ public class Message {
 	public final Group getGroup() {
 		return group;
 	}
+	
+	public final ArrayList<User> getViewers() {
+		return viewers;
+	}
+
+	public String viewersToString() {
+		StringBuilder retorno=new StringBuilder();
+		for(User u:viewers) {
+			retorno.append(u.getUsername()+":");
+		}
+		retorno.setLength(retorno.length() - 1);
+		return retorno.toString();
+	}
+	
 	
 	
 //	private String msg;	

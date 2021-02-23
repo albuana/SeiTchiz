@@ -22,6 +22,7 @@ public class SeiTchiz {
 			"msg","collect","history","menu","quit", "f", "u", "v",
 			"p", "w", "l", "n", "a", "r", "g", "m", "c", "h", "m", "q");
 
+	
 	/**
 	 * 
 	 * @param args -command line parameters

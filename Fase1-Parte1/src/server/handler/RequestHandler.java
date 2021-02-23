@@ -114,8 +114,8 @@ public final class RequestHandler {
 	 * @throws ClassNotFoundException 
 	 * @see server.handlers.CollectMessagesHandler
 	 */
-	public static boolean msg(String content, String groupId, User sender) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException {
-		return new MessageGroupHandler(content, groupId, sender).sendmsg();
+	public static String msg(String groupId, String content, User sender) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException {
+		return new MessageGroupHandler(groupId, content, sender).sendmsg();
 	}
 	
 	/**

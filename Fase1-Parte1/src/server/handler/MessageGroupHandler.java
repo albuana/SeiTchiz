@@ -14,7 +14,7 @@ public class MessageGroupHandler {
 
 	private Message message;
 
-	public MessageGroupHandler(String msg, String groupId, User sender) throws GroupNotExistException {
+	public MessageGroupHandler(String groupId, String msg, User sender) throws GroupNotExistException {
 		Group group = GroupCatalog.getInstance().getGroup(groupId);
 		if(group == null)
 			throw new GroupNotExistException();
@@ -22,14 +22,15 @@ public class MessageGroupHandler {
 	}
 
 
-	public boolean sendmsg() throws UserDoesNotBelongToGroupException, IOException, ClassNotFoundException{
-		if(!message.getGroup().hasMember(message.getSender()))
+	public String sendmsg() throws UserDoesNotBelongToGroupException, IOException, ClassNotFoundException{
+		if(!message.getGroup().hasMember(message.getSender()) || message.getGroup().getOwner().getUsername()!=message.getSender().getUsername())
 			throw new UserDoesNotBelongToGroupException();
 		FileManager fileManager = message.getGroup().getGroupCollectFileManager();
-		//TODO
-		return true;	
+		fileManager.writeFile(message.getSender().getUsername()+":"+message.getContent()+":"+message.viewersToString()+"\n");
+		return "Message Sent";	
 	}
 }
+
 
 //	public String groupId;
 //	public User user;

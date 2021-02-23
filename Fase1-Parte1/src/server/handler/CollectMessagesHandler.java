@@ -2,6 +2,7 @@ package server.handler;
 
 import java.util.List;
 
+import server.catalog.GroupCatalog;
 import server.domain.User;
 
 public class CollectMessagesHandler {
@@ -14,6 +15,7 @@ public class CollectMessagesHandler {
 	}
 	
 	public List<Object> collect(){
+		GroupCatalog.getInstance().getGroup(groupId).getGroupCollectFileManager();
 		return user.seeMessagesGroup(groupId);
 	}
 

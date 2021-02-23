@@ -41,13 +41,12 @@ public class Group {
 
 	private void initializeMessages() throws IOException {
 		String path=GROUPS_DIRECTORY+groupID+"/";
-		FileManager collectMessages= new FileManager(path,GROUP_COLLECT_FILE_NAME);
-		FileManager historyMessages= new FileManager(path,GROUP_HISTORY_FILE_NAME);
-		collectMessages.fileToList();
-		historyMessages.fileToList();
+		groupCollectFM= new FileManager(path,GROUP_COLLECT_FILE_NAME);
+		groupHistoryFM= new FileManager(path,GROUP_HISTORY_FILE_NAME);
+		groupCollectFM.fileToList();
+		groupHistoryFM.fileToList();
 		
 	}
-
 
 	/**
 	 * 
@@ -87,7 +86,6 @@ public class Group {
 				FileManager groupMembers=new FileManager(GROUPS_DIRECTORY+groupID,GROUP_INFO_FILE_NAME);
 				String str =user.getUsername()+"\n";
 				groupMembers.writeFile(str);
-//				membersList.add(user);
 			}
 
 		}

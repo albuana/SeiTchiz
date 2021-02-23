@@ -1,7 +1,14 @@
 package client.handler;
 
 
+import java.io.IOException;
+
+import com.sun.org.apache.xalan.internal.xsltc.runtime.MessageHandler;
+
 import client.exceptions.UserCouldNotSendException;
+import server.domain.User;
+import server.exceptions.group.GroupNotExistException;
+import server.exceptions.group.UserDoesNotBelongToGroupException;
 
 /**
  * 
@@ -47,6 +54,11 @@ public class RequestHandler {
 	public static Object ginfo(){
 		return new InfoHandler().getInfo();
 	}
+	
+	public static Object msg(String groupId, String content){
+		return new GroupMessageHandler(groupId, content).sendmsg();
+	}
 
+	
 
 }

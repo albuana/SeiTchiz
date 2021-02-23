@@ -66,8 +66,8 @@ public class FileManager {
 		}
 		read.close();
 		return ret;
-		
 	}
+	
 	public void removeFromFile(String str) throws IOException {
 		File newFile=new File("aux.txt");
 		File currentFile = new File(fileName);
