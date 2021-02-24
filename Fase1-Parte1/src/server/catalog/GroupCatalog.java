@@ -38,7 +38,6 @@ public class GroupCatalog {
 		try {
 			initializeGroupCatalog();
 		} catch (UserAlreadyInGroupException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

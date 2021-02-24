@@ -10,7 +10,7 @@ public class InfoHandler {
 	}
 
 	public InfoHandler() {
-		// TODO 
+		
 	}
 
 	public String getInfo() {
