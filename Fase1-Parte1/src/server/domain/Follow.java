@@ -136,7 +136,6 @@ public class Follow {
 					return "O user nao segue "+userID.getUsername();
 			}
 
-
 		}
 		return "O user nao tem seguidores";
 	}

@@ -1,11 +1,11 @@
 package client;
 
+
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-
 import client.handler.RequestHandler;
 import client.exceptions.CommandNotExistException;
 import client.exceptions.UserCouldNotSendException;
@@ -15,14 +15,14 @@ import client.handler.LoginUserHandler;
  *Client main , receives command line parameters and starts the client as well as handling the function parameter distinction
  */
 public class SeiTchiz {
-
+	
 	private static final List<String> AVAILABLE_METHODS 
 	= Arrays.asList("follow","unfollow","viewfollowers","post",
 			"wall","like","newgroup","addu","removeu","ginfo",
 			"msg","collect","history","menu","quit", "f", "u", "v",
 			"p", "w", "l", "n", "a", "r", "g", "m", "c", "h", "m", "q");
 
-	
+
 	/**
 	 * 
 	 * @param args -command line parameters
@@ -58,14 +58,13 @@ public class SeiTchiz {
 			return;
 		}
 
-		
+
 		if((Boolean) Client.getInstance().receive() == true) {
 			System.out.println("User logged in");
 		}
-		
+
 		//MOSTRAR FUNCIONALIDADES
 		showMenu();
-
 
 		while (true) {
 			//LER FUNCIONALIDADE ESCOLHIDA
@@ -91,24 +90,28 @@ public class SeiTchiz {
 				}
 
 
-					String[] params = new String[parameters.length - 1];		
-					Class<?>[] c = new Class[parameters.length - 1];
 
-					System.out.println(function);
-					for (int i = 0; i < c.length; i++) {
-						c[i] =  parameters[i + 1].getClass();
-						params[i] = parameters[i + 1];
-					}
 
-					System.out.println("Method: " + function);
-					Method m = RequestHandler.class.getMethod(function, c);
-					Object result = m.invoke(null , params);
-					System.out.println("\t ****** RESPONSE ******");
-					System.out.println(result);
-			//	}
+
+				String[] params = new String[parameters.length - 1];		
+				Class<?>[] c = new Class[parameters.length - 1];
+
+				System.out.println(function);
+				for (int i = 0; i < c.length; i++) {
+					c[i] =  parameters[i + 1].getClass();
+					params[i] = parameters[i + 1];
+				}
+
+				System.out.println("Method: " + function);
+				Method m = RequestHandler.class.getMethod(function, c);
+				Object result = m.invoke(null , params);
+				System.out.println("\t ****** RESPONSE ******");
+				System.out.println(result);
+
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
+
 
 		}
 

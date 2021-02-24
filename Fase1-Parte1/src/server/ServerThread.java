@@ -109,7 +109,7 @@ public class ServerThread extends Thread{
 					//if(currentUser != null)
 					params.add(currentUser);
 					
-					if(function.equals("Follow")) {
+					if(function.equals("follow")) {
 						send(RequestHandler.follow((String) params.get(0), currentUser.getUsername()));
 						
 					}else if(function.equals("unfollow")) {
@@ -117,6 +117,9 @@ public class ServerThread extends Thread{
 						
 					}else if(function.equals("viewFollowers")) {
 						send(RequestHandler.viewFollowers(currentUser.getUsername()));
+						
+					}else if(function.equals("post")) {
+						send(RequestHandler.post(params.get(0), currentUser.getUsername()));
 						
 					}else {
 					Class<?>[] c = new Class[params.size()];

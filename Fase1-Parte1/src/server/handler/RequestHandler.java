@@ -1,8 +1,10 @@
 package server.handler;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import client.handler.FollowHandler;
 import server.catalog.UserCatalog;
 import server.domain.Follow;
 import server.domain.User;
@@ -26,7 +28,7 @@ public final class RequestHandler {
 	 * @throws IOException
 	 */
 	public static String follow(String userID, String currentUserID) throws IOException{
-		return  Follow.getInstance().follow(UserCatalog.getInstance().getUser(userID), currentUserID);
+		return  new FollowerHandler().follow(UserCatalog.getInstance().getUser(userID), currentUserID);
 	}
 
 	/**
@@ -37,7 +39,7 @@ public final class RequestHandler {
 	 * @throws IOException
 	 */
 	public static String unfollow(String userID, String currentUserID) throws IOException{
-		return  Follow.getInstance().unfollow(UserCatalog.getInstance().getUser(userID), currentUserID);
+		return  new FollowerHandler().unfollow(UserCatalog.getInstance().getUser(userID), currentUserID);
 	}
 	
 	/**
@@ -47,7 +49,7 @@ public final class RequestHandler {
 	 * @throws IOException
 	 */
 	public static String viewFollowers(String userID) throws IOException{
-		return  Follow.getInstance().viewFollowers(userID);
+		return  new FollowerHandler().viewFollowers(userID);
 	}
 	
 	//post
@@ -149,6 +151,17 @@ public final class RequestHandler {
 	 */
 	public static List<Object> collect (String groupID, User user) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException {
 		return new CollectMessagesHandler(groupID,user).collect();
+	}
+	
+	/**
+	 * Create post
+	 * @param object
+	 * @param username
+	 * @return
+	 * @throws IOException
+	 */
+	public static Object post(Object object, String username) throws IOException {
+		return  new PostHandler().createPost((File) object, username);
 	}
 	 
 	

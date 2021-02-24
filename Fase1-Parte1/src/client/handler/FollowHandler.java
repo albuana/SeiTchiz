@@ -10,7 +10,7 @@ public class FollowHandler {
 	 * @return
 	 */
 	public String addFollower(String userID) {
-		Client.getInstance().send("Follow",userID);
+		Client.getInstance().send("follow",userID);
 		return (String) Client.getInstance().receive();
 		
 	}

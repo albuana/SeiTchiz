@@ -1,6 +1,7 @@
 package client.handler;
 
 
+import java.io.File;
 import java.io.IOException;
 
 import com.sun.org.apache.xalan.internal.xsltc.runtime.MessageHandler;
@@ -16,7 +17,7 @@ import server.exceptions.group.UserDoesNotBelongToGroupException;
  *
  */
 public class RequestHandler {
-	
+	private static final String USERFILES_DIRECTORY = "./UserFiles/";
 	/**
 	 * Calls new group handler
 	 * @param groupID
@@ -39,11 +40,11 @@ public class RequestHandler {
 		return new FollowHandler().addFollower(userID);
 	}
 	
-	public static String unfollow(String userID){
+	public static Object unfollow(String userID){
 		return new FollowHandler().unfollow(userID);
 	}
 	
-	public static String viewfollowers(){
+	public static Object viewfollowers(){
 		return new FollowHandler().viewFollowers();
 	}
 	
@@ -58,7 +59,14 @@ public class RequestHandler {
 	public static Object msg(String groupId, String content){
 		return new GroupMessageHandler(groupId, content).sendmsg();
 	}
-
+	
+	public static Object post(String photo){
+		File f = new File(USERFILES_DIRECTORY+photo);
+		if(!f.exists())
+			return "Foto nao encontrada";
+		
+		return new PostHandler().createPost(f);
+	}
 	
 
 }
