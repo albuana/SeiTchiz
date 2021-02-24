@@ -2,14 +2,8 @@ package client.handler;
 
 
 import java.io.File;
-import java.io.IOException;
-
-import com.sun.org.apache.xalan.internal.xsltc.runtime.MessageHandler;
-
 import client.exceptions.UserCouldNotSendException;
-import server.domain.User;
-import server.exceptions.group.GroupNotExistException;
-import server.exceptions.group.UserDoesNotBelongToGroupException;
+
 
 /**
  * 

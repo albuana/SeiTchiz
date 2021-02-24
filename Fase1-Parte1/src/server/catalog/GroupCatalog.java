@@ -11,8 +11,6 @@ import server.Server;
 import server.domain.Group;
 import server.domain.User;
 import server.exceptions.group.UserAlreadyInGroupException;
-import server.exceptions.group.UserDoesNotBelongToGroupException;
-import server.exceptions.group.UserNotOwnerException;
 import server.exceptions.group.GroupAlreadyExistException;
 
 public class GroupCatalog {

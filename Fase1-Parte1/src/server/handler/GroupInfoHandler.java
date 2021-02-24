@@ -1,7 +1,6 @@
 package server.handler;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import server.catalog.GroupCatalog;
 import server.domain.Group;

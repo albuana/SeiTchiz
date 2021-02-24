@@ -2,11 +2,8 @@ package server.handler;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
-import client.handler.FollowHandler;
 import server.catalog.UserCatalog;
-import server.domain.Follow;
 import server.domain.User;
 import server.exceptions.UserNotExistException;
 import server.exceptions.group.GroupException;

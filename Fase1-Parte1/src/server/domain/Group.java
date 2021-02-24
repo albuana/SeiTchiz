@@ -2,11 +2,9 @@ package server.domain;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import server.FileManager;
 import server.Server;
-import server.catalog.UserCatalog;
 import server.exceptions.group.UserAlreadyInGroupException;
 import server.exceptions.group.UserDoesNotInGroupException;
 
