@@ -147,7 +147,7 @@ public final class RequestHandler {
 	 * @throws ClassNotFoundException 
 	 * @see server.handlers.CollectMessagesHandler
 	 */
-	public static List<Object> collect (String groupID, User user) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException {
+	public static String collect (String groupID, User user) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException {
 		return new CollectMessagesHandler(groupID,user).collect();
 	}
 	 

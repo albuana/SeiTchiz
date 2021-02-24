@@ -59,6 +59,9 @@ public class RequestHandler {
 		return new GroupMessageHandler(groupId, content).sendmsg();
 	}
 
+	public static Object collect(String groupId) throws UserCouldNotSendException{
+        return new CollectMessageHandler(groupId).collect();
+    }
 	
 
 }
