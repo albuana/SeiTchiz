@@ -35,7 +35,7 @@ public class RequestHandler {
 		return new RemoveOldMemberGroupHandler(groupId,oldUser).removeMember();
 	}
 	
-	public static String follow(String userID){
+	public static Object follow(String userID){
 		return new FollowHandler().addFollower(userID);
 	}
 	

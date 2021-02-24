@@ -109,7 +109,16 @@ public class ServerThread extends Thread{
 					//if(currentUser != null)
 					params.add(currentUser);
 					
-					
+					if(function.equals("Follow")) {
+						send(RequestHandler.follow((String) params.get(0), currentUser.getUsername()));
+						
+					}else if(function.equals("unfollow")) {
+						send(RequestHandler.unfollow((String) params.get(0), currentUser.getUsername()));
+						
+					}else if(function.equals("viewFollowers")) {
+						send(RequestHandler.viewFollowers(currentUser.getUsername()));
+						
+					}else {
 					Class<?>[] c = new Class[params.size()];
 					
 					System.out.println(function);
@@ -122,6 +131,7 @@ public class ServerThread extends Thread{
 					Object result = m.invoke(null , params.toArray());					
 					System.out.println(result);
 					send(result);
+					}
 				}catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException e) {
 					e.printStackTrace();
 					break;
