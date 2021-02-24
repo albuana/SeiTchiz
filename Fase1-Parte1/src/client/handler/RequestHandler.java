@@ -63,5 +63,9 @@ public class RequestHandler {
         return new CollectMessageHandler(groupId).collect();
     }
 	
+	public static Object history(String groupId) throws UserCouldNotSendException{
+        return new HistoryMessageHandler(groupId).history();
+    }
+	
 
 }

@@ -19,7 +19,11 @@ public class FileManager {
 	private String fileName;
 	private String filePath;
 	
-	
+	/**
+	 * 
+	 * @param filePath
+	 * @param fileName
+	 */
 	public FileManager(String filePath, String fileName) {
 		this.filePath = filePath;
 		this.fileName = filePath + "/" + fileName;
@@ -27,7 +31,9 @@ public class FileManager {
 		createFile();
 		
 	}
-	
+	/**
+	 * 
+	 */
 	private void createDirectory() {
 		try {
 			Path path = Paths.get(filePath);
@@ -39,7 +45,9 @@ public class FileManager {
 		}
 		
 	}
-
+	/**
+	 * 
+	 */
 	public void createFile(){
 		File file = new File(fileName);
 
@@ -54,11 +62,19 @@ public class FileManager {
 
 	}
 
-
+	/**
+	 * 
+	 * @param str
+	 * @throws IOException
+	 */
 	public void writeFile(String str) throws IOException {
 	    Files.write(Paths.get(fileName), str.getBytes(), StandardOpenOption.APPEND);
 	}
-	
+	/**
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
 	public ArrayList<String> fileToList() throws IOException {
 		BufferedReader read = new BufferedReader( new FileReader (fileName));
 		ArrayList<String> ret=new ArrayList<String>();
@@ -69,117 +85,200 @@ public class FileManager {
 		read.close();
 		return ret;
 	}
-	
+	/**
+	 * 
+	 * @param lineToRemove
+	 */
     public void removeFromFile(String lineToRemove) {
 
-    try {
-
-      File inFile = new File(fileName);
-
-      if (!inFile.isFile()) {
-        System.out.println("Parameter is not an existing file");
-        return;
-      }
-
-      //Construct the new file that will later be renamed to the original filename.
-      File tempFile = new File(inFile.getAbsolutePath() + ".tmp");
-
-      BufferedReader br = new BufferedReader(new FileReader(fileName));
-      PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
-
-      String line = null;
-
-      //Read from the original file and write to the new
-      //unless content matches data to be removed.
-      while ((line = br.readLine()) != null) {
-
-        if (!line.trim().equals(lineToRemove)) {
-
-          pw.println(line);
-          pw.flush();
-        }
-      }
-      pw.close();
-      br.close();
-
-      //Delete the original file
-      if (!inFile.delete()) {
-        System.out.println("Could not delete file");
-        return;
-      }
-
-      //Rename the new file to the filename the original file had.
-      if (!tempFile.renameTo(inFile))
-        System.out.println("Could not rename file");
-
-    }
-    catch (FileNotFoundException ex) {
-      ex.printStackTrace();
-    }
-    catch (IOException ex) {
-      ex.printStackTrace();
-    }
-  }
-
-	public void removeViewer(String username) {
 	    try {
-
-	        File inFile = new File(fileName);
-
-	        if (!inFile.isFile()) {
-	          System.out.println("Parameter is not an existing file");
-	          return;
-	        }
-
-	        //Construct the new file that will later be renamed to the original filename.
-	        File tempFile = new File(inFile.getAbsolutePath() + ".tmp");
-
-	        BufferedReader br = new BufferedReader(new FileReader(fileName));
-	        PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
-
-	        String line = null;
-
-	        //Read from the original file and write to the new
-	        //unless content matches data to be removed.
-	        while ((line = br.readLine()) != null) {
-	          String[] split=line.split(":");
-	          for(int i=2;i<split.length;i++) {
-	        	  if(split[i]!=username) {
-	        		  if(i==split.length) {
-		        		  pw.print(split[i]);	        			  
-	        		  }
-	        		  else {
-		        		  pw.print(split[i]+":");	        			  
-	        		  }
-	        	  }
-	            pw.println("");
-	            pw.flush();
-	          }
-	        }
-	        pw.close();
-	        br.close();
-
-	        //Delete the original file
-	        if (!inFile.delete()) {
-	          System.out.println("Could not delete file");
-	          return;
-	        }
-
-	        //Rename the new file to the filename the original file had.
-	        if (!tempFile.renameTo(inFile))
-	          System.out.println("Could not rename file");
-
+	
+	      File inFile = new File(fileName);
+	
+	      if (!inFile.isFile()) {
+	        System.out.println("Parameter is not an existing file");
+	        return;
 	      }
-	      catch (FileNotFoundException ex) {
-	        ex.printStackTrace();
+	
+	      //Construct the new file that will later be renamed to the original filename.
+	      File tempFile = new File(inFile.getAbsolutePath() + ".tmp");
+	
+	      BufferedReader br = new BufferedReader(new FileReader(fileName));
+	      PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
+	
+	      String line = null;
+	
+	      //Read from the original file and write to the new
+	      //unless content matches data to be removed.
+	      while ((line = br.readLine()) != null) {
+	
+	        if (!line.trim().equals(lineToRemove)) {
+	
+	          pw.println(line);
+	          pw.flush();
+	        }
 	      }
-	      catch (IOException ex) {
-	        ex.printStackTrace();
+	      pw.close();
+	      br.close();
+	
+	      //Delete the original file
+	      if (!inFile.delete()) {
+	        System.out.println("Could not delete file");
+	        return;
 	      }
+	
+	      //Rename the new file to the filename the original file had.
+	      if (!tempFile.renameTo(inFile))
+	        System.out.println("Could not rename file");
+	
 	    }
+	    catch (FileNotFoundException ex) {
+	      ex.printStackTrace();
+	    }
+	    catch (IOException ex) {
+	      ex.printStackTrace();
+	    }
+  }
+    /**
+     * 
+     * @param line
+     * @param toRemove
+     */
+    public void collectRemoveViewer(String line, String toRemove) {
+    	try {
+
+    	      File inFile = new File(fileName);
+
+    	      if (!inFile.isFile()) {
+    	    	  System.out.println("Parameter is not an existing file");
+    	    	  return;
+    	      }
+
+    	      //Construct the new file that will later be renamed to the original filename.
+    	      File tempFile = new File(inFile.getAbsolutePath() + ".tmp");
+
+    	      BufferedReader br = new BufferedReader(new FileReader(fileName));
+    	      PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
+
+    	      String currentLine = null;
+
+    	      //Read from the original file and write to the new
+    	      //unless content matches data to be removed.
+    	      
+    	      while ((currentLine = br.readLine()) != null) {
+
+    	        if (!currentLine.trim().equals(line)) {
+    	        	pw.println(currentLine);
+    	        	pw.flush();
+    	        }
+    	        else {
+    	        	//Cria uma linha que começa com sender:msg
+    	        	String[] split=line.split(":");
+    	        	StringBuilder newLine=new StringBuilder();
+    	        	newLine.append(split[0]+":"+split[1]);
+    	        	for(int i=2;i<split.length;i++) {
+    	        		//se o membro dos viewers é igual ao toRemove ele nao faz nada
+    	        		//se for diferente ele escreve na nova linha esse viewer
+    	        		if(!split[i].equals(toRemove)) {
+    	        			newLine.append(":"+split[i]);
+    	        		}
+    	        	}
+    	        	pw.println(newLine);
+    	        	pw.flush();
+    	        }
+    	      }
+    	      pw.close();
+    	      br.close();
+
+    	      //Delete the original file
+    	      if (!inFile.delete()) {
+    	    	  System.out.println("Could not delete file");
+    	    	  return;
+    	      }
+
+    	      //Rename the new file to the filename the original file had.
+    	      if (!tempFile.renameTo(inFile))
+    	    	  System.out.println("Could not rename file");
+
+    	    }
+    	    catch (FileNotFoundException ex) {
+    	    	ex.printStackTrace();
+    	    }
+    	    catch (IOException ex) {
+    	    	ex.printStackTrace();
+    	    }
+    }
 
 	public String getFilename() {
 		return fileName;
+	}
+	
+	/**
+	 * 
+	 * @param line
+	 * @param newViewer
+	 */
+	public void historyAddViewer(String line, String newViewer) {
+		try {
+
+  	      File inFile = new File(fileName);
+
+  	      if (!inFile.isFile()) {
+  	    	  System.out.println("Parameter is not an existing file");
+  	    	  return;
+  	      }
+
+  	      //Construct the new file that will later be renamed to the original filename.
+  	      File tempFile = new File(inFile.getAbsolutePath() + ".tmp");
+
+  	      BufferedReader br = new BufferedReader(new FileReader(fileName));
+  	      PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
+
+  	      String currentLine = null;
+
+  	      //Read from the original file and write to the new
+  	      //unless content matches data to be removed.
+  	      while ((currentLine = br.readLine()) != null) {
+  	    	  	//Compara o sender:msg de cada currentLine com o line
+	  	    	String[] split=currentLine.split(":");
+	  	    	String compareCurrent=split[0]+":"+split[1];
+	  	    	split=line.split(":");
+	  	    	String compareLine=split[0]+":"+split[1];
+	  	    	//Se forem diferentes ele escreve a currentLine
+	  	        if (!compareCurrent.equals(compareLine)) {
+	  	        	pw.println(currentLine);
+	  	        	pw.flush();
+	  	        }
+	  	        else {
+	  	        	//se forem iguais ele escreve uma nova linha ao qual adiciona ao line o newViewer
+	  	        	StringBuilder newLine=new StringBuilder();
+	  	        	newLine.append(line+":"+newViewer);
+	  	        	pw.println(newLine);
+	  	        	pw.flush();
+	  	        }
+  	      }
+  	      pw.close();
+  	      br.close();
+
+  	   
+  	      //Delete the original file
+  	      if (!inFile.delete()) {
+  	    	  System.out.println("Could not delete file");
+  	    	  return;
+  	      }
+
+  	      //Rename the new file to the filename the original file had.
+  	      if (!tempFile.renameTo(inFile))
+  	    	  System.out.println("Could not rename file");
+
+  	    }
+  	    catch (FileNotFoundException ex) {
+  	    	ex.printStackTrace();
+  	    }
+  	    catch (IOException ex) {
+  	    	ex.printStackTrace();
+  	    }
+		
 	}
 
 }

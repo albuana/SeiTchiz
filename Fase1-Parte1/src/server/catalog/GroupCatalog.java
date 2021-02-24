@@ -62,7 +62,7 @@ public class GroupCatalog {
 		ArrayList<String> members=groupInfo.fileToList();
 		UserCatalog users = UserCatalog.getInstance();
 		Group group=new Group(g, users.getUser(members.get(0)));
-		for(int i=0;i<members.size();i++) {
+		for(int i=1;i<members.size();i++) {
 			group.getUsers().add(users.getUser(members.get(i)));
 		}
 		return group;
@@ -82,6 +82,7 @@ public class GroupCatalog {
 		if(groupFolders==null) {
 			createGroupFiles(groupID, UserCatalog.getInstance().getUser(owner));
 			groupsList.add(new Group(groupID, UserCatalog.getInstance().getUser(owner)));
+			
 			return true;
 		}
 		for (String g:groupFolders)

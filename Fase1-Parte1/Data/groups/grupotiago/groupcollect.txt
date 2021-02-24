@@ -1,1 +1,3 @@
-tiago:Olá:tiago:ana:123:goncalo
+tiago:Olá:tiago:ana
+tiago:Como estão:tiago:ana
+goncalo:Tudo bem?:tiago:ana
