@@ -2,7 +2,6 @@ package server.domain;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -185,8 +184,11 @@ public class Post {
 						String likesLine = sc.nextLine().substring(idLine.lastIndexOf(":")+4);
 						int likes = Integer.parseInt(likesLine);
 						Files.write(userPosts.toPath(), (idLine+"\n"+"Likes:"+String.valueOf(likes+1)).getBytes());
+						sc.close();
 						return "Like dado com sucesso";
 					}
+					
+					sc.close();
 				}
 			}
 		}
@@ -273,8 +275,6 @@ public class Post {
 
 		int previousID =Integer.parseInt(sc.nextLine());
 
-
-		FileWriter fw = new FileWriter(nextFile,false);
 		Files.write(nextFile.toPath(), String.valueOf((previousID+1)).getBytes(), StandardOpenOption.APPEND);
 
 		sc.close();
