@@ -153,15 +153,13 @@ public class GroupCatalog {
 		if(ehDono.length()==0) {
 			retorno.append("Unfortunatly you can execute this action, you're not the owner of any group\n");
 		} else {
-			retorno.append("É dono de: \n");
-			retorno.append(ehDono);
+			retorno.append("É dono de: " + ehDono);
 		}
 
 		if(pertence.length()==0) {
 			retorno.append("Unfortunatly you can execute this action, you're not member of any group\n");
 		} else {
-			retorno.append("\nPertence a: \n");
-			retorno.append(pertence);
+			retorno.append("\nPertence a: " + pertence);
 		}
 
 		return retorno.toString();

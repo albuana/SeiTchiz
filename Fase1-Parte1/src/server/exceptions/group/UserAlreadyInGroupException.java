@@ -8,7 +8,7 @@ public class UserAlreadyInGroupException extends GroupException{
 	private static final long serialVersionUID = 1L;
 	
 	public UserAlreadyInGroupException() {
-		super("This user is already in this group ");
+		super("That user is already in this group. ");
 	}
 
 }

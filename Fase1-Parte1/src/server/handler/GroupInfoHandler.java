@@ -63,7 +63,7 @@ public class GroupInfoHandler {
 		
 		if(group != null) {
 			ArrayList<User> hash = group.getUsers();
-			sb.append("Owner:" + (group.getOwner() == null ? "Inexistente" : group.getOwner().getUsername()) + "\n");
+			sb.append("Owner: " + (group.getOwner() == null ? "Inexistente" : group.getOwner().getUsername()) + "\n");
 			sb.append("Number of users: " + hash.size() + "\n");
 			sb.append("List of users: "+group.getUsers());
 		} else {

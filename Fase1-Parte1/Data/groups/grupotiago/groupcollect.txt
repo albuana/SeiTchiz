@@ -1,3 +1,3 @@
-tiago:Olá:tiago:ana
-tiago:Como estão:tiago:ana
-goncalo:Tudo bem?:tiago:ana
+tiago:Olï¿½:tiago
+tiago:Como estï¿½o:tiago
+goncalo:Tudo bem?:tiago

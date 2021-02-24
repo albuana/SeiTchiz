@@ -11,7 +11,7 @@ public class UserNotExistException extends Exception{
 	 * {@inheritDoc}
 	 */
 	public UserNotExistException() {
-		super("The user does not exist. Check if you wrote the correct userID");
+		super("The user does not exist. Check if you wrote the correct userID.");
 	}
 
 }
