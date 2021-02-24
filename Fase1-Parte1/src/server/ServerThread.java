@@ -121,7 +121,15 @@ public class ServerThread extends Thread{
 					}else if(function.equals("post")) {
 						send(RequestHandler.post(params.get(0), currentUser.getUsername()));
 						
+					}else if(function.equals("wall")) {
+						send(RequestHandler.wall((int) params.get(0), currentUser.getUsername()));
+						
+					}else if(function.equals("like")) {
+						send(RequestHandler.like((String)params.get(0), currentUser.getUsername()));
+						
 					}else {
+						
+						
 					Class<?>[] c = new Class[params.size()];
 					
 					System.out.println(function);

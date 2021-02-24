@@ -69,6 +69,16 @@ public class RequestHandler {
 		
 		return new PostHandler().createPost(f);
 	}
+    
+    public static Object wall(int n){
+    	return new PostHandler().wall(n);
+	}
+    
+    public static Object like(String photoid){
+    	return new PostHandler().like(photoid);
+	}
+    
+    
 	
 
 }

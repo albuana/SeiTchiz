@@ -1,6 +1,7 @@
 package server.handler;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import server.catalog.UserCatalog;
@@ -179,6 +180,30 @@ public final class RequestHandler {
 	public static String history(String groupId, User user) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException {
 		return new HistoryHandler(groupId, user).getHistory();
 	}
+	
+	/**
+	 * Returns n posts
+	 * @param object
+	 * @param username
+	 * @return
+	 * @throws FileNotFoundException 
+	 */
+	public static Object wall(int n, String username) throws FileNotFoundException {
+		return  new PostHandler().wall(n, username);
+	}
+	
+	/**
+	 * Gives like on a Post
+	 * @param postID
+	 * @param username
+	 * @return
+	 * @throws IOException
+	 */
+	public static Object like(String postID, String username) throws IOException {
+		return  new PostHandler().like(postID, username);
+	}
+	
+	
 	
 	
 

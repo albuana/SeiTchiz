@@ -15,7 +15,7 @@ import client.handler.LoginUserHandler;
  *Client main , receives command line parameters and starts the client as well as handling the function parameter distinction
  */
 public class SeiTchiz {
-	
+
 	private static final List<String> AVAILABLE_METHODS 
 	= Arrays.asList("follow","unfollow","viewfollowers","post",
 			"wall","like","newgroup","addu","removeu","ginfo",
@@ -91,23 +91,26 @@ public class SeiTchiz {
 
 
 
+				if(parameters[0].equals("wall")) {
+					System.out.println("\t ****** RESPONSE ******");
+					System.out.println(RequestHandler.wall(Integer.parseInt(parameters[1])));
+				}else {
 
+					String[] params = new String[parameters.length - 1];		
+					Class<?>[] c = new Class[parameters.length - 1];
 
-				String[] params = new String[parameters.length - 1];		
-				Class<?>[] c = new Class[parameters.length - 1];
+					System.out.println(function);
+					for (int i = 0; i < c.length; i++) {
+						c[i] =  parameters[i + 1].getClass();
+						params[i] = parameters[i + 1];
+					}
 
-				System.out.println(function);
-				for (int i = 0; i < c.length; i++) {
-					c[i] =  parameters[i + 1].getClass();
-					params[i] = parameters[i + 1];
+					System.out.println("Method: " + function);
+					Method m = RequestHandler.class.getMethod(function, c);
+					Object result = m.invoke(null , params);
+					System.out.println("\t ****** RESPONSE ******");
+					System.out.println(result);
 				}
-
-				System.out.println("Method: " + function);
-				Method m = RequestHandler.class.getMethod(function, c);
-				Object result = m.invoke(null , params);
-				System.out.println("\t ****** RESPONSE ******");
-				System.out.println(result);
-
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
