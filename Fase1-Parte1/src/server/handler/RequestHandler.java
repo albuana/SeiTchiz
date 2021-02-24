@@ -1,6 +1,7 @@
 package server.handler;
 
 import java.io.IOException;
+import java.util.List;
 
 import server.catalog.UserCatalog;
 import server.domain.Follow;
@@ -18,6 +19,42 @@ import server.exceptions.group.GroupAlreadyExistException;
 public final class RequestHandler {
 	
 	/**
+	 * Follow Handler
+	 * @param userID
+	 * @param currentUserID
+	 * @return
+	 * @throws IOException
+	 */
+	public static String follow(String userID, String currentUserID) throws IOException{
+		return  Follow.getInstance().follow(UserCatalog.getInstance().getUser(userID), currentUserID);
+	}
+
+	/**
+	 * unFollow Handler
+	 * @param userID
+	 * @param currentUserID
+	 * @return
+	 * @throws IOException
+	 */
+	public static String unfollow(String userID, String currentUserID) throws IOException{
+		return  Follow.getInstance().unfollow(UserCatalog.getInstance().getUser(userID), currentUserID);
+	}
+	
+	/**
+	 * returns string with list of follows
+	 * @param userID
+	 * @return
+	 * @throws IOException
+	 */
+	public static String viewFollowers(String userID) throws IOException{
+		return  Follow.getInstance().viewFollowers(userID);
+	}
+	
+	//post
+	//wall
+	//like
+	
+	/**
 	 * Creation of group
 	 * @param groupId - group is created with this name
 	 * @param user - String with userID
@@ -30,8 +67,6 @@ public final class RequestHandler {
 	public static boolean newgroup(String groupId, User user) throws GroupAlreadyExistException, IOException {
 		return new CreateGroupHandler(groupId, user).newgroup();
 	}
-	
-
 	
 	/**
 	 * Adds user to group
@@ -65,7 +100,6 @@ public final class RequestHandler {
 	
 	public static boolean removeu(String oldUser, String groupId, User owner) throws GroupException, 
 																		IOException, UserNotExistException, ClassNotFoundException {
-		
 		return new RemoveMemberGroupHandler(oldUser, groupId,  owner).removeMember();
 	}
 	
@@ -91,22 +125,6 @@ public final class RequestHandler {
 	 * Shows every not seen yet message
 	 * @param groupId
 	 * @param user
-	 * @return every photo and text message that the user hasn't seen yet
-	 * @throws GroupNotExistException - if something went wrong with the group
-	 * @throws UserDoesNotBelongToGroupException - if user doesn't belong to group
-	 * @throws IOException
-	 * @throws NoSuchAlgorithmException 
-	 * @throws ClassNotFoundException 
-	 * @see server.handlers.CollectMessagesHandler
-	 */
-//	public static List<Object> collect (String groupId, User user) throws GroupNotExistException, IOException, ClassNotFoundException {
-//		return new CollectMessagesHandler(groupId,user).collect();
-//	}
-//	 
-	/**
-	 * Shows every not seen yet message
-	 * @param groupId
-	 * @param user
 	 * @return true if message is sent && false if message is not sent
 	 * @throws GroupNotExistException - if something went wrong with the group
 	 * @throws UserDoesNotBelongToGroupException - if user doesn't belong to group
@@ -117,6 +135,22 @@ public final class RequestHandler {
 	public static String msg(String groupId, String content, User sender) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException {
 		return new MessageGroupHandler(groupId, content, sender).sendmsg();
 	}
+	
+	/**
+	 * Shows every not seen yet message
+	 * @param groupId
+	 * @param user
+	 * @throws GroupNotExistException - if something went wrong with the group
+	 * @throws UserDoesNotBelongToGroupException - if user doesn't belong to group
+	 * @throws IOException
+	 * @throws NoSuchAlgorithmException 
+	 * @throws ClassNotFoundException 
+	 * @see server.handlers.CollectMessagesHandler
+	 */
+	public static List<Object> collect (String groupID, User user) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException {
+		return new CollectMessagesHandler(groupID,user).collect();
+	}
+	 
 	
 	/**
 	 * Shows every message that is already archived
@@ -135,37 +169,6 @@ public final class RequestHandler {
 //		return new HistoryHandler(groupId, user).getHistory();
 //	}
 //	
-	/**
-	 * Follow Handler
-	 * @param userID
-	 * @param currentUserID
-	 * @return
-	 * @throws IOException
-	 */
-	public static String follow(String userID, String currentUserID) throws IOException{
-		return  Follow.getInstance().follow(UserCatalog.getInstance().getUser(userID), currentUserID);
-	}
-
-	/**
-	 * unFollow Handler
-	 * @param userID
-	 * @param currentUserID
-	 * @return
-	 * @throws IOException
-	 */
-	public static String unfollow(String userID, String currentUserID) throws IOException{
-		return  Follow.getInstance().unfollow(UserCatalog.getInstance().getUser(userID), currentUserID);
-	}
-	
-	/**
-	 * returns string with list of follows
-	 * @param userID
-	 * @return
-	 * @throws IOException
-	 */
-	public static String viewFollowers(String userID) throws IOException{
-		return  Follow.getInstance().viewFollowers(userID);
-	}
 	
 
 }

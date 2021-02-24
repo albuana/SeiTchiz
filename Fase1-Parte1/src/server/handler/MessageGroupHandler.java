@@ -25,6 +25,7 @@ public class MessageGroupHandler {
 	public String sendmsg() throws UserDoesNotBelongToGroupException, IOException, ClassNotFoundException{
 		if(!message.getGroup().hasMember(message.getSender()) || message.getGroup().getOwner().getUsername()!=message.getSender().getUsername())
 			throw new UserDoesNotBelongToGroupException();
+		
 		FileManager fileManager = message.getGroup().getGroupCollectFileManager();
 		fileManager.writeFile(message.getSender().getUsername()+":"+message.getContent()+":"+message.viewersToString()+"\n");
 		return "Message Sent";	
