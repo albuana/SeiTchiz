@@ -38,7 +38,7 @@ public class CollectMessagesHandler {
 		String retorno = getMessages(groupFile.fileToList());
 		
 		if(retorno == null)
-			return "Nothing to see"; //TODO
+			return "Nothing to see";
 		
 		return retorno;
 	}
