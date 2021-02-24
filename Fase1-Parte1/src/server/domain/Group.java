@@ -35,6 +35,7 @@ public class Group {
 		this.owner=owner;
 		this.groupID=groupID;
 		this.membersList=new ArrayList<>();
+		this.membersList.add(owner);
 		initializeMessages();
 		//membersList.add(owner);
 	}

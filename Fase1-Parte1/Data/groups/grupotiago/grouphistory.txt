@@ -1,0 +1,6 @@
+tiago:Olá:goncalo
+tiago:Como estão:goncalo
+goncalo:Tudo bem?:goncalo
+tiago:Olá:goncalo
+tiago:Como estão:goncalo
+goncalo:Tudo bem?:goncalo

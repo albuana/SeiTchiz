@@ -34,8 +34,6 @@ public class GroupInfoHandler {
 			throw new GroupNotExistException(); //esse grupo nao existe
 		if(!group.getUsers().contains(user))
 			throw new UserDoesNotBelongToGroupException(); //nao eh membro
-		if(!group.getOwner().equals(user))
-			throw new UserNotOwnerException();
 		this.user = user;
 	}
 

@@ -23,7 +23,7 @@ public class MessageGroupHandler {
 
 
 	public String sendmsg() throws UserDoesNotBelongToGroupException, IOException, ClassNotFoundException{
-		if(!message.getGroup().hasMember(message.getSender()) || message.getGroup().getOwner().getUsername()!=message.getSender().getUsername())
+		if(!message.getGroup().hasMember(message.getSender()))
 			throw new UserDoesNotBelongToGroupException();
 		
 		FileManager fileManager = message.getGroup().getGroupCollectFileManager();

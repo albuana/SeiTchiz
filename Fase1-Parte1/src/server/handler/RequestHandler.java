@@ -123,6 +123,7 @@ public final class RequestHandler {
 		return new GroupInfoHandler(currentUser).getInfo();
 	}
 	
+	
 	/**
 	 * Shows every not seen yet message
 	 * @param groupId
@@ -149,7 +150,7 @@ public final class RequestHandler {
 	 * @throws ClassNotFoundException 
 	 * @see server.handlers.CollectMessagesHandler
 	 */
-	public static List<Object> collect (String groupID, User user) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException {
+	public static String collect (String groupID, User user) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException {
 		return new CollectMessagesHandler(groupID,user).collect();
 	}
 	
@@ -178,10 +179,10 @@ public final class RequestHandler {
 	 * @throws ClassNotFoundException 
 	 * @see server.handlers.HistoryHandler
 	 */
-//	public static List<Object> history(String groupId, User user) throws GroupNotExistException, IOException, ClassNotFoundException {
-//		return new HistoryHandler(groupId, user).getHistory();
-//	}
-//	
+	public static String history(String groupId, User user) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException {
+		return new HistoryHandler(groupId, user).getHistory();
+	}
+	
 	
 
 }

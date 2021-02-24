@@ -60,7 +60,15 @@ public class RequestHandler {
 		return new GroupMessageHandler(groupId, content).sendmsg();
 	}
 	
-	public static Object post(String photo){
+	public static Object collect(String groupId) throws UserCouldNotSendException{
+        return new CollectMessageHandler(groupId).collect();
+    }
+	
+	public static Object history(String groupId) throws UserCouldNotSendException{
+        return new HistoryMessageHandler(groupId).history();
+    }
+    
+    public static Object post(String photo){
 		File f = new File(USERFILES_DIRECTORY+photo);
 		if(!f.exists())
 			return "Foto nao encontrada";
