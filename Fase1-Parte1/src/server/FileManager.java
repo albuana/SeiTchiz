@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FileManager {
 	
@@ -69,6 +70,13 @@ public class FileManager {
 	public void writeFile(String str) throws IOException {
 	    Files.write(Paths.get(fileName), str.getBytes(), StandardOpenOption.APPEND);
 	}
+	
+//	public void writeList(List<String> currentuser) throws IOException {
+//		for(String s:currentuser )
+//		
+//	}
+	
+	
 	/**
 	 * 
 	 * @return
@@ -171,12 +179,12 @@ public class FileManager {
     	        	pw.flush();
     	        }
     	        else {
-    	        	//Cria uma linha que começa com sender:msg
+    	        	//Cria uma linha que comeï¿½a com sender:msg
     	        	String[] split=line.split(":");
     	        	StringBuilder newLine=new StringBuilder();
     	        	newLine.append(split[0]+":"+split[1]);
     	        	for(int i=2;i<split.length;i++) {
-    	        		//se o membro dos viewers é igual ao toRemove ele nao faz nada
+    	        		//se o membro dos viewers ï¿½ igual ao toRemove ele nao faz nada
     	        		//se for diferente ele escreve na nova linha esse viewer
     	        		if(!split[i].equals(toRemove)) {
     	        			newLine.append(":"+split[i]);

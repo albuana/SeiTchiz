@@ -36,10 +36,8 @@ public class HistoryHandler {
 	 * @throws IOException
 	 */
 	public String getHistory() throws IOException {
-		//adiciona mensagem ao history se ela ainda não existe se não existirem viewers
+		//adiciona mensagem ao history se ela ainda nï¿½o existe se nï¿½o existirem viewers
 		FileManager history=group.getGroupHistoryFileManager();
-		FileManager collect=group.getGroupCollectFileManager();
-		CheckAddMsgToHistory(history, collect);
 		String retorno = getMessages(history.fileToList());
 
 		
@@ -48,26 +46,8 @@ public class HistoryHandler {
 		
 		return retorno;
 	}
-	/**
-	 * 
-	 * @param history
-	 * @param collect
-	 * @throws IOException
-	 */
-	private void CheckAddMsgToHistory(FileManager history, FileManager collect) throws IOException {
-		//Vê se no collect existe mensagens do tipo sender:msg sem viewers e se houver remove e adiciona ao history
-		ArrayList<String> collectMessages=collect.fileToList();
-		ArrayList<String> collectHistory=history.fileToList();
-		for(String c:collectMessages) {
-			String[] split=c.split(":");
-			if(split.length==2 && !collectHistory.contains(c)) {
-				history.writeFile(c+"/n");
-				collect.removeFromFile(c);
-			}
-		}
 
-		
-	}
+	
 	/**
 	 * 
 	 * @param fileToList

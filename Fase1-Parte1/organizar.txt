@@ -3,3 +3,30 @@ Login: UserCouldNotLoginException
 newgroup: GroupAlreadyExistException
 addu: UserAlreadyInGroupException; GroupNotExistException; UserNotOwnerException
 removeu: UserDoesNotInGroupException; GroupNotExistException; UserNotOwnerException
+
+
+Situações de teste:
+
+ana faz login
+newgroup Rumoao21 
+msg Rumoao21 mensagem1
+msg Rumoao21 mensagem2
+collect Rumoao21
+
+As mensagens deviam de ir todas para o history. Acontece? Sim
+
+-----------------------------------
+
+ana faz login
+newgroup Rumoao21 
+msg Rumoao21 mensagem1
+msg Rumoao21 mensagem2
+collect Rumoao21
+
+addu tiago Rumoao21
+
+tiago faz login
+collect Rumoao21
+history Rumoao21
+
+

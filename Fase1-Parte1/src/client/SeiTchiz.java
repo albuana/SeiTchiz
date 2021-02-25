@@ -129,7 +129,7 @@ public class SeiTchiz {
 	 * Prints a menu related to the handling of the program
 	 */
 	private static void showMenu() {
-		System.out.print("\nMenu de Aplicacao :\n"+
+		System.out.print("\nMenu de Aplicacão :\n"+
 				"------------------> follow <userID>\n" + 
 				"------------------> unfollow <userID>\n" +
 				"------------------> viewfollowers\n" +
@@ -138,7 +138,7 @@ public class SeiTchiz {
 				"------------------> like <photoID>\n" +
 				"------------------> newgroup <groupID>\n" +
 				"------------------> addu <userID> <groupID>\n" +
-				"------------------> removeu <userID><groupID>\n" +
+				"------------------> removeu <userID> <groupID>\n" +
 				"------------------> ginfo <groupID>\n" +
 				"------------------> msg <groupID> <msg>\n" +
 				"------------------> collect <groupID>\n" +
