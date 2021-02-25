@@ -71,43 +71,13 @@ public class CollectMessagesHandler {
 				//Se ainda não viu ele devolve o sender mais a mensagem que ainda nao viu
 				retorno.append("sender: " + split[0] + " Msg: " + split[1]+"\n");
 				FileManager collect=group.getGroupCollectFileManager();
-				FileManager history=group.getGroupHistoryFileManager();
 				//Remove o viewer user de certa linha s
 				collect.collectRemoveViewer(s, user.getUsername());
-				//adiciona mensagem ao history se ela ainda não existe
-				addMsgToHistory(history,split[0],split[1]);
-				String historyMsg=split[0]+":"+split[1];
-				//adiciona a uma linha do history um viewer user
-				history.historyAddViewer(historyMsg,user.getUsername());
 			}
 		}
 		return retorno.toString();
 	}
 
-
-	/**
-	 * 
-	 * @param history
-	 * @param sender
-	 * @param msg
-	 * @return
-	 * @throws IOException 
-	 */
-	private void addMsgToHistory(FileManager history,String sender, String msg) throws IOException {
-		ArrayList<String> list=history.fileToList();
-		String[] split=null;
-		boolean msgExists=false;
-		for(String s:list) {
-			split=s.split(":");
-			//Vê se uma mensagem sender+msg já existe 
-			msgExists=split[0].equals(sender) && split[1].equals(msg);
-		}
-		if(!msgExists) {
-			//se não exister ele escreve no groupHistory.txt só o sender+msg e começa sem viewers
-			String write=sender+":"+msg;
-			history.writeFile(write);
-		}
-	}
 
 }
 

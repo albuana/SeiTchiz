@@ -1,7 +1,0 @@
-tiago:Ol�:goncalo
-tiago:Como est�o:ana
-goncalo:Tudo bem?:goncalo
-tiago:Ol�:goncalo
-tiago:Como est�o:ana
-goncalo:Tudo bem?:goncalo
-tiago:Como est�o:ana

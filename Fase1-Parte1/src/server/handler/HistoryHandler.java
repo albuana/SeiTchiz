@@ -36,15 +36,38 @@ public class HistoryHandler {
 	 * @throws IOException
 	 */
 	public String getHistory() throws IOException {
-		FileManager groupFile = group.getGroupHistoryFileManager();
-		String retorno = getMessages(groupFile.fileToList());
+		//adiciona mensagem ao history se ela ainda não existe se não existirem viewers
+		FileManager history=group.getGroupHistoryFileManager();
+		FileManager collect=group.getGroupCollectFileManager();
+		CheckAddMsgToHistory(history, collect);
+		String retorno = getMessages(history.fileToList());
+
 		
 		if(retorno.length()==0)
 			return "Nothing to see";
 		
 		return retorno;
 	}
+	/**
+	 * 
+	 * @param history
+	 * @param collect
+	 * @throws IOException
+	 */
+	private void CheckAddMsgToHistory(FileManager history, FileManager collect) throws IOException {
+		//Vê se no collect existe mensagens do tipo sender:msg sem viewers e se houver remove e adiciona ao history
+		ArrayList<String> collectMessages=collect.fileToList();
+		ArrayList<String> collectHistory=history.fileToList();
+		for(String c:collectMessages) {
+			String[] split=c.split(":");
+			if(split.length==2 && !collectHistory.contains(c)) {
+				history.writeFile(c+"/n");
+				collect.removeFromFile(c);
+			}
+		}
 
+		
+	}
 	/**
 	 * 
 	 * @param fileToList
@@ -53,18 +76,9 @@ public class HistoryHandler {
 	 */
 	private String getMessages(ArrayList<String> fileToList) throws IOException {
 		StringBuilder retorno = new StringBuilder();
-		boolean alreadySeen = false;
 		
 		for(String s:fileToList) {
-			String[] split = s.split(":");
-			alreadySeen = false;
-			for(int i = 2; i<split.length; i++) {
-				if(split[i].equals(user.getUsername()))
-					alreadySeen = true;
-			}
-			if(alreadySeen) {
-				retorno.append("sender: " + split[0] + " Msg: " + split[1]+"\n");
-			}
+			retorno.append(s);
 		}
 		return retorno.toString();
 	}
