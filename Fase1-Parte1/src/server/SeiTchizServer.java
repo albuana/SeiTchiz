@@ -8,7 +8,7 @@ import java.io.IOException;
  */
 public class SeiTchizServer {
 	
-	public static void main(String[] args) throws NumberFormatException, IOException{
+	public static void main(String[] args){
 //		Scanner sc=new Scanner(System.in);
 //		System.out.println("servidor: main");
 //		System.out.print("Porto: ");
@@ -18,9 +18,27 @@ public class SeiTchizServer {
 		
 		
 		System.out.println("servidor: main");
-		Server server = Server.create(Integer.parseInt(args[0]));
-		server.startServer();
-//		server.destroy();
+		Server server;
+		try {
+			server = Server.create(Integer.parseInt(args[0]));
+		} catch (NumberFormatException e) {
+			System.out.println("Porto invalido");
+			return;
+		} catch (IOException e) {
+			System.out.println("Porto invalido");
+			return;
+		}
+		try {
+			server.startServer();
+		} catch (IOException e) {
+			System.out.println("Erro a Iniciar o server");
+		}
+		
+		try {
+			server.destroy();
+		} catch (IOException e) {
+			System.out.println("Erro a Desligar o server");
+		}
 	}
 
 }

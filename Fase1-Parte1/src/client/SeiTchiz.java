@@ -29,7 +29,7 @@ public class SeiTchiz {
 	 * @throws UserCouldNotSendException 
 	 * @throws IOException 
 	 */
-	public static void main(String[] args) throws UserCouldNotSendException, IOException {
+	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
 
@@ -45,17 +45,28 @@ public class SeiTchiz {
 		System.out.println("**********  Welcome to SeiTchiz  **********");
 
 		//CONEXAHO
-		Client.connect(serverAddress,clientID);
+		try {
+			Client.connect(serverAddress,clientID);
+		} catch (IOException e1) {
+			System.out.println("User nao consegiu se connectar ao servidor");;
+		}
 
 		LoginUserHandler login = new LoginUserHandler(clientID, password);
 
 		//LOGIN
-		Object r = login.login();
-		if(r instanceof String) {
-			System.out.println((String)r);
-			sc.close();
-			Client.getInstance().close();
-			return;
+		Object r;
+		
+		try {
+			r = login.login();
+			
+			if(r instanceof String) {
+				System.out.println((String)r);
+				sc.close();
+				Client.getInstance().close();
+				return;
+			}
+		} catch (UserCouldNotSendException e1) {
+			System.out.println("o user nao consegui fazer login");
 		}
 
 
