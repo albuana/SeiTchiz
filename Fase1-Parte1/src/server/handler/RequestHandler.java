@@ -72,7 +72,7 @@ public final class RequestHandler {
 	 * @throws IOException
 	 */
 	public static Object post(File object, User username) throws IOException {
-		return  new PostHandler((File) object, username).createPost();
+		return  new PostHandler(object, username).createPost();
 	}
 
 

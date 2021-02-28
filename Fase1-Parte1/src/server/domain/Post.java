@@ -49,7 +49,7 @@ public class Post {
 
 		for(File userFolder: directoryListing) {
 			//Cheks if the user has any post
-			if(userFolder.getName().equals(userID)) {
+			if(userFolder.getName().equals(userID.getUsername())) {
 
 				//Creates .txt file with info about the post
 				File postFile = createFile(file, userID);
@@ -275,7 +275,7 @@ public class Post {
 
 		int previousID =Integer.parseInt(sc.nextLine());
 
-		Files.write(nextFile.toPath(), String.valueOf((previousID+1)).getBytes(), StandardOpenOption.APPEND);
+		Files.write(nextFile.toPath(), String.valueOf((previousID+1)).getBytes());
 
 		sc.close();
 		return previousID+1;
