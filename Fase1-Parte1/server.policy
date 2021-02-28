@@ -1,0 +1,6 @@
+/* AUTOMATICALLY GENERATED ON Sun Feb 28 15:44:08 WET 2021*/
+/* DO NOT EDIT */
+
+grant codeBase "file:/home/albuana/git/SeiTchiz/Fase1-Parte1/build/classes/*"{
+    permission java.io.FilePermission "/home/albuana/git/SeiTchiz/Fase1-Parte1/users.txt", "read";
+};
