@@ -17,6 +17,7 @@ import server.catalog.UserCatalog;
 import server.domain.User;
 import server.exceptions.NotWellFormedException;
 import server.exceptions.UserCouldNotLoginException;
+import server.exceptions.UserNotExistException;
 
 /**
  * Creates new thread for every client and executes functions and sends of objects from server
@@ -108,41 +109,44 @@ public class ServerThread extends Thread{
 
 					//if(currentUser != null)
 					params.add(currentUser);
-					
-					if(function.equals("follow")) {
-						send(RequestHandler.follow((String) params.get(0), currentUser.getUsername()));
-						
-					}else if(function.equals("unfollow")) {
-						send(RequestHandler.unfollow((String) params.get(0), currentUser.getUsername()));
-						
-					}else if(function.equals("viewFollowers")) {
-						send(RequestHandler.viewFollowers(currentUser.getUsername()));
-						
-					}else if(function.equals("post")) {
-						send(RequestHandler.post(params.get(0), currentUser.getUsername()));
-						
-					}else if(function.equals("wall")) {
-						send(RequestHandler.wall((int) params.get(0), currentUser.getUsername()));
-						
-					}else if(function.equals("like")) {
-						send(RequestHandler.like((String)params.get(0), currentUser.getUsername()));
-						
-					}else {
-						
-						
+
+					//					if(function.equals("follow")) {
+					//						send(RequestHandler.follow((String) params.get(0), currentUser.getUsername()));
+					//						
+					//					}else if(function.equals("unfollow")) {
+					//						send(RequestHandler.unfollow((String) params.get(0), currentUser.getUsername()));
+					//						
+					//					}
+					//					else if(function.equals("viewFollowers")) {
+					//						send(RequestHandler.viewFollowers(currentUser.getUsername()));
+					//						
+					//					}
+					//					else if(function.equals("post")) {
+					//						send(RequestHandler.post(params.get(0), currentUser.getUsername()));
+					//						
+					//					}else if(function.equals("wall")) {
+					//						send(RequestHandler.wall((int) params.get(0), currentUser.getUsername()));
+					//						
+					//					}else if(function.equals("like")) {
+					//						send(RequestHandler.like((String)params.get(0), currentUser.getUsername()));
+					//						
+					//					}
+					//					else {
+
+
 					Class<?>[] c = new Class[params.size()];
-					
+
 					System.out.println(function);
 					for (int i = 0; i < c.length; i++) {
 						c[i] =  params.get(i).getClass();
 					}
-					
+
 					System.out.println("Method: " + function);
 					Method m = RequestHandler.class.getMethod(function, c);
 					Object result = m.invoke(null , params.toArray());					
 					System.out.println(result);
 					send(result);
-					}
+					//					}
 				}catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException e) {
 					e.printStackTrace();
 					break;
@@ -154,6 +158,10 @@ public class ServerThread extends Thread{
 					System.out.println("The client disconnected from server");
 					break;
 				} 
+//				catch (UserNotExistException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				} 
 			}
 			outStream.close();
 			inStream.close();

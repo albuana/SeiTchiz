@@ -7,8 +7,13 @@ import java.io.IOException;
 import server.catalog.UserCatalog;
 import server.domain.User;
 import server.exceptions.UserNotExistException;
+import server.exceptions.follow.CantUnfollowException;
+import server.exceptions.follow.UserAlreadyBeingFollowedException;
+import server.exceptions.follow.UserCantFollowHimselfException;
+import server.exceptions.follow.UserHaveNoFollowersException;
 import server.exceptions.group.GroupException;
 import server.exceptions.group.GroupNotExistException;
+import server.exceptions.group.NothingToReadException;
 import server.exceptions.group.UserDoesNotBelongToGroupException;
 import server.exceptions.group.GroupAlreadyExistException;
 /**
@@ -17,16 +22,20 @@ import server.exceptions.group.GroupAlreadyExistException;
  *
  */
 public final class RequestHandler {
-	
+
 	/**
 	 * Follow Handler
 	 * @param userID
 	 * @param currentUserID
 	 * @return
 	 * @throws IOException
+	 * @throws UserNotExistException 
+	 * @throws UserCantFollowHimselfException
+	 * @throws UserAlreadyBeingFollowedException 
+	 * @see server.handlers.FollowerHandler 
 	 */
-	public static String follow(String userID, String currentUserID) throws IOException{
-		return  new FollowerHandler().follow(UserCatalog.getInstance().getUser(userID), currentUserID);
+	public static String follow(String userID, User currentUserID) throws IOException, UserNotExistException, UserCantFollowHimselfException, UserAlreadyBeingFollowedException{
+		return  new FollowerHandler(userID, currentUserID).follow();
 	}
 
 	/**
@@ -35,25 +44,60 @@ public final class RequestHandler {
 	 * @param currentUserID
 	 * @return
 	 * @throws IOException
+	 * @throws UserNotExistException 
+	 * @throws UserCantFollowHimselfException 
+	 * @throws CantUnfollowException 
+	 * @throws UserHaveNoFollowersException 
 	 */
-	public static String unfollow(String userID, String currentUserID) throws IOException{
-		return  new FollowerHandler().unfollow(UserCatalog.getInstance().getUser(userID), currentUserID);
+	public static String unfollow(String userID, User currentUserID) throws IOException, UserNotExistException, UserCantFollowHimselfException, CantUnfollowException, UserHaveNoFollowersException{
+		return  new FollowerHandler(userID, currentUserID).unfollow();
 	}
-	
+
 	/**
 	 * returns string with list of follows
 	 * @param userID
 	 * @return
 	 * @throws IOException
+	 * @throws UserHaveNoFollowersException 
 	 */
-	public static String viewFollowers(String userID) throws IOException{
-		return  new FollowerHandler().viewFollowers(userID);
+	public static String viewFollowers(User currentUserID) throws IOException, UserHaveNoFollowersException{
+		return  new FollowerHandler(currentUserID).viewFollowers();
 	}
-	
-	//post
-	//wall
-	//like
-	
+
+	/**
+	 * Create post
+	 * @param object
+	 * @param username
+	 * @return
+	 * @throws IOException
+	 */
+	public static Object post(File object, User username) throws IOException {
+		return  new PostHandler((File) object, username).createPost();
+	}
+
+
+	/**
+	 * Returns n posts
+	 * @param object
+	 * @param username
+	 * @return
+	 * @throws FileNotFoundException 
+	 */
+	public static Object wall(String nPhotos, User username) throws FileNotFoundException {
+		return  new WallHandler( nPhotos, username).wall(); 
+	}
+
+	/**
+	 * Gives like on a Post
+	 * @param postID
+	 * @param username
+	 * @return
+	 * @throws IOException
+	 */
+	public static Object like(String postID, User username) throws IOException {
+		return  new LikeHandler(postID, username).like();
+	}
+
 	/**
 	 * Creation of group
 	 * @param groupId - group is created with this name
@@ -67,7 +111,7 @@ public final class RequestHandler {
 	public static boolean newgroup(String groupId, User user) throws GroupAlreadyExistException, IOException {
 		return new CreateGroupHandler(groupId, user).newgroup();
 	}
-	
+
 	/**
 	 * Adds user to group
 	 * @param newUser - user to add
@@ -85,7 +129,7 @@ public final class RequestHandler {
 		return new AddNewMemberGroupHandler(newUser,groupId,owner).addMember();
 	}
 
-	
+
 	/**
 	 * Remove user from group 
 	 * @param oldUser - user to remove
@@ -97,12 +141,12 @@ public final class RequestHandler {
 	 * @throws UserNotExistException - if userID (oldUser) does not exist
 	 * @throws ClassNotFoundException 
 	 */
-	
+
 	public static boolean removeu(String oldUser, String groupId, User owner) throws GroupException, 
-																		IOException, UserNotExistException, ClassNotFoundException {
+	IOException, UserNotExistException, ClassNotFoundException {
 		return new RemoveMemberGroupHandler(oldUser, groupId,  owner).removeMember();
 	}
-	
+
 	/**
 	 * Shows group info 
 	 * @param groupId
@@ -116,12 +160,12 @@ public final class RequestHandler {
 	public static String ginfo (String groupId, User currentUser) throws GroupException {
 		return new GroupInfoHandler(groupId,currentUser).getInfo();
 	}
-	
+
 	public static String ginfo (User currentUser) throws GroupException {
 		return new GroupInfoHandler(currentUser).getInfo();
 	}
-	
-	
+
+
 	/**
 	 * Shows every not seen yet message
 	 * @param groupId
@@ -136,7 +180,7 @@ public final class RequestHandler {
 	public static String msg(String groupId, String content, User sender) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException {
 		return new MessageGroupHandler(groupId, content, sender).sendmsg();
 	}
-	
+
 	/**
 	 * Shows every not seen yet message
 	 * @param groupId
@@ -146,24 +190,15 @@ public final class RequestHandler {
 	 * @throws IOException
 	 * @throws NoSuchAlgorithmException 
 	 * @throws ClassNotFoundException 
+	 * @throws NothingToReadException 
 	 * @see server.handlers.CollectMessagesHandler
 	 */
-	public static String collect (String groupID, User user) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException {
+	public static String collect (String groupID, User user) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException, NothingToReadException {
 		return new CollectMessagesHandler(groupID,user).collect();
 	}
-	
-	/**
-	 * Create post
-	 * @param object
-	 * @param username
-	 * @return
-	 * @throws IOException
-	 */
-	public static Object post(Object object, String username) throws IOException {
-		return  new PostHandler().createPost((File) object, username);
-	}
-	 
-	
+
+
+
 	/**
 	 * Shows every message that is already archived
 	 * @param groupId
@@ -180,31 +215,9 @@ public final class RequestHandler {
 	public static String history(String groupId, User user) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException {
 		return new HistoryHandler(groupId, user).getHistory();
 	}
-	
-	/**
-	 * Returns n posts
-	 * @param object
-	 * @param username
-	 * @return
-	 * @throws FileNotFoundException 
-	 */
-	public static Object wall(int n, String username) throws FileNotFoundException {
-		return  new PostHandler().wall(n, username);
-	}
-	
-	/**
-	 * Gives like on a Post
-	 * @param postID
-	 * @param username
-	 * @return
-	 * @throws IOException
-	 */
-	public static Object like(String postID, String username) throws IOException {
-		return  new PostHandler().like(postID, username);
-	}
-	
-	
-	
-	
+
+
+
+
 
 }

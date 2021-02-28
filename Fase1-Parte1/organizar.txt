@@ -11,6 +11,7 @@ ana faz login
 newgroup Rumoao21 
 msg Rumoao21 mensagem1
 msg Rumoao21 mensagem2
+msg Rumoao21 mensagem3
 collect Rumoao21
 
 As mensagens deviam de ir todas para o history. Acontece? Sim
@@ -21,12 +22,23 @@ ana faz login
 newgroup Rumoao21 
 msg Rumoao21 mensagem1
 msg Rumoao21 mensagem2
+msg Rumoao21 mensagem3
 collect Rumoao21
 
-addu tiago Rumoao21
+addu goncalo Rumoao21
 
 tiago faz login
 collect Rumoao21
 history Rumoao21
 
+
+
+ana faz login
+newgroup Yay 
+msg Yay mensagem1
+msg Yay mensagem2
+msg Yay mensagem3
+collect Yay
+
+addu goncalo Yay
 

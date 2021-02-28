@@ -8,6 +8,8 @@ import java.io.IOException;
  */
 public class SeiTchizServer {
 	
+	private static int port;
+
 	public static void main(String[] args) throws NumberFormatException, IOException{
 //		Scanner sc=new Scanner(System.in);
 //		System.out.println("servidor: main");
@@ -15,11 +17,19 @@ public class SeiTchizServer {
 //		int porto=Integer.parseInt(sc.nextLine());
 //		Server server = Server.create(porto);
 //		server.startServer();
-		
-		
 		System.out.println("servidor: main");
-		Server server = Server.create(Integer.parseInt(args[0]));
-		server.startServer();
+
+		if(args.length == 0){
+			port = 45678;
+			Server server = Server.create(port);
+			server.startServer();
+
+		}else{
+			Server server = Server.create(Integer.parseInt(args[0]));
+			server.startServer();
+		}
+//		Server server = Server.create(Integer.parseInt(args[0]));
+//		server.startServer();
 //		server.destroy();
 	}
 

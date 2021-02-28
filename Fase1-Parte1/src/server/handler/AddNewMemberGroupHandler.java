@@ -51,6 +51,7 @@ public class AddNewMemberGroupHandler {
 			throw new UserNotExistException();
 		if(group.getUsers().contains(newUser))
 			throw new UserAlreadyInGroupException();
+		group.createHistory(newbie);
 		group.addMember(newbie);
 		return true;
 	}

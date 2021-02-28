@@ -4,23 +4,39 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import server.FileManager;
 import server.Server;
 import server.catalog.UserCatalog;
 import server.exceptions.UserNotExistException;
+import server.exceptions.follow.CantUnfollowException;
+import server.exceptions.follow.UserAlreadyBeingFollowedException;
+import server.exceptions.follow.UserHaveNoFollowersException;
+import server.exceptions.group.GroupAlreadyExistException;
+import server.exceptions.group.UserAlreadyInGroupException;
 
 public class Follow {
 
+	private User userToFollow;
 
-	private static Follow INSTANCE = null;
+	private ArrayList<User> membersList;
+
+	private static Follow INSTANCE;
 	private static final String FOLLOWS_DIRECTORY = Server.DATA_PATH+"follows/";
+	private static final String FOLLOWERS_INFO_FILE_NAME = "followers.txt";
+	private static final String FOLLOWING_INFO_FILE_NAME = "following.txt";
+
 
 	/**
 	 * Follow private constructor
 	 */
 	private Follow() {
-
+		this.membersList=new ArrayList<>();
 	}
 
 	public static Follow getInstance() {
@@ -29,61 +45,112 @@ public class Follow {
 		return INSTANCE;
 	}
 
+
 	/**
 	 * Follow an user
-	 * @param userID
+	 * @param userToFollow
 	 * @param currentUserID
 	 * @return
 	 * @throws UserNotExistException
 	 * @throws IOException
+	 * @throws UserAlreadyBeingFollowedException 
 	 * @throws UserAlreadyFollowedException
 	 * @throws UserFollowingHimSelfException 
 	 */
-	public String follow(User userID, String currentUserID) throws IOException  {
+	public String follow(User userToFollow, User currentUserID) throws IOException, UserNotExistException, UserAlreadyBeingFollowedException  {
 
-		if(!verifyUserExist(userID))
-			return "O user nao existe";
-		if(!verifyUserFollowingHimSelf(userID, currentUserID)) 
-			return "O user nao se pode seguir a si proprio";
+		boolean currentUserHasFolder = false;
+		boolean userToFollowHasFolder = false;
 
-		File dir = new File(FOLLOWS_DIRECTORY);
-		File[] directoryListing = dir.listFiles();
+		File followsDirTest = new File(FOLLOWS_DIRECTORY);
+		File[] directoryListingTeste = followsDirTest.listFiles();
 
-		//Iterate on directory follows
-		for(File userFile: directoryListing) {
+		for(File userFolder: directoryListingTeste) {
+			if(userFolder.getName().equals(userToFollow.getUsername())) {
+				userToFollowHasFolder = true;
+			}
 
-			//Checks if any file has his name
-			if(userFile.getName().equals(currentUserID+".txt")){
+			if(userFolder.getName().equals(currentUserID.getUsername())) {
+				currentUserHasFolder = true;
+			}
+		}
 
-				Scanner sc = new Scanner(userFile);
+		if(!currentUserHasFolder) {
+			createDirectory(Paths.get(FOLLOWS_DIRECTORY+"/"+currentUserID));
+			createFile(FOLLOWS_DIRECTORY+"/"+currentUserID+"/follwers.txt");
+			createFile(FOLLOWS_DIRECTORY+"/"+currentUserID+"/follwing.txt");
+		}
+
+		if(!userToFollowHasFolder) {
+			createDirectory(Paths.get(FOLLOWS_DIRECTORY+"/"+userToFollow.getUsername()));
+			createFile(FOLLOWS_DIRECTORY+"/"+userToFollow.getUsername()+"/follwers.txt");
+			createFile(FOLLOWS_DIRECTORY+"/"+userToFollow.getUsername()+"/follwing.txt");
+		}
+
+
+		File followsDir = new File(FOLLOWS_DIRECTORY);
+		File[] directoryListing = followsDir.listFiles();
+
+
+
+		for(File userFolder: directoryListing) {
+			if(userFolder.getName().equals(userToFollow.getUsername())) {
+
+				File userToFollowDir = new File(FOLLOWS_DIRECTORY+"/"+userToFollow.getUsername());
+				File[] directoryListingFollow = userToFollowDir.listFiles();
+
+
+				Scanner sc = new Scanner(directoryListingFollow[0]);
 
 				//Search through the file
 				while (sc.hasNextLine()) {
 					String line = sc.nextLine();
 
 					//Checks if userID is already being followed
-					if(line.equals(userID.getUsername())) {
+					if(line.equals(currentUserID.getUsername())) {
 						sc.close();
-						return userID.getUsername()+" já esta a ser seguido/a";
+						throw new UserAlreadyBeingFollowedException();
 					}
+
 				}
 
-				//Write on file if the user to follow is not already being followed
-				Files.write(userFile.toPath(), (userID.getUsername()+"\n").getBytes(), StandardOpenOption.APPEND);
-				sc.close();
-				return userID.getUsername()+" foi seguido/a";
+				Files.write(Paths.get(directoryListingFollow[0].getPath()),(currentUserID+"\n").getBytes(), StandardOpenOption.APPEND);
 			}
-
 		}
-		//At this point it has been conclude that the current user does not have a file
 
-		File newFile = new File(FOLLOWS_DIRECTORY+currentUserID+".txt");
-		newFile.createNewFile();
-		Files.write(newFile.toPath(), (userID.getUsername()+"\n").getBytes(), StandardOpenOption.APPEND);
-		return userID.getUsername()+" foi seguido/a";
+
+		for(File userFolder: directoryListing) {
+			if(userFolder.getName().equals(userToFollow.getUsername())) {
+
+				File currentUserDir = new File(FOLLOWS_DIRECTORY+"/"+currentUserID);
+				File[] directoryListingCurrent = currentUserDir.listFiles();
+
+				Scanner sc = new Scanner(directoryListingCurrent[1]);
+
+				//Search through the file
+				while (sc.hasNextLine()) {
+					String line = sc.nextLine();
+
+					//Checks if userID is already being followed
+					if(line.equals(currentUserID.getUsername())) {
+						sc.close();
+						throw new UserAlreadyBeingFollowedException();
+					}
+
+				}
+
+				Files.write(Paths.get(directoryListingCurrent[1].getPath()),(userToFollow.getUsername()+"\n").getBytes(), StandardOpenOption.APPEND);
+			}
+		}
+
+		return userToFollow.getUsername()+" foi seguido/a";
 
 
 	}
+
+
+
+
 
 	/**
 	 * unfollow an user
@@ -91,27 +158,32 @@ public class Follow {
 	 * @param currentUserID
 	 * @return
 	 * @throws IOException
+	 * @throws CantUnfollowException 
+	 * @throws UserHaveNoFollowersException 
 	 */
-	public String unfollow(User userID, String currentUserID) throws IOException  {
-
-		if(!verifyUserExist(userID))
-			return "O user nao existe";
-		if(!verifyUserFollowingHimSelf(userID, currentUserID)) 
-			return "O user nao se pode seguir a si proprio";
+	public String unfollow(User userID, User currentUserID) throws IOException, CantUnfollowException, UserHaveNoFollowersException  {
 
 
-		File dir = new File(FOLLOWS_DIRECTORY);
-		File[] directoryListing = dir.listFiles();
+		File followsDir = new File(FOLLOWS_DIRECTORY);
+		File[] directoryListing = followsDir.listFiles();
 		StringBuilder newFile = new StringBuilder();
 		boolean deleted = false;
+		boolean folderExist = false;
 
-		//Iterate on directory follows
-		for(File userFile: directoryListing) {
 
-			//Checks if any file has his name
-			if(userFile.getName().equals(currentUserID+".txt")){
+		for(File userFolder: directoryListing) {
 
-				Scanner sc = new Scanner(userFile);
+			if(userFolder.getName().equals(currentUserID.getUsername())) {
+
+				File currentUserDir = new File(FOLLOWS_DIRECTORY+"/"+currentUserID);
+				File[] directoryListingCurrent = currentUserDir.listFiles();
+				folderExist = true;
+
+				if(directoryListingCurrent[1].length() == 0)
+					throw new UserHaveNoFollowersException();
+
+				Scanner sc = new Scanner(directoryListingCurrent[1]);
+
 
 				//Search through the file
 				while (sc.hasNextLine()) {
@@ -128,75 +200,143 @@ public class Follow {
 				sc.close();
 
 				//Rewrite the file without the use to unfollow
-				Files.write(userFile.toPath(), newFile.toString().getBytes());
+				Files.write(directoryListingCurrent[1].toPath(), newFile.toString().getBytes());
 
-				if(deleted) 
-					return userID.getUsername()+" já nao esta a ser seguido/a";
-				else
-					return "O user nao segue "+userID.getUsername();
 			}
-
 		}
-		return "O user nao tem seguidores";
+
+
+
+		if(!folderExist)
+			throw new UserHaveNoFollowersException();
+		
+		if(!deleted)
+			throw new CantUnfollowException();
+
+
+
+		for(File userFolder: directoryListing) {
+			if(userFolder.getName().equals(userID.getUsername())) {
+
+				File currentUserDir = new File(FOLLOWS_DIRECTORY+"/"+userID.getUsername());
+				File[] directoryListingCurrent = currentUserDir.listFiles();
+
+
+				Scanner sc = new Scanner(directoryListingCurrent[0]);
+
+				//Search through the file
+				while (sc.hasNextLine()) {
+					String line = sc.nextLine();
+
+					//Delete line
+					if(line.equals(currentUserID.getUsername())) {
+
+					}else {
+						newFile.append(line+"\n");
+					}
+				}
+
+				sc.close();
+
+				//Rewrite the file without the use to unfollow
+				Files.write(directoryListingCurrent[0].toPath(), newFile.toString().getBytes());
+
+			}
+		}
+		return userID.getUsername()+" has been unfollowed";
 	}
+
+
+	//	File dir = new File(FOLLOWS_DIRECTORY);
+	//	File[] directoryListing = dir.listFiles();
+	//	StringBuilder newFile = new StringBuilder();
+	//	boolean deleted = false;
+	//
+	//	//Iterate on directory follows
+	//	for(File userFile: directoryListing) {
+	//
+	//		//Checks if any file has his name
+	//		if(userFile.getName().equals(currentUserID+".txt")){
+	//
+	//			Scanner sc = new Scanner(userFile);
+	//
+	//			//Search through the file
+	//			while (sc.hasNextLine()) {
+	//				String line = sc.nextLine();
+	//
+	//				//Delete line
+	//				if(line.equals(userID.getUsername()) && !deleted) {
+	//					deleted=true;
+	//				}else {
+	//					newFile.append(line+"\n");
+	//				}
+	//			}
+	//
+	//			sc.close();
+	//
+	//			//Rewrite the file without the use to unfollow
+	//			Files.write(userFile.toPath(), newFile.toString().getBytes());
+	//
+	//			if(deleted)
+	//				return "You've unfollowed" + userID.getUsername() + "." ;
+	//			else
+	//				throw new CantUnfollowException();
+	//		}
+	//
+	//	}
+	//	throw new UserHaveNoFollowersException();
+
+
+
 	/**
 	 * return a string of followed users
 	 * @return
 	 * @throws FileNotFoundException 
+	 * @throws UserHaveNoFollowersException 
 	 */
-	public String viewFollowers(String userID) throws FileNotFoundException {
+	public String viewFollowers(User userID) throws FileNotFoundException, UserHaveNoFollowersException {
 
 		StringBuilder ret = new StringBuilder();
 		File dir = new File(FOLLOWS_DIRECTORY);
 		File[] directoryListing = dir.listFiles();
 
-		ret.append("[ ");
+		ret.append("Followers: ");
 
 		//Iterate on directory follows
-		for(File userFile: directoryListing) {
+		for(File userFolder: directoryListing) 
 
-			String fname = userFile.getName();
-			int pos = fname.lastIndexOf(".");
-			fname = fname.substring(0, pos);
+			if(userFolder.getName().equals(userID.getUsername())) {
 
-			if(!fname.equals(userID)) {
-				Scanner sc = new Scanner(userFile);
+				File currentUserDir = new File(FOLLOWS_DIRECTORY+"/"+userID);
+				File[] directoryListingCurrent = currentUserDir.listFiles();
+
+				Scanner sc = new Scanner(directoryListingCurrent[0]);
 
 				//Search through the file
-				while(sc.hasNextLine()) {
+				while (sc.hasNextLine()) {
 					String line = sc.nextLine();
-					if(line.equals(userID)) {
-						ret.append(fname+", ");
-					}
+
+					ret.append(line+", ");
 				}
-
-				sc.close();
 			}
-		}
-		ret.append("]");
+		ret.append(" ");
 
-		if(ret.toString().equals("[ ]"))
-			return "O user nao tem ninguem a o seguir";
+		if(ret.toString().equals("Followers: "))
+			throw new UserHaveNoFollowersException();
 
 		return ret.toString();
 	}
 
 
-
-
-	private boolean verifyUserExist(User userID) throws IOException {
-		//This condition verifies if the user exists
-		if(userID == null || UserCatalog.getInstance().getUser(userID.getUsername())==null) 
-			return false;
-
-		return true;
+	private void createDirectory(Path path) throws IOException {
+		Files.createDirectories(path);
 	}
 
-	private boolean verifyUserFollowingHimSelf(User userID, String currentUserID) {
-		//This checks if the user to unfollow is not him self
-		if(userID.getUsername().equals(currentUserID)) 
-			return false;
-
-		return true;
+	private File createFile(String path) throws IOException {
+		File newFile = new File(path);
+		newFile.createNewFile();
+		return  newFile;
 	}
+
+
 }

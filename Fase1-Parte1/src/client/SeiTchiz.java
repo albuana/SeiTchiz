@@ -93,7 +93,7 @@ public class SeiTchiz {
 
 				if(parameters[0].equals("wall")) {
 					System.out.println("\t ****** RESPONSE ******");
-					System.out.println(RequestHandler.wall(Integer.parseInt(parameters[1])));
+					System.out.println(RequestHandler.wall(parameters[1]));
 				}else {
 
 					String[] params = new String[parameters.length - 1];		

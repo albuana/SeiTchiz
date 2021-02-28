@@ -1,0 +1,6 @@
+sender: goncalo Msg: mensagem6
+sender: goncalo Msg: mensagem7
+sender: goncalo Msg: mensagem8
+sender: tiago Msg: mensagem9
+sender: tiago Msg: mensagem10
+sender: tiago Msg: mensagem11

@@ -10,6 +10,7 @@ import server.catalog.GroupCatalog;
 import server.domain.Group;
 import server.domain.User;
 import server.exceptions.group.GroupNotExistException;
+import server.exceptions.group.NothingToReadException;
 import server.exceptions.group.UserDoesNotBelongToGroupException;
 
 public class CollectMessagesHandler {
@@ -38,13 +39,14 @@ public class CollectMessagesHandler {
 	 * 
 	 * @return
 	 * @throws IOException
+	 * @throws NothingToReadException 
 	 */
-	public String collect() throws IOException {
+	public String collect() throws IOException, NothingToReadException {
 		FileManager groupFile = group.getGroupCollectFileManager();
 		String retorno = getMessages(groupFile.fileToList());
 
 		if(retorno.length()==0)
-			return "Nothing to see";
+			throw new NothingToReadException();
 
 		return retorno;
 	}
@@ -72,13 +74,17 @@ public class CollectMessagesHandler {
 
 			if(notSeen) {
 				//Se ainda n�o viu ele devolve o sender mais a mensagem que ainda nao viu
-				retorno.append("sender: " + split[0] + " Msg: " + split[1]+"\n");
+				retorno.append("\nsender: " + split[0] + " Msg: " + split[1]+"\n");
 				FileManager collect=group.getGroupCollectFileManager();
 				//Remove o viewer user de certa linha s
 				collect.collectRemoveViewer(s, user.getUsername());
+				
+				//quando uma mensagem eh lida por um determinado utilizador esta passa para o seu historico pessoal
+				group.getHistoryFile(user).writeFile("sender: " + split[0] + " Msg: " + split[1]+"\n");
+
 
 				//Quando uma mensagem eh lida por todos os utilizadores, esta eh removida da caixa de mensagens e passa para o group history
-				FileManager history=group.getGroupHistoryFileManager();
+				FileManager history=group.getHistoryFile(user);
 				CheckAddMsgToHistory(history, collect);
 
 			}
@@ -145,8 +151,9 @@ public class CollectMessagesHandler {
 		for(String c:collectMessages) {
 			String[] split=c.split(":");
 			if(split.length==2 && !collectHistory.contains(c)) {
-				history.writeFile(c+"\n");
+//				history.writeFile(c+"\n");
 				collect.removeFromFile(c);
+//				group.getHistoryFile(user);
 			}
 		}
 	}

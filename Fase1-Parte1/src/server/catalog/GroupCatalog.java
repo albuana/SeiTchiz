@@ -76,9 +76,12 @@ public class GroupCatalog {
 	public boolean addGroup(String groupID, String owner) throws GroupAlreadyExistException, IOException {
 
 		String [] groupFolders = new File(GROUPS_DIRECTORY).list();
+		Group grupo=new Group(groupID, UserCatalog.getInstance().getUser(owner));
+		User user = UserCatalog.getInstance().getUser(owner);
 		if(groupFolders==null) {
-			createGroupFiles(groupID, UserCatalog.getInstance().getUser(owner));
-			groupsList.add(new Group(groupID, UserCatalog.getInstance().getUser(owner)));
+			createGroupFiles(groupID, user);
+			grupo.createHistory(user);
+			groupsList.add(grupo);
 			
 			return true;
 		}
@@ -87,14 +90,13 @@ public class GroupCatalog {
 				throw new GroupAlreadyExistException();
 
 		try {
-			createGroupFiles(groupID, UserCatalog.getInstance().getUser(owner));
-			groupsList.add(new Group(groupID, UserCatalog.getInstance().getUser(owner)));
+			createGroupFiles(groupID, user);
+			grupo.createHistory(user);
+			groupsList.add(grupo);
 		} catch (IOException e) {
 			throw new GroupAlreadyExistException();
 		}
-
 		return true;
-
 	}
 
 	private void createGroupFiles(String groupID, User user) throws IOException {
@@ -164,5 +166,3 @@ public class GroupCatalog {
 		return retorno.toString();
 	}
 }	
-
-

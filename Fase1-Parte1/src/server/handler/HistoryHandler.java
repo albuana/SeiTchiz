@@ -37,7 +37,7 @@ public class HistoryHandler {
 	 */
 	public String getHistory() throws IOException {
 		//adiciona mensagem ao history se ela ainda n�o existe se n�o existirem viewers
-		FileManager history=group.getGroupHistoryFileManager();
+		FileManager history=group.getHistoryFile(user);
 		String retorno = getMessages(history.fileToList());
 
 		
@@ -58,7 +58,7 @@ public class HistoryHandler {
 		StringBuilder retorno = new StringBuilder();
 		
 		for(String s:fileToList) {
-			retorno.append(s);
+			retorno.append(s + "\n");
 		}
 		return retorno.toString();
 	}

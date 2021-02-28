@@ -17,6 +17,8 @@ public class Group {
 	private static final String GROUP_INFO_FILE_NAME = "groupinfo.txt";
 	private static final String GROUP_COLLECT_FILE_NAME = "groupcollect.txt";
 	private static final String GROUP_HISTORY_FILE_NAME = "grouphistory.txt";
+	private static final String GROUPS_HISTORY_DIRECTORY = "history/";
+
 
 	private FileManager groupInfoFM, groupCollectFM, groupHistoryFM;
 
@@ -40,8 +42,10 @@ public class Group {
 
 	private void initializeMessages() throws IOException {
 		String path=GROUPS_DIRECTORY+groupID+"/";
+		groupInfoFM = new FileManager(path, GROUP_INFO_FILE_NAME);
 		groupCollectFM= new FileManager(path,GROUP_COLLECT_FILE_NAME);
 		groupHistoryFM= new FileManager(path,GROUP_HISTORY_FILE_NAME);
+		groupInfoFM.fileToList();
 		groupCollectFM.fileToList();
 		groupHistoryFM.fileToList();
 		
@@ -130,20 +134,19 @@ public class Group {
 	public FileManager getGroupHistoryFileManager() {
 		return groupHistoryFM;
 	}
-
-//	public String info() {
-//		StringBuilder ret=new StringBuilder("O grupo tem: "+owner.getUsername()+" como dono /n");
-//		ret.append("Os utilizadores pertencentes ao grupo saho: /n");
-//		for (int i = 0; i < membersList.size(); i++){
-//			ret.append("Utilizador: "+membersList.get(i).getUsername());
-//		}
-//		return ret.toString();
-//
-//	}
 	
-//	public void sendMessage(Object object) {
-//		
-//		
-//	}
+	public FileManager getGroupInfoFileManager() {
+		return groupInfoFM;
+	}
+	
+	public void createHistory(User newbie) {
+		String path=GROUPS_DIRECTORY+groupID+"/"+GROUPS_HISTORY_DIRECTORY ;
+		new FileManager(path,newbie.getUsername()+".txt");
+	}
+	
+	public FileManager getHistoryFile(User newbie) {
+		String path=GROUPS_DIRECTORY+groupID+"/"+GROUPS_HISTORY_DIRECTORY;
+		return new FileManager(path,newbie.getUsername()+".txt");
+	}
 
 }

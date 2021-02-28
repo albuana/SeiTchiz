@@ -42,7 +42,7 @@ public class Post {
 	 * @return
 	 * @throws IOException
 	 */
-	public String createPost(File file, String userID) throws IOException {
+	public String createPost(File file, User userID) throws IOException {
 		File dir = new File(POST_DIRECTORY);
 		File[] directoryListing = dir.listFiles();
 
@@ -54,7 +54,7 @@ public class Post {
 				//Creates .txt file with info about the post
 				File postFile = createFile(file, userID);
 				if(postFile.exists())
-					return "O Post já existe";
+					return "O Post jï¿½ existe";
 
 				postFile.createNewFile();
 
@@ -75,7 +75,7 @@ public class Post {
 		//Creates .txt file with info about the post
 		File postFile = createFile(file, userID);
 		if(postFile.exists())
-			return "O Post já existe";
+			return "O Post jï¿½ existe";
 
 		postFile.createNewFile();
 
@@ -97,10 +97,10 @@ public class Post {
 	 * @return
 	 * @throws FileNotFoundException 
 	 */
-	public String wall(int n, String username) throws FileNotFoundException {
+	public String wall(int n, User username) throws FileNotFoundException {
 		int count = n*2;
 		StringBuilder ret = new StringBuilder();
-		ArrayList<String> followedUsers = getFollowed(username);
+		ArrayList<String> followedUsers = getFollowed(username.getUsername());
 		
 		if(followedUsers == null)
 			return "O user nao tem seguidores";
@@ -144,7 +144,7 @@ public class Post {
 		}
 
 		if(count !=0)
-			ret.append("Não existem mais posts para mostrar");
+			ret.append("Nï¿½o existem mais posts para mostrar");
 
 		return ret.toString();
 	}
@@ -157,7 +157,7 @@ public class Post {
 	 * @return
 	 * @throws IOException 
 	 */
-	public String like(String postID, String username) throws IOException {
+	public String like(String postID, User username) throws IOException {
 		
 		File dir = new File(POST_DIRECTORY);
 		File[] directoryListing = dir.listFiles();
@@ -236,7 +236,7 @@ public class Post {
 	 * @param userID
 	 * @throws IOException
 	 */
-	private void createPostFile(File file, String userID) throws IOException {
+	private void createPostFile(File file, User userID) throws IOException {
 		File newPost = new File(POST_DIRECTORY+userID+"/"+file.getName());
 		newPost.createNewFile();
 	}
@@ -248,7 +248,7 @@ public class Post {
 	 * @return
 	 * @throws IOException
 	 */
-	private File createFile(File file, String userID) throws IOException {
+	private File createFile(File file, User userID) throws IOException {
 		String fileNameWithOutExt = file.getName().replaceFirst("[.][^.]+$", "");
 		File newPostFileTXT = new File(POST_DIRECTORY+userID+"/"+fileNameWithOutExt+".txt");
 
@@ -286,7 +286,7 @@ public class Post {
 	 * @param userID
 	 * @throws IOException
 	 */
-	private void createDirectories(String userID) throws IOException {
+	private void createDirectories(User userID) throws IOException {
 		Path path = Paths.get("./Data/posts/"+userID);
 		Files.createDirectory(path);
 	}

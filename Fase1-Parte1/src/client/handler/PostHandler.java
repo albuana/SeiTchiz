@@ -21,7 +21,7 @@ public class PostHandler {
 	 * @param n
 	 * @return
 	 */
-	public Object wall(int n) {
+	public Object wall(String n) {
 		Client.getInstance().send("wall",n);
 		return Client.getInstance().receive();
 	}

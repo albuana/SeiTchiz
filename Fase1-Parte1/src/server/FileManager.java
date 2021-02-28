@@ -287,5 +287,20 @@ public class FileManager {
   	    }
 		
 	}
+	
+	
+	public void deleteFile() {
+		File inFile = new File(fileName);
+		if (!inFile.delete()) {
+	    	System.out.println("Could not delete file");
+	    	return;
+	    }
+
+		
+	}
+
+	
+
+
 
 }
