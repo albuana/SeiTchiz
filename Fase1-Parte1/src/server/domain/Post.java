@@ -89,7 +89,6 @@ public class Post {
 
 	}
 
-
 	/**
 	 * return a list with n post 
 	 * @param n
@@ -101,10 +100,10 @@ public class Post {
 		int count = n*2;
 		StringBuilder ret = new StringBuilder();
 		ArrayList<String> followedUsers = getFollowed(username.getUsername());
-		
+
 		if(followedUsers == null)
-			return "O user nao tem seguidores";
-		
+			return "O user nao segue ninguem";
+
 
 		File dir = new File(POST_DIRECTORY);
 		File[] directoryListing = dir.listFiles();
@@ -123,7 +122,7 @@ public class Post {
 						ret.append(userPosts.getName());
 						count--;
 					}
-					
+
 					//To see the likes and id 
 					if(userPosts.getPath().substring(userPosts.getPath().lastIndexOf(".")).equals(".txt") && count != 0) {
 						String likes;
@@ -143,12 +142,14 @@ public class Post {
 			}
 		}
 
+		if(count == 2*n) 
+			return "Nao existem posts para mostrar";
+
 		if(count !=0)
-			ret.append("Nï¿½o existem mais posts para mostrar");
+			ret.append("Não existem mais posts para mostrar");
 
 		return ret.toString();
 	}
-
 
 	/**
 	 * Give like on a Post
@@ -158,49 +159,46 @@ public class Post {
 	 * @throws IOException 
 	 */
 	public String like(String postID, User username) throws IOException {
-		
+
 		File dir = new File(POST_DIRECTORY);
 		File[] directoryListing = dir.listFiles();
-		
+
 		try {
-		//Iterate through users post folders
-		for(File userFolder: directoryListing) {
+			//Iterate through users post folders
+			for(File userFolder: directoryListing) {
 
 
-			File dir2 = new File(POST_DIRECTORY+"/"+userFolder.getName());
-			File[] directoryListing2 = dir2.listFiles();
+				File dir2 = new File(POST_DIRECTORY+"/"+userFolder.getName());
+				File[] directoryListing2 = dir2.listFiles();
 
-			//Iterate through userPosts
-			for(File userPosts: directoryListing2) {
-				
-				//making changes only in txt files
-				if(userPosts.getPath().substring(userPosts.getPath().lastIndexOf(".")).equals(".txt")){
-					Scanner sc = new Scanner(userPosts);
-					
-					String idLine = sc.nextLine();
-					String id = idLine.substring(idLine.lastIndexOf(":")+1);
-					
-					if(id.equals(postID)) {
-						String likesLine = sc.nextLine().substring(idLine.lastIndexOf(":")+4);
-						int likes = Integer.parseInt(likesLine);
-						Files.write(userPosts.toPath(), (idLine+"\n"+"Likes:"+String.valueOf(likes+1)).getBytes());
+				//Iterate through userPosts
+				for(File userPosts: directoryListing2) {
+
+					//making changes only in txt files
+					if(userPosts.getPath().substring(userPosts.getPath().lastIndexOf(".")).equals(".txt")){
+						Scanner sc = new Scanner(userPosts);
+
+						String idLine = sc.nextLine();
+						String id = idLine.substring(idLine.lastIndexOf(":")+1);
+
+						if(id.equals(postID)) {
+							String likesLine = sc.nextLine().substring(idLine.lastIndexOf(":")+4);
+							int likes = Integer.parseInt(likesLine);
+							Files.write(userPosts.toPath(), (idLine+"\n"+"Likes:"+String.valueOf(likes+1)).getBytes());
+							sc.close();
+							return "Like dado com sucesso";
+						}
+
 						sc.close();
-						return "Like dado com sucesso";
 					}
-					
-					sc.close();
 				}
 			}
-		}
-		
+
 		}catch(NullPointerException e) {
 			return "O post nao existe";
 		}
 		return null;
 	}
-
-
-
 
 
 	/**
@@ -212,11 +210,11 @@ public class Post {
 	private ArrayList<String> getFollowed(String username) throws FileNotFoundException{
 		ArrayList<String> userList = new ArrayList<String>();
 
-		File userFile = new File("./Data/follows/"+username+".txt");
-		
-		if(!userFile.exists())
+		File userFile = new File("./Data/follows/"+username+"/following.txt");
+
+		if(!userFile.getAbsoluteFile().exists())
 			return null;
-			
+
 		Scanner sc = new Scanner(userFile);
 
 		//Search through the file
