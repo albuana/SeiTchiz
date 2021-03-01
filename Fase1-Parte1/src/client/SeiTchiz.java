@@ -89,9 +89,44 @@ public class SeiTchiz {
 					parameters = aux;
 				}
 
-
-
-				if(parameters[0].equals("wall")) {
+				if(parameters[0].equals("f")) {
+					System.out.println("\t ****** RESPONSE ******");
+					System.out.println(RequestHandler.follow(parameters[1]));
+				}else if(parameters[0].equals("u")) {
+					System.out.println("\t ****** RESPONSE ******");
+					System.out.println(RequestHandler.unfollow(parameters[1]));
+				}else if(parameters[0].equals("v")) {
+					System.out.println("\t ****** RESPONSE ******");
+					System.out.println(RequestHandler.viewfollowers());
+				}else if(parameters[0].equals("p")) {
+					System.out.println("\t ****** RESPONSE ******");
+					System.out.println(RequestHandler.post(parameters[1]));
+				}else if(parameters[0].equals("l")) {
+					System.out.println("\t ****** RESPONSE ******");
+					System.out.println(RequestHandler.like(parameters[1]));
+				}else if(parameters[0].equals("n")) {
+					System.out.println("\t ****** RESPONSE ******");
+					System.out.println(RequestHandler.newgroup(parameters[1]));
+				}else if(parameters[0].equals("a")) {
+					System.out.println("\t ****** RESPONSE ******");
+					System.out.println(RequestHandler.addu(parameters[1],parameters[2]));
+				}else if(parameters[0].equals("r")) {
+					System.out.println("\t ****** RESPONSE ******");
+					System.out.println(RequestHandler.removeu(parameters[1],parameters[2]));
+				}else if(parameters[0].equals("g")) {
+					System.out.println("\t ****** RESPONSE ******");
+					if(parameters.length == 1) System.out.println(RequestHandler.ginfo(parameters[1]));
+					else System.out.println(RequestHandler.ginfo());
+				}else if(parameters[0].equals("m")) {
+					System.out.println("\t ****** RESPONSE ******");
+					System.out.println(RequestHandler.msg(parameters[1],parameters[2]));
+				}else if(parameters[0].equals("c")) {
+					System.out.println("\t ****** RESPONSE ******");
+					System.out.println(RequestHandler.collect(parameters[1]));
+				}else if(parameters[0].equals("h")) {
+					System.out.println("\t ****** RESPONSE ******");
+					System.out.println(RequestHandler.history(parameters[1]));
+				}else if(parameters[0].equals("wall")) {
 					System.out.println("\t ****** RESPONSE ******");
 					System.out.println(RequestHandler.wall(parameters[1]));
 				}else {
