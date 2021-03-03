@@ -36,25 +36,20 @@ public class SeiTchiz {
 		Scanner sc = new Scanner(System.in);
 
 		if(args.length==0) {
-			System.out.print("Example: SeiTchiz <serverAddress> <clientID> [password] "); 
+			System.out.print("\nExample: SeiTchiz <IP>[:porto] <clientID> [password] \n"); 
 			sc.close();
 			return;
 		}
 		String serverAddress = args[0];
 		String clientID = args[1];
 		String password;
-		if(args.length==2) {
-			System.out.print("Parece que se esqueceu de introduzir a sua palavra-passe.\nIntroduza-a aqui: ");
-			password = sc.nextLine();
-		}
-		else {
-			password = args[2];
-		}
-		System.out.println("**********  Welcome to SeiTchiz  **********");
-
+		
+		System.out.println("\n**********  Server connection  **********\n");
+		
 		//CONEXAHO
 		try {
             Client.connect(serverAddress,clientID);
+            System.out.println("Sucessfully connection with server.");
         } catch(java.net.ConnectException e) {
 
             try {
@@ -65,9 +60,19 @@ public class SeiTchiz {
                 return;
             }
         }
-
+		
+		System.out.println("\n**********  Welcome to SeiTchiz  **********\n");
+		
+		if(args.length==2) {
+			System.out.print("Password's missing.\nPlease type here: ");
+			password = sc.nextLine();
+		}
+		else {
+			password = args[2];
+		}
+		
 		LoginUserHandler login = new LoginUserHandler(clientID, password);
-
+		
 		//LOGIN
 		Object r = login.login();
 		if(r instanceof String) {
@@ -77,16 +82,16 @@ public class SeiTchiz {
 			return;
 		}
 
+		//Se nao se conseguir fazer login com sucesso.
 		Object res=Client.getInstance().receive();
         if(!res.getClass().isInstance(true)) {
-            System.out.println("\t ** RESPONSE **");
-            System.out.println(res + "aaaa");
-//            showMenu();
+            System.out.println("\n\t ****** RESPONSE ******");
+            System.out.println(res + "\n");
             sc.close();
             Client.getInstance().close();
             return;
-        } 
-		
+        }
+
 		//MOSTRAR FUNCIONALIDADES
 		showMenu();
 
@@ -166,7 +171,7 @@ public class SeiTchiz {
 					Method m = RequestHandler.class.getMethod(function, c);
 					Object result = m.invoke(null , params);
 					System.out.println("\t ****** RESPONSE ******");
-					System.out.println(result);
+					System.out.println(result + "\n");
 				}
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -175,7 +180,7 @@ public class SeiTchiz {
 
 		}
 
-		System.out.print("Volte Sempre!");
+		System.out.print("Bye, see you soon!");
 		sc.close();
 		Client.getInstance().close();
 
@@ -186,7 +191,7 @@ public class SeiTchiz {
 	 * Prints a menu related to the handling of the program
 	 */
 	private static void showMenu() {
-		System.out.print("\nMenu de Aplicacão :\n"+
+		System.out.print("Application Menu :\n"+
 				"------------------> follow <userID>\n" + 
 				"------------------> unfollow <userID>\n" +
 				"------------------> viewfollowers\n" +

@@ -71,9 +71,9 @@ public final class RequestHandler {
 	 * @return
 	 * @throws IOException
 	 */
-	public static Object post(File object, User username) throws IOException {
-		return  new PostHandler(object, username).createPost();
-	}
+    public static Object post(byte[] data, String fileName, User username) throws IOException {
+        return  new PostHandler(data, fileName, username).createPost();
+    }
 
 
 	/**

@@ -39,7 +39,7 @@ public class ServerThread extends Thread{
 		this.outStream = new ObjectOutputStream(socket.getOutputStream());
 		this.inStream = new ObjectInputStream(socket.getInputStream());
 		server = Server.getInstance();
-		System.out.println("thread do server para cada cliente");
+		System.out.println("thread do server para cada cliente\n");
 	}
 
 	/**
@@ -81,20 +81,27 @@ public class ServerThread extends Thread{
 				//o que o cliente envia que o servidor vai receber:
 				boolean success = false;
 				if(flagNewUser.booleanValue()) {
-					//se a flag for true, ou seja se o utilizador ainda naho existe no sistema
-					success = loginUserHandler.register(userID,password);
-					System.out.println("Sou um utilizador novo");
-				}else {
-					//se a flag for false ou seja se o utilizador jah existe no sistema
-					success = loginUserHandler.login(userID,password);
-					System.out.println("Sou um utilizador que já existe");
-				}
+                    //se a flag for true, ou seja se o utilizador ainda naho existe no sistema
+                    success = loginUserHandler.register(userID,password);
+                    send(true);
+                    List<Object> lista = (ArrayList<Object>) inStream.readObject();
+                    String name=(String)lista.get(0);
+                    loginUserHandler.registerToFile(name);
+                    System.out.println("The client is new in sistem.\n");
+                }else {
+                    //se a flag for false ou seja se o utilizador jah existe no sistema
+                    success = loginUserHandler.login(userID,password);
+                    send(false);
+                    System.out.println("The client already belongs to the sistem.\n");
+                }
 
 				if(success) {
                     send(success);
                     currentUser = UserCatalog.getInstance().getUser(userID);
+                    System.out.println("Successfully login.\n");
                 }
                 else {
+                	System.out.println("The client not login.\n");
                     send((new UserCouldNotLoginException()).getMessage());
                 }
 
@@ -135,7 +142,10 @@ public class ServerThread extends Thread{
 				}catch(InvocationTargetException e) {
 					send(e.getCause().getMessage()); //mandar erro ao utilizador
 				}catch(SocketException | EOFException e) {
-					System.out.println("The client disconnected from server");
+					System.out.println("----------------------------------------\n");
+					System.out.println("The client disconnected from server.\n");
+					System.out.println("----------------------------------------\n");
+
 					break;
 				} 
 				//				catch (UserNotExistException e) {

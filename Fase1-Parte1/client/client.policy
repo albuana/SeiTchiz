@@ -6,8 +6,8 @@ grant {
 };
 */
 
-grant codeBase "file:/Users/albuana/eclipse-workspace/SC/client/bin/-"{
+grant codeBase "file:bin/-"{
 	permission java.util.PropertyPermission "*", "write";
 	permission java.net.SocketPermission "*:45678", "connect";
-	permission java.io.FilePermission "/Users/albuana/eclipse-workspace/SC/client/-", "read,write"; 	 
+	permission java.io.FilePermission "-", "read,write"; 	 
 };

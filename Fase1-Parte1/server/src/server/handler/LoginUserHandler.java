@@ -36,18 +36,15 @@ public class LoginUserHandler {
 
 		UserCatalog users = UserCatalog.getInstance();
 		if(users.getUser(userID) == null) {
-//			System.out.println(users.getUser(userID) == null);
 			flag = true;
 		}
-//		System.out.println("Se esta flag der false entao deve fazer login: " + flag);
 		return flag;
 	}
 
-	public boolean register(String userID2, String password) throws IOException {
+	public boolean register(String userID, String password) throws IOException {
 		UserCatalog users = UserCatalog.getInstance();
-		User newUser=new User(userID2, password);
-		if(users.getUser(userID2)==null) {
-			users.addUser(newUser);
+		User newUser=new User(userID, password);
+		if(users.getUser(userID)==null) {
 			return true;
 		}
 		return false;
@@ -58,14 +55,18 @@ public class LoginUserHandler {
 		UserCatalog users = UserCatalog.getInstance();
 		User loginUser=users.getUser(userID);
 		if(loginUser!=null) {
-//			System.out.println(loginUser.getPassword());
-//			System.out.println(password);
-
 			if(loginUser.getPassword().equals(password)) {
 				return true;
 			}
 		}
 		return false;
 	}
+	
+    public void registerToFile(String name) throws IOException {
+        UserCatalog users = UserCatalog.getInstance();
+        User newUser=new User(userID, passwordUser);
+        users.addUser(newUser, name);
+
+    }
 
 }

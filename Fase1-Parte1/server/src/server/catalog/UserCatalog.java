@@ -45,18 +45,17 @@ public class UserCatalog {
 		ArrayList<String> list=file.fileToList();
 		for(int i=0;i<list.size();i++) {
 			String[] userAndPass=list.get(i).split(":");
-			userList.put(userAndPass[0],new User(userAndPass[0],userAndPass[1]));
+			userList.put(userAndPass[1],new User(userAndPass[1],userAndPass[2]));
 		}
 	}
+
 	/**
 	 * 
 	 * @param username the user's username to search
 	 * @return the user that has an username equal to the given username. If there is any it returns null
 	 */
 	public User getUser(String username) {
-		synchronized(userList) {
-			return userList.get(username);
-		}
+		return userList.get(username);
 	}
 
 	/**
@@ -66,11 +65,11 @@ public class UserCatalog {
 	 * @throws ClassNotFoundException 
 	 * @throws IOException if an error occurs whilst writing in the user's database
 	 */
-	public void addUser(User user) throws IOException {
-		synchronized(userList) {
-			String str =user.getUsername()+ ":" + user.getPassword() + "\n";
-			file.writeFile(str);
-			userList.put(user.getUsername(), user);
-		}
+	public void addUser(User user, String name) throws IOException {
+		String str = name + ":" + user.getUsername() + ":" + user.getPassword() + "\n";
+        file.writeFile(str);
+        userList.put(user.getUsername(), user);
 	}
+	
+	
 }

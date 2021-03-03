@@ -11,7 +11,6 @@ import client.exceptions.UserCouldNotSendException;
  *
  */
 public class RequestHandler {
-	private static final String USERFILES_DIRECTORY = "./UserFiles/";
 	/**
 	 * Calls new group handler
 	 * @param groupID
@@ -32,12 +31,8 @@ public class RequestHandler {
 	}
 
 	public static Object post(String photo) throws UserCouldNotSendException{
-		File f = new File(USERFILES_DIRECTORY+photo);
-		if(!f.exists())
-			return "Foto nao encontrada";
-
-		return new PostHandler().createPost(f);
-	}
+        return new PostHandler().createPost(photo);
+    }
 
 	public static Object wall(String nPhoto) throws UserCouldNotSendException{
 		return new PostHandler().wall(nPhoto);

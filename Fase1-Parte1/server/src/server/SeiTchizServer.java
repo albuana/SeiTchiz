@@ -11,7 +11,7 @@ public class SeiTchizServer {
 	private static int port;
 
 	public static void main(String[] args) throws NumberFormatException, IOException{
-		System.out.println("servidor: main");
+		System.out.println("\nserver: main\n");
 
 		if(args.length == 0){
 			port = 45678;

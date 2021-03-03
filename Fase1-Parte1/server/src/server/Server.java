@@ -41,8 +41,6 @@ public class Server {
 	 */
 	private Server(int port) throws IOException {
 		this.port = port;
-//		System.setProperty("java.net.SocketPermission", "/Users/albuana/Desktop/SegC-grupo46proj1/SeiTchiz/server/server.policy");
-
 	}
 	
 	/**

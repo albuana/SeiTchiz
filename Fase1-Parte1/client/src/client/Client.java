@@ -1,10 +1,15 @@
 package client;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import client.exceptions.UserCouldNotSendException;
 
@@ -44,7 +49,7 @@ public final class Client {
 			portServer = 45678;
 		
 		socket = new Socket(ipServer, portServer);
-		System.out.println("Connected"); 
+//		System.out.println("\nThe client are connected with the server.\n"); 
 		out = new ObjectOutputStream(socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream());
 		this.userID =userID;
@@ -81,6 +86,23 @@ public final class Client {
 
 		}
 	}
+	
+	public void sendImage(File file) throws UserCouldNotSendException{
+        try {
+
+            String extensao = file.getName().substring(file.getName().lastIndexOf('.') + 1);
+            BufferedImage bImage = ImageIO.read(file);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ImageIO.write(bImage, extensao, bos );
+            byte [] data = bos.toByteArray();
+
+            send("post", data, file.getName());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+    }
 
 	/**
 	 * Receives objects as a response from the server

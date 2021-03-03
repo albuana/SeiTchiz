@@ -1,4 +1,8 @@
-ana:passana
-tiago:tpass
-a:passana
-goncalo:passgoncalo
+Tiago Cabrita:tiago:tpass
+Jota Martins:jota:passjota
+Joana Santos:joana:passjoana
+Joao Rato:joao:passjoao
+Miguel Antunes:miguel_antunes:passmiguel
+Mika:mika:passmika
+J:j:passj
+Fabio Jesus:fabio:passfabio
