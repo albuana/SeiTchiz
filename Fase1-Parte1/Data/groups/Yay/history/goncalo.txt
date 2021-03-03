@@ -1,7 +1,0 @@
-sender: goncalo Msg: mensagem1
-sender: goncalo Msg: mensagem2
-sender: goncalo Msg: mensagem3
-sender: goncalo Msg: mensagem4
-sender: goncalo Msg: mensagem5
-sender: goncalo Msg: mensagem6
-sender: goncalo Msg: mensagem6

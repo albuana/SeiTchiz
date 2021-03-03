@@ -1,5 +1,0 @@
-goncalo:mensagem7:goncalo
-goncalo:mensagem8:goncalo
-tiago:mensagem9:goncalo
-tiago:mensagem10:goncalo
-tiago:mensagem11:goncalo

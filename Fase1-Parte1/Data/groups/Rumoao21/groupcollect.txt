@@ -1,9 +1,0 @@
-goncalo:mensagem4
-goncalo:mensagem5
-goncalo:mensagem6
-goncalo:mensagem7
-goncalo:mensagem8
-goncalo:mensagem8
-goncalo:mensagem9
-goncalo:mensagem10
-ana:mensagem11

@@ -1,0 +1,16 @@
+/* AUTOMATICALLY GENERATED ON Sun Feb 28 15:44:08 WET 2021*/
+/* DO NOT EDIT */
+
+/*
+grant {
+   permission java.security.AllPermission;
+
+};
+*/
+
+grant codeBase "file:bin/-"{
+	permission java.util.PropertyPermission "*", "write, read";
+	permission java.io.FilePermission "-", "read,write,delete";
+	permission java.net.SocketPermission "*:*", "accept";
+	permission java.net.SocketPermission "localhost:45678-", "listen"; 
+};
