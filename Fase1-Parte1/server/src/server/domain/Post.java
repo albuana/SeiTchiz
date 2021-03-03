@@ -15,6 +15,8 @@ import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 import server.Server;
+import server.exceptions.post.HaveNoPhotosExeption;
+import server.exceptions.post.NoPostExeption;
 
 public class Post {
 
@@ -73,7 +75,7 @@ public class Post {
                 //Creates .txt file with info about the post
                 File postFile = createFile(fileNameWEx ,userID);
                 if(postFile.exists())
-                    return "O Post jï¿½ existe";
+                    return "The post already exist.";
 
                 postFile.createNewFile();
 
@@ -83,7 +85,7 @@ public class Post {
                 //Write on file the id and likes
                 writeFile(postFile);
 
-                return "Post criado";
+                return "Post sent.";
             }
         }
 
@@ -94,7 +96,7 @@ public class Post {
         //Creates .txt file with info about the post
         File postFile = createFile(fileNameWEx, userID);
         if(postFile.exists())
-            return "O Post jï¿½ existe";
+            return "The post already exist.";
 
         postFile.createNewFile();
 
@@ -104,7 +106,7 @@ public class Post {
         //Write on file the id and likes
         writeFile(postFile);
 
-        return "Post criado";
+        return "Post sent.";
 
     }
 
@@ -115,8 +117,9 @@ public class Post {
 	 * @param username
 	 * @return
 	 * @throws FileNotFoundException 
+	 * @throws HaveNoPhotosExeption 
 	 */
-	public String wall(int n, User username) throws FileNotFoundException {
+	public String wall(int n, User username) throws FileNotFoundException, HaveNoPhotosExeption {
 		int count = n*2;
 		StringBuilder ret = new StringBuilder();
 		ArrayList<String> followedUsers = getFollowed(username.getUsername());
@@ -152,8 +155,8 @@ public class Post {
 						id = sc.nextLine();
 						likes = sc.nextLine();
 
-						ret.append("\n\n"+id);
-						ret.append("\n\n"+likes+"\n\n\n\n");
+						ret.append("\n"+id);
+						ret.append("\n"+likes+"\n\n");
 
 						count--;
 						sc.close();
@@ -163,10 +166,10 @@ public class Post {
 		}
 
 		if(count == 2*n) 
-			return "Nao existem posts para mostrar";
+			throw new HaveNoPhotosExeption(); //se os utilizadores que sigo nao têm fotos no mural
 
 		if(count !=0)
-			ret.append("N�o existem mais posts para mostrar");
+			ret.append("That's all.");
 
 		return ret.toString();
 	}
@@ -177,8 +180,9 @@ public class Post {
 	 * @param username
 	 * @return
 	 * @throws IOException 
+	 * @throws NoPostExeption 
 	 */
-	public String like(String postID, User username) throws IOException {
+	public String like(String postID, User username) throws IOException, NoPostExeption {
 
 		File dir = new File(POST_DIRECTORY);
 		File[] directoryListing = dir.listFiles();
@@ -206,7 +210,7 @@ public class Post {
 							int likes = Integer.parseInt(likesLine);
 							Files.write(userPosts.toPath(), (idLine+"\n"+"Likes:"+String.valueOf(likes+1)).getBytes());
 							sc.close();
-							return "Like dado com sucesso";
+							return "Like done.";
 						}
 
 						sc.close();
@@ -215,7 +219,7 @@ public class Post {
 			}
 
 		}catch(NullPointerException e) {
-			return "O post nao existe";
+			throw new NoPostExeption(); //se nao existir nenhuma foto para meter like
 		}
 		return null;
 	}

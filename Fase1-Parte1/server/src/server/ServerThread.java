@@ -39,6 +39,7 @@ public class ServerThread extends Thread{
 		this.outStream = new ObjectOutputStream(socket.getOutputStream());
 		this.inStream = new ObjectInputStream(socket.getInputStream());
 		server = Server.getInstance();
+		System.out.println("\n----------------------------------------\n");
 		System.out.println("thread do server para cada cliente\n");
 	}
 
@@ -91,7 +92,7 @@ public class ServerThread extends Thread{
                 }else {
                     //se a flag for false ou seja se o utilizador jah existe no sistema
                     success = loginUserHandler.login(userID,password);
-                    send(false);
+//                    send(false);
                     System.out.println("The client already belongs to the sistem.\n");
                 }
 
@@ -123,7 +124,7 @@ public class ServerThread extends Thread{
 
 					Class<?>[] c = new Class[params.size()];
 
-					System.out.println(function);
+//					System.out.println(function);
 					for (int i = 0; i < c.length; i++) {
 						c[i] =  params.get(i).getClass();
 					}

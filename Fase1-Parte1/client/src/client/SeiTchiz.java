@@ -36,10 +36,12 @@ public class SeiTchiz {
 		Scanner sc = new Scanner(System.in);
 
 		if(args.length==0) {
-			System.out.print("\nExample: SeiTchiz <IP>[:porto] <clientID> [password] \n"); 
+			System.out.print("\nExample: SeiTchiz <IP>[:porto] <clientID> [password]"); 
 			sc.close();
+			System.out.println("\n");
 			return;
 		}
+		
 		String serverAddress = args[0];
 		String clientID = args[1];
 		String password;
@@ -66,6 +68,7 @@ public class SeiTchiz {
 		if(args.length==2) {
 			System.out.print("Password's missing.\nPlease type here: ");
 			password = sc.nextLine();
+			System.out.println("\n");
 		}
 		else {
 			password = args[2];
@@ -83,14 +86,14 @@ public class SeiTchiz {
 		}
 
 		//Se nao se conseguir fazer login com sucesso.
-		Object res=Client.getInstance().receive();
-        if(!res.getClass().isInstance(true)) {
-            System.out.println("\n\t ****** RESPONSE ******");
-            System.out.println(res + "\n");
+        if(!r.getClass().isInstance(true)) {
+            System.out.println("\n\t ** RESPONSE **");
+            System.out.println(r + "\n");
             sc.close();
             Client.getInstance().close();
             return;
         }
+
 
 		//MOSTRAR FUNCIONALIDADES
 		showMenu();
@@ -153,7 +156,7 @@ public class SeiTchiz {
 				}else if(parameters[0].equals("h")) {
 					System.out.println("\t ****** RESPONSE ******");
 					System.out.println(RequestHandler.history(parameters[1]));
-				}else if(parameters[0].equals("wall")) {
+				}else if(parameters[0].equals("w")) {
 					System.out.println("\t ****** RESPONSE ******");
 					System.out.println(RequestHandler.wall(parameters[1]));
 				}else {
@@ -161,13 +164,13 @@ public class SeiTchiz {
 					String[] params = new String[parameters.length - 1];		
 					Class<?>[] c = new Class[parameters.length - 1];
 
-					System.out.println(function);
+//					System.out.println(function);
 					for (int i = 0; i < c.length; i++) {
 						c[i] =  parameters[i + 1].getClass();
 						params[i] = parameters[i + 1];
 					}
 
-					System.out.println("Method: " + function);
+//					System.out.println("Method: " + function);
 					Method m = RequestHandler.class.getMethod(function, c);
 					Object result = m.invoke(null , params);
 					System.out.println("\t ****** RESPONSE ******");

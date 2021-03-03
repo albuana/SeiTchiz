@@ -37,7 +37,13 @@ public class LoginUserHandler {
 			System.out.println("\nSuccessfully registration.\n");
 			return true;
 		}
-		//        System.out.println("\nSuccessfully login.");
-		return Client.getInstance().receive();
+		Object res=Client.getInstance().receive();
+        if(res.getClass().isInstance(true)) {
+            boolean resBool=(boolean) res;
+            if(resBool) {
+                System.out.println("Login Succesfull \n");
+            }
+        }
+        return res;
 	}
 }

@@ -1,3 +1,0 @@
-ana:m1:ana
-ana:m2:ana
-ana:m3:ana

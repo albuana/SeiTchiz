@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 
 import server.domain.Post;
 import server.domain.User;
+import server.exceptions.post.HaveNoPhotosExeption;
 
 public class WallHandler {
 
@@ -16,7 +17,7 @@ public class WallHandler {
 		this.username = username;
 	}
 	
-	public Object wall() throws FileNotFoundException {
+	public Object wall() throws FileNotFoundException, HaveNoPhotosExeption {
 		return Post.getInstance().wall(nPhotos, username);
 	}
 

@@ -15,6 +15,7 @@ import server.exceptions.group.GroupException;
 import server.exceptions.group.GroupNotExistException;
 import server.exceptions.group.NothingToReadException;
 import server.exceptions.group.UserDoesNotBelongToGroupException;
+import server.exceptions.post.HaveNoPhotosExeption;
 import server.exceptions.group.GroupAlreadyExistException;
 /**
  * 
@@ -82,8 +83,9 @@ public final class RequestHandler {
 	 * @param username
 	 * @return
 	 * @throws FileNotFoundException 
+	 * @throws HaveNoPhotosExeption 
 	 */
-	public static Object wall(String nPhotos, User username) throws FileNotFoundException {
+	public static Object wall(String nPhotos, User username) throws FileNotFoundException, HaveNoPhotosExeption {
 		return  new WallHandler( nPhotos, username).wall(); 
 	}
 

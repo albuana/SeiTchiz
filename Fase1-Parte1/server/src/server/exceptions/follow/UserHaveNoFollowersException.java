@@ -4,7 +4,7 @@ public class UserHaveNoFollowersException extends Exception {
 	private static final long serialVersionUID = 1L;
 	
 	public UserHaveNoFollowersException() {
-		super("Sorry, you don't have followers.");
+		super("Sorry, you don't have followers.\n");
 	}
 
 }
