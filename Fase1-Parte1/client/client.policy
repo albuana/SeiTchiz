@@ -1,0 +1,13 @@
+
+/*
+grant {
+   permission java.security.AllPermission;
+
+};
+*/
+
+grant codeBase "file:/Users/albuana/eclipse-workspace/SC/client/bin/-"{
+	permission java.util.PropertyPermission "*", "write";
+	permission java.net.SocketPermission "*:45678", "connect";
+	permission java.io.FilePermission "/Users/albuana/eclipse-workspace/SC/client/-", "read,write"; 	 
+};
