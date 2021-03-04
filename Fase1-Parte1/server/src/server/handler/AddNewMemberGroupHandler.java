@@ -53,7 +53,7 @@ public class AddNewMemberGroupHandler {
 			throw new UserAlreadyInGroupException();
 		group.createHistory(newbie);
 		group.addMember(newbie);
-		return newbie + " was added to the group " + groupId + ".";
+		return newbie + " was added to the group " + groupId + ".\n";
 	}
 
 }

@@ -1,6 +1,6 @@
 package server.exceptions.group;
 
-public class NothingToReadException extends Exception {
+public class NothingToReadException extends GroupException {
 	private static final long serialVersionUID = 1L;
 	
 	/**

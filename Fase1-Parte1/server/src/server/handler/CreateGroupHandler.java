@@ -31,7 +31,7 @@ public class CreateGroupHandler {
 	 */
 	public String newgroup() throws GroupAlreadyExistException, IOException {
 		GroupCatalog.getInstance().addGroup(groupID, user.getUsername());
-		return "Grupo "+ groupID + " criado com sucesso.";	
+		return "Group "+ groupID + " was successfully created.\n";	
 	}
 	
 }

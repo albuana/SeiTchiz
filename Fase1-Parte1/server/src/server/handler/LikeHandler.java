@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import server.domain.Post;
 import server.domain.User;
+import server.exceptions.post.NoPostExeption;
 
 public class LikeHandler {
 	
@@ -16,7 +17,7 @@ public class LikeHandler {
 		this.username = username;
 	}
 
-	public Object like() throws IOException {
+	public Object like() throws IOException, NoPostExeption {
 		return Post.getInstance().like(postID, username);
 	}
 

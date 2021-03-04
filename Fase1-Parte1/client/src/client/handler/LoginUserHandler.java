@@ -34,6 +34,8 @@ public class LoginUserHandler {
 			System.out.print("Type your name: ");
 			String name=sc.nextLine();
 			Client.getInstance().send(name);
+			Client.getInstance().receive();
+			Client.getInstance().receive();
 			System.out.println("\nSuccessfully registration.\n");
 			return true;
 		}

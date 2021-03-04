@@ -7,7 +7,7 @@ public class GroupAlreadyExistException extends GroupException{
 	private static final long serialVersionUID = 1L;
 
 	public GroupAlreadyExistException() {
-		super("The group could not be created. This could be due to the fact that the you're probably using a groupID that already exists. ");
+		super("The group could not be created. This could be due to the fact that the you're probably using a groupID that already exists.");
 	}
 	
 

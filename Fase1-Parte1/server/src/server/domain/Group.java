@@ -16,7 +16,7 @@ public class Group {
 	private static final String GROUPS_DIRECTORY = Server.DATA_PATH+"groups/";
 	private static final String GROUP_INFO_FILE_NAME = "groupinfo.txt";
 	private static final String GROUP_COLLECT_FILE_NAME = "groupcollect.txt";
-	private static final String GROUP_HISTORY_FILE_NAME = "grouphistory.txt";
+//	private static final String GROUP_HISTORY_FILE_NAME = "grouphistory.txt";
 	private static final String GROUPS_HISTORY_DIRECTORY = "history/";
 
 
@@ -43,10 +43,10 @@ public class Group {
 		String path=GROUPS_DIRECTORY+groupID+"/";
 		groupInfoFM = new FileManager(path, GROUP_INFO_FILE_NAME);
 		groupCollectFM= new FileManager(path,GROUP_COLLECT_FILE_NAME);
-		groupHistoryFM= new FileManager(path,GROUP_HISTORY_FILE_NAME);
+//		groupHistoryFM= new FileManager(path,GROUP_HISTORY_FILE_NAME);
 		groupInfoFM.fileToList();
 		groupCollectFM.fileToList();
-		groupHistoryFM.fileToList();
+//		groupHistoryFM.fileToList();
 		
 	}
 

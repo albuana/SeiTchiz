@@ -13,7 +13,7 @@ import server.exceptions.group.UserDoesNotBelongToGroupException;
 public class MessageGroupHandler {
 
 	private Message message;
-	
+
 	private User sender;
 
 	public MessageGroupHandler(String groupId, String msg, User sender) throws GroupNotExistException {
@@ -28,14 +28,15 @@ public class MessageGroupHandler {
 	public String sendmsg() throws UserDoesNotBelongToGroupException, IOException, ClassNotFoundException{
 		if(!message.getGroup().hasMember(message.getSender()))
 			throw new UserDoesNotBelongToGroupException();
-		
+
 		FileManager fileManager = message.getGroup().getGroupCollectFileManager();
-		
-		fileManager.writeFile(message.getSender().getUsername()+":"+message.getContent()+":"+message.viewersToString()+"\n");
-		
+
+		if(!(message.getViewers().size()==1 && message.getViewers().get(0).getUsername().equals(message.getSender().getUsername()))) {
+			fileManager.writeFile(message.getSender().getUsername()+":"+message.getContent()+":"+message.viewersToString()+"\n");
+		}		
 		FileManager fileHistory = message.getGroup().getHistoryFile(sender);
-        fileHistory.writeFile("Sender: "+message.getSender().getUsername()+" Msg: "+message.getContent()+"\n");
-		
+		fileHistory.writeFile("Sender: "+message.getSender().getUsername()+" Msg: "+message.getContent()+"\n");
+
 		return "Message Sent";	
 	}
 }

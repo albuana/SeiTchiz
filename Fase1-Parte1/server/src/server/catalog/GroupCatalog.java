@@ -150,7 +150,7 @@ public class GroupCatalog {
 		StringBuilder retorno=new StringBuilder();
 
 		if(ehDono.length()==0) {
-			retorno.append("You're not the owner of any group.");
+			retorno.append("You're not the owner of any group.\n");
 		} else {
 			retorno.append(user + " it's the owner of: " + ehDono);
 		}
@@ -158,7 +158,7 @@ public class GroupCatalog {
 		if(pertence.length()==0) {
 			retorno.append("You're not member of any group.");
 		} else {
-			retorno.append("\n" + user + " it's member of: " + pertence);
+			retorno.append("\n" + user + " it's member of: " + pertence + "\n");
 		}
 
 		return retorno.toString();

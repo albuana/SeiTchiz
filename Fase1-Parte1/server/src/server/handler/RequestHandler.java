@@ -16,6 +16,8 @@ import server.exceptions.group.GroupNotExistException;
 import server.exceptions.group.NothingToReadException;
 import server.exceptions.group.UserDoesNotBelongToGroupException;
 import server.exceptions.post.HaveNoPhotosExeption;
+import server.exceptions.post.NoPostExeption;
+import server.exceptions.group.CantRemoveOwnerExeption;
 import server.exceptions.group.GroupAlreadyExistException;
 /**
  * 
@@ -95,8 +97,9 @@ public final class RequestHandler {
 	 * @param username
 	 * @return
 	 * @throws IOException
+	 * @throws NoPostExeption 
 	 */
-	public static Object like(String postID, User username) throws IOException {
+	public static Object like(String postID, User username) throws IOException, NoPostExeption {
 		return  new LikeHandler(postID, username).like();
 	}
 
@@ -142,10 +145,10 @@ public final class RequestHandler {
 	 * @throws IOException 
 	 * @throws UserNotExistException - if userID (oldUser) does not exist
 	 * @throws ClassNotFoundException 
+	 * @throws CantRemoveOwnerExeption 
 	 */
 
-	public static String removeu(String oldUser, String groupId, User owner) throws GroupException, 
-	IOException, UserNotExistException, ClassNotFoundException {
+	public static String removeu(String oldUser, String groupId, User owner) throws GroupException, IOException, UserNotExistException, ClassNotFoundException, CantRemoveOwnerExeption {
 		return new RemoveMemberGroupHandler(oldUser, groupId,  owner).removeMember();
 	}
 

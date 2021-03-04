@@ -39,7 +39,7 @@ public class GroupInfoHandler {
 		
 		if(group != null) {
 			sb.append("Owner: " + (group.getOwner() == null ? "Inexistente" : group.getOwner().getUsername()) + "\n");
-			sb.append("List of members: "+group.getUsers());
+			sb.append("List of members: "+group.getUsers() + "\n");
 		} else {
 			return GroupCatalog.getInstance().infoUser(user);
 		}

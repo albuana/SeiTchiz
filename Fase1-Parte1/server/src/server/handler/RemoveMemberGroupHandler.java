@@ -7,6 +7,7 @@ import server.catalog.UserCatalog;
 import server.domain.Group;
 import server.domain.User;
 import server.exceptions.UserNotExistException;
+import server.exceptions.group.CantRemoveOwnerExeption;
 import server.exceptions.group.GroupException;
 import server.exceptions.group.GroupNotExistException;
 import server.exceptions.group.UserNotOwnerException;
@@ -27,7 +28,7 @@ public class RemoveMemberGroupHandler {
 		this.newUser = newUser;
 	}
 	
-	public String removeMember() throws GroupException,IOException, UserNotExistException, ClassNotFoundException {
+	public String removeMember() throws GroupException,IOException, UserNotExistException, ClassNotFoundException, CantRemoveOwnerExeption {
 		Group group = GroupCatalog.getInstance().getGroup(groupId);
 		if(group == null) 
 			throw new GroupNotExistException(); 
@@ -36,6 +37,8 @@ public class RemoveMemberGroupHandler {
 		User newbie = UserCatalog.getInstance().getUser(newUser);
 		if(newbie == null)
 			throw new UserNotExistException();
+		if(newbie == owner)
+			throw new CantRemoveOwnerExeption();
 		group.removeMember(newbie);
 		return newUser + " was removed of the " + groupId + ".";
 	}
