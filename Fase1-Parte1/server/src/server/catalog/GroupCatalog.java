@@ -3,8 +3,6 @@ package server.catalog;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import server.FileManager;
 import server.Server;
@@ -13,14 +11,20 @@ import server.domain.User;
 import server.exceptions.group.UserAlreadyInGroupException;
 import server.exceptions.group.GroupAlreadyExistException;
 
+/**
+ * Catalog knows all the information related to the groups
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
+ */
 public class GroupCatalog {
+	
 	private static GroupCatalog INSTANCE = new GroupCatalog();
 	private static ArrayList<Group> groupsList;
+	
 	private static final String GROUPS_DIRECTORY = Server.DATA_PATH+"groups/";
 	private static final String GROUP_INFO_FILE_NAME = "groupinfo.txt";
 	private static final String GROUP_COLLECT_FILE_NAME = "groupcollect.txt";
+	
 	/**
-	 * 
 	 * @return GroupCatalog singleton instance
 	 */
 	public static GroupCatalog getInstance() {
@@ -42,6 +46,11 @@ public class GroupCatalog {
 
 	}
 
+	/**
+	 * Initialize the groups folder, if have no folder create one
+	 * @throws UserAlreadyInGroupException
+	 * @throws IOException
+	 */
 	private void initializeGroupCatalog() throws UserAlreadyInGroupException, IOException{
 		String [] groupFolders = new File(GROUPS_DIRECTORY).list();
 		if(groupFolders!=null) {
@@ -49,15 +58,20 @@ public class GroupCatalog {
 				groupsList.add(initializeGroup(g));
 			}
 		}
-
-
 	}
 
-	private Group initializeGroup(String g) throws IOException, UserAlreadyInGroupException{
-		FileManager groupInfo=new FileManager(GROUPS_DIRECTORY+g,GROUP_INFO_FILE_NAME);
+	/**
+	 * Initiatlize the members of groups 
+	 * @param gFolderName
+	 * @return 
+	 * @throws IOException
+	 * @throws UserAlreadyInGroupException
+	 */
+	private Group initializeGroup(String gFolderName) throws IOException, UserAlreadyInGroupException{
+		FileManager groupInfo=new FileManager(GROUPS_DIRECTORY+gFolderName,GROUP_INFO_FILE_NAME);
 		ArrayList<String> members=groupInfo.fileToList();
 		UserCatalog users = UserCatalog.getInstance();
-		Group group=new Group(g, users.getUser(members.get(0)));
+		Group group=new Group(gFolderName, users.getUser(members.get(0)));
 		for(int i=1;i<members.size();i++) {
 			group.getUsers().add(users.getUser(members.get(i)));
 		}
@@ -77,15 +91,16 @@ public class GroupCatalog {
 		String [] groupFolders = new File(GROUPS_DIRECTORY).list();
 		Group grupo=new Group(groupID, UserCatalog.getInstance().getUser(owner));
 		User user = UserCatalog.getInstance().getUser(owner);
-		if(groupFolders==null) {
-			createGroupFiles(groupID, user);
-			grupo.createHistory(user);
+		
+		if(groupFolders==null) { //if the group that user want to create don't exist
+			createGroupFiles(groupID, user); //create the folder with the given group name
+			grupo.createHistory(user); //and create the history file of the user
 			groupsList.add(grupo);
-			
 			return true;
 		}
-		for (String g:groupFolders)
-			if(g.equals(groupID)) 
+		
+		for (String g:groupFolders) //search in all folders
+			if(g.equals(groupID)) //if the group that user want to create already exist
 				throw new GroupAlreadyExistException();
 
 		try {
@@ -98,16 +113,22 @@ public class GroupCatalog {
 		return true;
 	}
 
+	/**
+	 * Create the group files (group info and collect)
+	 * @param groupID
+	 * @param user
+	 * @throws IOException
+	 */
 	private void createGroupFiles(String groupID, User user) throws IOException {
 		String path=GROUPS_DIRECTORY+groupID;
 		FileManager groupInfo=new FileManager(path,GROUP_INFO_FILE_NAME);
 		new FileManager(path,GROUP_COLLECT_FILE_NAME);
-		groupInfo.writeFile(user.getUsername()+"\n"); //Primeiro nome da lista eh o dono
+		groupInfo.writeFile(user.getUsername()+"\n"); //Primeiro nome a ser escrito no ficheiro eh o do dono
 	}
 
 	/**
-	 * Returns group by their Id
-	 * @param groupID group Id to find
+	 * Returns group by their ID
+	 * @param groupID group ID to find
 	 * @return group
 	 */
 	public Group getGroup(String groupID) {
@@ -119,22 +140,6 @@ public class GroupCatalog {
 		return null;	
 	}
 
-	/**
-	 * 
-	 * @return List with all the group currently in the catalog
-	 */
-	public List<Group> getAllGroups() {
-		return groupsList;
-	}
-
-	/**
-	 * 
-	 * @param user user to which we need to find the groups
-	 * @return List of groups that a certain user belongs to
-	 */
-	public List<Group> getUserGroups(User user){
-		return groupsList.stream().filter(g -> g.hasMember(user)).collect(Collectors.toList());
-	}
 
 	public String infoUser(User user) {
 		StringBuilder pertence=new StringBuilder();

@@ -3,6 +3,10 @@ package client.handler;
 import client.Client;
 import client.exceptions.UserCouldNotSendException;
 
+/**
+ * Handles add user operations
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
+ */
 public class AddMemberGroupHandler {
 	private String groupID;
 	private String newUser;

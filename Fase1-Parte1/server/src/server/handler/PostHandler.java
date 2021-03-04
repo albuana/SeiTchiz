@@ -6,6 +6,11 @@ import server.FileManager;
 import server.domain.Post;
 import server.domain.User;
 
+/**
+ * Handles creating a photo
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
+ *
+ */
 public class PostHandler {
 
     private byte[] file;
@@ -13,7 +18,7 @@ public class PostHandler {
     private String fileName;
 
     /*
-     * Construtor
+     * Constructor
      */
     public PostHandler(byte[] data, String fileName ,User userID) {
         this.file = data;

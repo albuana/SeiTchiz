@@ -4,9 +4,8 @@ import client.Client;
 import client.exceptions.UserCouldNotSendException;
 
 /**
- * 
  * Handles the Create New Group operation
- *
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
  */
 public class CreateNewGroupHandler {
 

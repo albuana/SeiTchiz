@@ -3,6 +3,10 @@ package client.handler;
 import client.Client;
 import client.exceptions.UserCouldNotSendException;
 
+/**
+ * Handles the See the history operation
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
+ */
 public class HistoryMessageHandler {
 	private String groupID;
 

@@ -10,6 +10,10 @@ import server.domain.User;
 import server.exceptions.group.GroupNotExistException;
 import server.exceptions.group.UserDoesNotBelongToGroupException;
 
+/**
+ * Handles the history information
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
+ */
 public class HistoryHandler {
 	private Group group;
 	private User user;

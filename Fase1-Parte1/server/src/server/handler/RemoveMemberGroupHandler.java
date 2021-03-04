@@ -12,10 +12,15 @@ import server.exceptions.group.GroupException;
 import server.exceptions.group.GroupNotExistException;
 import server.exceptions.group.UserNotOwnerException;
 
+/**
+ * Handles the remove an user in a group
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
+ */
 public class RemoveMemberGroupHandler {
 	private String groupId;
 	private User owner;
 	private String newUser;
+	
 	/**
 	 * RemoveMemberGroupHandler constructor
 	 * @param groupId id of the group
@@ -28,6 +33,14 @@ public class RemoveMemberGroupHandler {
 		this.newUser = newUser;
 	}
 	
+	/**
+	 * @return true if the action was successfully performed
+	 * @throws GroupException
+	 * @throws IOException
+	 * @throws UserNotExistException
+	 * @throws ClassNotFoundException
+	 * @throws CantRemoveOwnerExeption
+	 */
 	public String removeMember() throws GroupException,IOException, UserNotExistException, ClassNotFoundException, CantRemoveOwnerExeption {
 		Group group = GroupCatalog.getInstance().getGroup(groupId);
 		if(group == null) 

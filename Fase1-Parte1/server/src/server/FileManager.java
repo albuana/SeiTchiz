@@ -44,6 +44,7 @@ public class FileManager {
 		}
 		
 	}
+	
 	/**
 	 * 
 	 */
@@ -69,12 +70,6 @@ public class FileManager {
 	public void writeFile(String str) throws IOException {
 	    Files.write(Paths.get(fileName), str.getBytes(), StandardOpenOption.APPEND);
 	}
-	
-//	public void writeList(List<String> currentuser) throws IOException {
-//		for(String s:currentuser )
-//		
-//	}
-	
 	
 	/**
 	 * 
@@ -294,12 +289,5 @@ public class FileManager {
 	    	System.out.println("Could not delete file");
 	    	return;
 	    }
-
-		
 	}
-
-	
-
-
-
 }

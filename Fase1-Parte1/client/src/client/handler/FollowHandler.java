@@ -3,6 +3,11 @@ package client.handler;
 import client.Client;
 import client.exceptions.UserCouldNotSendException;
 
+
+/**
+ * Handles the Follow, unfollow and viewfollowers of an user operation
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
+ */
 public class FollowHandler {
 	
 	/**

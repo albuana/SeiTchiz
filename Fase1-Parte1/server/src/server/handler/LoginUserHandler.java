@@ -9,15 +9,13 @@ import server.exceptions.UserCouldNotLoginException;
 
 
 /**
- * 
  * Handles login or registration of user
- *
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
  */
 public class LoginUserHandler {
 
 	private String userID;
 
-	//DEVE RECEBER PASSWORD?
 	private String passwordUser;
 
 	public LoginUserHandler(String userID, String passwordUser) throws FileNotFoundException{
@@ -27,7 +25,6 @@ public class LoginUserHandler {
 	}
 
 	/**
-	 * 
 	 * @return flag for if the is already registered
 	 * @throws IOException 
 	 */
@@ -41,6 +38,12 @@ public class LoginUserHandler {
 		return flag;
 	}
 
+	/**
+	 * @param userID
+	 * @param password
+	 * @return
+	 * @throws IOException
+	 */
 	public boolean register(String userID, String password) throws IOException {
 		UserCatalog users = UserCatalog.getInstance();
 		User newUser=new User(userID, password);
@@ -50,7 +53,14 @@ public class LoginUserHandler {
 		return false;
 	}
 
-
+	/**
+	 * 
+	 * @param userID
+	 * @param password
+	 * @return
+	 * @throws IOException
+	 * @throws UserCouldNotLoginException
+	 */
 	public boolean login(String userID, String password) throws IOException, UserCouldNotLoginException {
 		UserCatalog users = UserCatalog.getInstance();
 		User loginUser=users.getUser(userID);
@@ -61,12 +71,15 @@ public class LoginUserHandler {
 		}
 		return false;
 	}
-	
-    public void registerToFile(String name) throws IOException {
-        UserCatalog users = UserCatalog.getInstance();
-        User newUser=new User(userID, passwordUser);
-        users.addUser(newUser, name);
 
-    }
-
+	/**
+	 * 
+	 * @param name
+	 * @throws IOException
+	 */
+	public void registerToFile(String name) throws IOException {
+		UserCatalog users = UserCatalog.getInstance();
+		User newUser=new User(userID, passwordUser);
+		users.addUser(newUser, name);
+	}
 }

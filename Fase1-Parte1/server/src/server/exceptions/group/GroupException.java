@@ -2,6 +2,7 @@ package server.exceptions.group;
 
 /**
  * Exception related to group functionality
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
  */
 public class GroupException extends Exception{
 

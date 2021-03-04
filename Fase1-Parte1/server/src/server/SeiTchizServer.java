@@ -5,13 +5,15 @@ import java.io.IOException;
 /**
  * 
  * Class that initiates the server from the parameters it receives 
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
+ *
  */
 public class SeiTchizServer {
 	
 	private static int port;
 
 	public static void main(String[] args) throws NumberFormatException, IOException{
-		System.out.println("\nserver: main\n");
+		System.out.println("\nserver: main");
 
 		if(args.length == 0){
 			port = 45678;

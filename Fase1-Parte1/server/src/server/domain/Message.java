@@ -2,6 +2,10 @@ package server.domain;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
+ */
 public class Message {
 	
 	private User sender;
@@ -22,7 +26,6 @@ public class Message {
 	}
 	
 	/**
-	 * 
 	 * @return content of the message
 	 */
 	public final String getContent() {
@@ -30,7 +33,6 @@ public class Message {
 	}
 
 	/**
-	 * 
 	 * @return the sender
 	 */
 	public final User getSender() {
@@ -38,13 +40,16 @@ public class Message {
 	}
 	
 	/**
-	 * 
 	 * @return the group 
 	 */
 	public final Group getGroup() {
 		return group;
 	}
 	
+	/**
+	 * Gets the users that view the message
+	 * @return
+	 */
 	public final ArrayList<User> getViewers() {
 		return viewers;
 	}
@@ -61,6 +66,4 @@ public class Message {
         }
         return retorno.toString();
     }
-
-	
 }

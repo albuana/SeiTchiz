@@ -5,6 +5,10 @@ import java.util.Scanner;
 import client.Client;
 import client.exceptions.UserCouldNotSendException;
 
+/**
+ * Handles user login with server
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
+ */
 public class LoginUserHandler {
 
 	private String userID;
@@ -13,7 +17,7 @@ public class LoginUserHandler {
 	/**
 	 * 
 	 * @param userID the user's username
-	 * @param password the user's password
+	 * @param pass the user's password
 	 */
 	public LoginUserHandler(String userID, String pass) {
 		this.userID = userID;

@@ -1,6 +1,9 @@
 package server.exceptions.follow;
 
-public class UserAlreadyBeingFollowedException extends Exception {
+/**
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
+ */
+public class UserAlreadyBeingFollowedException extends FollowException {
 	private static final long serialVersionUID = 1L;
 	
 	public UserAlreadyBeingFollowedException() {

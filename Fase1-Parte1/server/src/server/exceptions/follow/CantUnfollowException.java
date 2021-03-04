@@ -1,6 +1,11 @@
 package server.exceptions.follow;
 
-public class CantUnfollowException extends Exception {
+/**
+ * Exception when the user cant unfollow a user that dont follow beffore
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
+ *
+ */
+public class CantUnfollowException extends FollowException {
 	private static final long serialVersionUID = 1L;
 	
 	public CantUnfollowException() {

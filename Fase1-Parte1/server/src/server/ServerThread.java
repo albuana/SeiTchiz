@@ -17,25 +17,24 @@ import server.catalog.UserCatalog;
 import server.domain.User;
 import server.exceptions.NotWellFormedException;
 import server.exceptions.UserCouldNotLoginException;
-import server.exceptions.UserNotExistException;
 
 /**
  * Creates new thread for every client and executes functions and sends of objects from server
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
  */
-public class ServerThread extends Thread{
+public class ServerThread extends Thread {
 	private Socket socket = null;
 	private ObjectOutputStream outStream; 
 	private ObjectInputStream inStream; 
 	private User currentUser;
-	private Server server;
+	private Server server; //dummy
 
 	/**
-	 * 
-	 * @param inSoc the client's socket
+	 * @param inSocket the client's socket
 	 * @throws IOException
 	 */
-	public ServerThread(Socket inSoc) throws IOException {
-		this.socket = inSoc;
+	public ServerThread(Socket inSocket) throws IOException {
+		this.socket = inSocket;
 		this.outStream = new ObjectOutputStream(socket.getOutputStream());
 		this.inStream = new ObjectInputStream(socket.getInputStream());
 		server = Server.getInstance();
@@ -44,14 +43,12 @@ public class ServerThread extends Thread{
 	}
 
 	/**
-	 * 
-	 * @param obj the object to send
-	 * @return true if obj was successfully sent
-	 * @since 1.0
+	 * @param object the object to send
+	 * @return true if object was successfully sent
 	 */
-	public boolean send(Object obj) {
+	public boolean send(Object object) {
 		try {
-			outStream.writeObject(obj);
+			outStream.writeObject(object);
 			outStream.flush();
 			return true;
 		} catch (IOException e) {
@@ -67,7 +64,6 @@ public class ServerThread extends Thread{
 	public void run(){
 
 		try {
-
 			List<Object> list = (ArrayList<Object>) inStream.readObject();
 			if(((String)list.get(0)).equals("login")) {
 				String userID = (String) list.get(1);
@@ -75,34 +71,36 @@ public class ServerThread extends Thread{
 
 				LoginUserHandler loginUserHandler = new LoginUserHandler(userID, password);
 
-				//a flag que diz se o utilizador eh novo ou nao
+				//flag that tell us if the user is new or not
 				Boolean flagNewUser = loginUserHandler.loginGetFlag();
 				send(flagNewUser);
 
-				//o que o cliente envia que o servidor vai receber:
+				//what client sends, the server will recieve:
 				boolean success = false;
 				if(flagNewUser.booleanValue()) {
-                    //se a flag for true, ou seja se o utilizador ainda naho existe no sistema
+					
+					//if flag is true, that means tha user dont exists in system
                     success = loginUserHandler.register(userID,password);
                     send(true);
                     List<Object> lista = (ArrayList<Object>) inStream.readObject();
                     String name=(String)lista.get(0);
                     loginUserHandler.registerToFile(name);
                     System.out.println("The client is new in sistem.\n");
+                    
                 }else {
-                    //se a flag for false ou seja se o utilizador jah existe no sistema
+                	
+                	//if flag is false, that means tha user already exists in system
                     success = loginUserHandler.login(userID,password);
-//                    send(false);
+                    //send(false);
                     System.out.println("The client already belongs to the sistem.\n");
                 }
 
+				//if login was made with success
 				if(success) {
                     send(success);
                     currentUser = UserCatalog.getInstance().getUser(userID);
-                    System.out.println("Successfully login.\n");
                 }
                 else {
-                	System.out.println("The client not login.\n");
                     send((new UserCouldNotLoginException()).getMessage());
                 }
 
@@ -119,12 +117,10 @@ public class ServerThread extends Thread{
 					function = (String) objs.get(0);
 					params = objs.subList(1, objs.size());
 
-					//if(currentUser != null)
 					params.add(currentUser);
 
 					Class<?>[] c = new Class[params.size()];
 
-//					System.out.println(function);
 					for (int i = 0; i < c.length; i++) {
 						c[i] =  params.get(i).getClass();
 					}
@@ -134,25 +130,20 @@ public class ServerThread extends Thread{
 					Object result = m.invoke(null , params.toArray());					
 					System.out.println(result);
 					send(result);
-					//					}
+
 				}catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException e) {
 					e.printStackTrace();
 					break;
 				}catch(NoSuchMethodException e) {
-					send((new NotWellFormedException()).getMessage()); //mandar erro ao utilizador
+					send((new NotWellFormedException()).getMessage()); //send error to the user
 				}catch(InvocationTargetException e) {
-					send(e.getCause().getMessage()); //mandar erro ao utilizador
+					send(e.getCause().getMessage()); //send error to the user
 				}catch(SocketException | EOFException e) {
 					System.out.println("----------------------------------------\n");
 					System.out.println("The client disconnected from server.\n");
 					System.out.println("----------------------------------------\n");
-
 					break;
 				} 
-				//				catch (UserNotExistException e) {
-				//					// TODO Auto-generated catch block
-				//					e.printStackTrace();
-				//				} 
 			}
 			outStream.close();
 			inStream.close();
@@ -166,9 +157,3 @@ public class ServerThread extends Thread{
 		}
 	}
 }
-
-
-
-
-
-

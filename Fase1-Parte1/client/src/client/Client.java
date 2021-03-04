@@ -13,6 +13,10 @@ import javax.imageio.ImageIO;
 
 import client.exceptions.UserCouldNotSendException;
 
+/**
+ * Handles Client-Server connectivity as well as transmitting and receiving of information
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
+ */
 public final class Client {
 
 	private Socket socket = null;
@@ -145,5 +149,4 @@ public final class Client {
 	public boolean hasPassword(String password) {
 		return this.password.equals(password);
 	}
-
 }

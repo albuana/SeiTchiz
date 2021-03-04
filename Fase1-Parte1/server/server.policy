@@ -1,12 +1,4 @@
-/* AUTOMATICALLY GENERATED ON Sun Feb 28 15:44:08 WET 2021*/
-/* DO NOT EDIT */
-
-/*
-grant {
-   permission java.security.AllPermission;
-
-};
-*/
+/* authors: Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741*/
 
 grant codeBase "file:bin/-"{
 	permission java.util.PropertyPermission "*", "write, read";

@@ -1,7 +1,7 @@
 package server.exceptions.group;
 
 /**
- * Exception for when creating a group  occurs an error probably related to group is already in use
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
  */
 public class GroupAlreadyExistException extends GroupException{
 	private static final long serialVersionUID = 1L;

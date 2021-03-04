@@ -9,6 +9,7 @@ import server.catalog.GroupCatalog;
 
 /**
  * Handles creation of new group 
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
  */
 public class CreateGroupHandler {
 	private String groupID;

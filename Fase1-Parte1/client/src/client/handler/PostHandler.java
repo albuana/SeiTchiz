@@ -5,6 +5,10 @@ import java.io.File;
 import client.Client;
 import client.exceptions.UserCouldNotSendException;
 
+/**
+ * Handles post, like photo and wall operation
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
+ */
 public class PostHandler {
 	
 	private static final String USERFILES_DIRECTORY = "./UserFiles/";

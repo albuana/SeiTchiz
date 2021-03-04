@@ -10,21 +10,37 @@ import server.domain.User;
 import server.exceptions.group.GroupNotExistException;
 import server.exceptions.group.UserDoesNotBelongToGroupException;
 
+/**
+ * Handles sending a new text message to the group
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
+ */
 public class MessageGroupHandler {
 
 	private Message message;
 
 	private User sender;
 
-	public MessageGroupHandler(String groupId, String msg, User sender) throws GroupNotExistException {
-		Group group = GroupCatalog.getInstance().getGroup(groupId);
+	/**
+	 * Constructor
+	 * @param groupID
+	 * @param msg
+	 * @param sender
+	 * @throws GroupNotExistException
+	 */
+	public MessageGroupHandler(String groupID, String msg, User sender) throws GroupNotExistException {
+		Group group = GroupCatalog.getInstance().getGroup(groupID);
 		if(group == null)
 			throw new GroupNotExistException();
 		message = new Message(sender,msg,group); 
 		this.sender=sender;
 	}
 
-
+	/**
+	 * @return
+	 * @throws UserDoesNotBelongToGroupException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	public String sendmsg() throws UserDoesNotBelongToGroupException, IOException, ClassNotFoundException{
 		if(!message.getGroup().hasMember(message.getSender()))
 			throw new UserDoesNotBelongToGroupException();

@@ -1,10 +1,8 @@
 package server.handler;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import server.catalog.UserCatalog;
 import server.domain.User;
 import server.exceptions.UserNotExistException;
 import server.exceptions.follow.CantUnfollowException;
@@ -19,15 +17,16 @@ import server.exceptions.post.HaveNoPhotosExeption;
 import server.exceptions.post.NoPostExeption;
 import server.exceptions.group.CantRemoveOwnerExeption;
 import server.exceptions.group.GroupAlreadyExistException;
+
 /**
  * 
  * Handles every request from server, calls right handler for every request
- *
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
  */
 public final class RequestHandler {
 
 	/**
-	 * Follow Handler
+	 * Follows an user
 	 * @param userID
 	 * @param currentUserID
 	 * @return
@@ -42,7 +41,7 @@ public final class RequestHandler {
 	}
 
 	/**
-	 * unFollow Handler
+	 * Unfollow an user
 	 * @param userID
 	 * @param currentUserID
 	 * @return
@@ -57,7 +56,7 @@ public final class RequestHandler {
 	}
 
 	/**
-	 * returns string with list of follows
+	 * View the followers of an user
 	 * @param userID
 	 * @return
 	 * @throws IOException
@@ -68,7 +67,7 @@ public final class RequestHandler {
 	}
 
 	/**
-	 * Create post
+	 * Create the post of a photo
 	 * @param object
 	 * @param username
 	 * @return
@@ -80,7 +79,7 @@ public final class RequestHandler {
 
 
 	/**
-	 * Returns n posts
+	 * Wall the n recent photos
 	 * @param object
 	 * @param username
 	 * @return
@@ -92,7 +91,7 @@ public final class RequestHandler {
 	}
 
 	/**
-	 * Gives like on a Post
+	 * Like a post
 	 * @param postID
 	 * @param username
 	 * @return
@@ -134,9 +133,8 @@ public final class RequestHandler {
 		return new AddNewMemberGroupHandler(newUser,groupId,owner).addMember();
 	}
 
-
 	/**
-	 * Remove user from group 
+	 * Removes an user from the group 
 	 * @param oldUser - user to remove
 	 * @param groupId
 	 * @param owner  of group
@@ -147,7 +145,6 @@ public final class RequestHandler {
 	 * @throws ClassNotFoundException 
 	 * @throws CantRemoveOwnerExeption 
 	 */
-
 	public static String removeu(String oldUser, String groupId, User owner) throws GroupException, IOException, UserNotExistException, ClassNotFoundException, CantRemoveOwnerExeption {
 		return new RemoveMemberGroupHandler(oldUser, groupId,  owner).removeMember();
 	}
@@ -170,11 +167,11 @@ public final class RequestHandler {
 		return new GroupInfoHandler(currentUser).getInfo();
 	}
 
-
 	/**
-	 * Shows every not seen yet message
+	 * Sends a message to a group
 	 * @param groupId
-	 * @param user
+	 * @param content
+	 * @param sender
 	 * @return true if message is sent && false if message is not sent
 	 * @throws GroupNotExistException - if something went wrong with the group
 	 * @throws UserDoesNotBelongToGroupException - if user doesn't belong to group
@@ -202,8 +199,6 @@ public final class RequestHandler {
 		return new CollectMessagesHandler(groupID,user).collect();
 	}
 
-
-
 	/**
 	 * Shows every message that is already archived
 	 * @param groupId
@@ -220,9 +215,4 @@ public final class RequestHandler {
 	public static String history(String groupId, User user) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException {
 		return new HistoryHandler(groupId, user).getHistory();
 	}
-
-
-
-
-
 }

@@ -2,6 +2,7 @@ package client.exceptions;
 
 /**
  * Exception for when there's a problem related with a server connection
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
  */
 public class UserCouldNotSendException extends Exception {
 	private static final long serialVersionUID = 1L;

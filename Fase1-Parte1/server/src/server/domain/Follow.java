@@ -9,8 +9,13 @@ import server.exceptions.follow.CantUnfollowException;
 import server.exceptions.follow.UserAlreadyBeingFollowedException;
 import server.exceptions.follow.UserHaveNoFollowersException;
 
+/**
+ * 
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
+ */
 public class Follow {
 
+	@SuppressWarnings("unused")
 	private User userToFollow;
 
 	private static Follow INSTANCE;
@@ -36,7 +41,7 @@ public class Follow {
 	 * Follow an user
 	 * @param userToFollow
 	 * @param currentUserID
-	 * @return
+	 * @return the user that has been followed
 	 * @throws IOException
 	 * @throws UserAlreadyBeingFollowedException 
 	 */
@@ -58,11 +63,13 @@ public class Follow {
 		return userToFollow.getUsername()+" foi seguido/a.";
 
 	}
+	
+	
 	/**
-	 * unfollow an user
+	 * Unfollow an user
 	 * @param userID
 	 * @param currentUserID
-	 * @return
+	 * @return the user that has been unfollowed
 	 * @throws IOException
 	 * @throws CantUnfollowException 
 	 * @throws UserHaveNoFollowersException 
@@ -89,7 +96,7 @@ public class Follow {
 
 
 	/**
-	 * return a string of followed users
+	 * Return a string of followed users
 	 * @return
 	 * @throws UserHaveNoFollowersException 
 	 * @throws IOException 
@@ -115,7 +122,4 @@ public class Follow {
 
 		return ret.toString();
 	}
-
-
-
 }

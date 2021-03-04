@@ -1,8 +1,7 @@
 package server.exceptions.group;
 
 /**
- * REVISTA
- * Exception for when a owner tries to add a user that is already part of the group
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
  */
 public class UserAlreadyInGroupException extends GroupException{
 	private static final long serialVersionUID = 1L;

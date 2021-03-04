@@ -14,6 +14,7 @@ import client.handler.RequestHandler;
 
 /**
  *Client main , receives command line parameters and starts the client as well as handling the function parameter distinction
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
  */
 public class SeiTchiz {
 
@@ -22,8 +23,6 @@ public class SeiTchiz {
 			"wall","like","newgroup","addu","removeu","ginfo",
 			"msg","collect","history","menu","quit", "f", "u", "v",
 			"p", "w", "l", "n", "a", "r", "g", "m", "c", "h", "m", "q");
-
-
 	/**
 	 * 
 	 * @param args -command line parameters
@@ -36,7 +35,7 @@ public class SeiTchiz {
 		Scanner sc = new Scanner(System.in);
 
 		if(args.length==0) {
-			System.out.print("\nExample: SeiTchiz <IP>[:porto] <clientID> [password]"); 
+			System.out.print("Parameters missing. Try again.\nExample: SeiTchiz <IP>[:porto] <clientID> [password]"); 
 			sc.close();
 			System.out.println("\n");
 			return;

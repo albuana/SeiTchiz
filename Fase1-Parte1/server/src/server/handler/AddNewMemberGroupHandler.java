@@ -11,9 +11,11 @@ import server.exceptions.group.GroupException;
 import server.exceptions.group.GroupNotExistException;
 import server.exceptions.group.UserAlreadyInGroupException;
 import server.exceptions.group.UserNotOwnerException;
+
 /**
  * Handles addition of new user to group 
  * Handles the necessary procedures for adding a new member to a group
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
  */
 public class AddNewMemberGroupHandler {
 	private String groupId;
@@ -33,13 +35,13 @@ public class AddNewMemberGroupHandler {
 	}
 	
 	/**
-	 * 
 	 * @return true if it was possible to add member to group
 	 * @throws GroupException if group does not exist 
 	 * @throws IOException if an error occurs while trying to add the member to the group
 	 * @throws UserNotExistException if the new user does not exist
 	 * @throws ClassNotFoundException 
 	 */
+	@SuppressWarnings("unlikely-arg-type")
 	public String addMember() throws GroupException,IOException, UserNotExistException, ClassNotFoundException {
 		Group group = GroupCatalog.getInstance().getGroup(groupId);
 		if(group == null) 
@@ -55,5 +57,4 @@ public class AddNewMemberGroupHandler {
 		group.addMember(newbie);
 		return newbie + " was added to the group " + groupId + ".\n";
 	}
-
 }

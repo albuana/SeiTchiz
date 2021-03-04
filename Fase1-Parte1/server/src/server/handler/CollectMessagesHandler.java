@@ -2,8 +2,6 @@
 package server.handler;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import server.FileManager;
 import server.catalog.GroupCatalog;
@@ -13,6 +11,10 @@ import server.exceptions.group.GroupNotExistException;
 import server.exceptions.group.NothingToReadException;
 import server.exceptions.group.UserDoesNotBelongToGroupException;
 
+/**
+ * Handles the necessary procedures for collceting a new messages of a group
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
+ */
 public class CollectMessagesHandler {
 	private Group group;
 	private User user;

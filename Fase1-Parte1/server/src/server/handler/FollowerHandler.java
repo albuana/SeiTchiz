@@ -11,16 +11,26 @@ import server.exceptions.follow.UserAlreadyBeingFollowedException;
 import server.exceptions.follow.UserCantFollowHimselfException;
 import server.exceptions.follow.UserHaveNoFollowersException;
 
+/**
+ * Handles the following, unfollow and seeing followers of a user
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
+ *
+ */
 public class FollowerHandler {
 	
 	private User userID; //abrange os que se vai seguir e deixar de seguir
 	private User currentUserID;
 
 	/**
-	 * Constructor
-	 * @throws UserNotExistException 
-	 * @throws IOException 
-	 * @throws UserCantFollowHimselfException 
+	 * Follow Handler
+	 * @param userID
+	 * @param currentUserID
+	 * @return 
+	 * @throws UserNotExistException
+	 * @throws IOException
+	 * @throws UserAlreadyBeingFollowedException 
+	 * @throws UserAlreadyFollowedException 
+	 * @throws UserFollowingHimSelfException
 	 */
 	public FollowerHandler(String userID, User currentUserID) throws UserNotExistException, IOException, UserCantFollowHimselfException {
 		
@@ -40,18 +50,7 @@ public class FollowerHandler {
 		this.currentUserID = currentUserID;
 	}
 
-	/**
-	 * Follow Handler
-	 * @param userID
-	 * @param currentUserID
-	 * @return 
-	 * @return
-	 * @throws UserNotExistException
-	 * @throws IOException
-	 * @throws UserAlreadyBeingFollowedException 
-	 * @throws UserAlreadyFollowedException 
-	 * @throws UserFollowingHimSelfException
-	 */
+	
 	public String follow() throws  IOException, UserNotExistException, UserAlreadyBeingFollowedException {
 		return Follow.getInstance().follow(userID, currentUserID);
 	}

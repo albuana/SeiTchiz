@@ -1,8 +1,7 @@
 package server.exceptions.group;
 
 /**
- * 
- * Exception for when a user tries to send a message to a group it does not belong to 
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
  */
 public class UserDoesNotInGroupException extends GroupException{
 	private static final long serialVersionUID = 1L;

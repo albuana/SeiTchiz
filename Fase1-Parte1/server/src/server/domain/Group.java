@@ -8,7 +8,9 @@ import server.Server;
 import server.exceptions.group.UserAlreadyInGroupException;
 import server.exceptions.group.UserDoesNotInGroupException;
 
-
+/**
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
+ */
 public class Group {
 	private User owner;
 	private String groupID;
@@ -16,7 +18,6 @@ public class Group {
 	private static final String GROUPS_DIRECTORY = Server.DATA_PATH+"groups/";
 	private static final String GROUP_INFO_FILE_NAME = "groupinfo.txt";
 	private static final String GROUP_COLLECT_FILE_NAME = "groupcollect.txt";
-//	private static final String GROUP_HISTORY_FILE_NAME = "grouphistory.txt";
 	private static final String GROUPS_HISTORY_DIRECTORY = "history/";
 
 
@@ -43,15 +44,11 @@ public class Group {
 		String path=GROUPS_DIRECTORY+groupID+"/";
 		groupInfoFM = new FileManager(path, GROUP_INFO_FILE_NAME);
 		groupCollectFM= new FileManager(path,GROUP_COLLECT_FILE_NAME);
-//		groupHistoryFM= new FileManager(path,GROUP_HISTORY_FILE_NAME);
 		groupInfoFM.fileToList();
 		groupCollectFM.fileToList();
-//		groupHistoryFM.fileToList();
-		
 	}
 
 	/**
-	 * 
 	 * @return the name of this group
 	 */
 	public String getGroupID() {
@@ -59,7 +56,6 @@ public class Group {
 	}
 
 	/**
-	 * 
 	 * @return the owner of this group
 	 */
 	public User getOwner() {
@@ -67,7 +63,6 @@ public class Group {
 	}
 
 	/**
-	 * 
 	 * @return the members of this group
 	 */
 	public ArrayList<User> getUsers() {
@@ -75,7 +70,7 @@ public class Group {
 	}
 
 	/**
-	 * adds a new member to the group
+	 * Adds a new member to the group
 	 * @param user the new user
 	 * @throws IOException if it wasn't possible to write in the groupInfo file
 	 * @throws UserAlreadyInGroupException if the given user is already in the group
@@ -94,7 +89,7 @@ public class Group {
 	}
 
 	/**
-	 * remove a member to the group
+	 * Remove a member to the group
 	 * @param user the user
 	 * @throws UserDoesNotInGroupException 
 	 * @throws IOException if an error occurs whilst writing in the groupInfo file
@@ -138,14 +133,22 @@ public class Group {
 		return groupInfoFM;
 	}
 	
+	/**
+	 * Creates the history file of the given user
+	 * @param newbie
+	 */
 	public void createHistory(User newbie) {
 		String path=GROUPS_DIRECTORY+groupID+"/"+GROUPS_HISTORY_DIRECTORY ;
 		new FileManager(path,newbie.getUsername()+"history.txt");
 	}
 	
+	/**
+	 * Gets the history file of the given user
+	 * @param newbie
+	 * @return
+	 */
 	public FileManager getHistoryFile(User newbie) {
 		String path=GROUPS_DIRECTORY+groupID+"/"+GROUPS_HISTORY_DIRECTORY;
 		return new FileManager(path,newbie.getUsername()+"history.txt");
 	}
-
 }

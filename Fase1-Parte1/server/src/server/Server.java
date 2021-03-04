@@ -5,7 +5,9 @@ import java.net.Socket;
 
 /**
  * 
- * Initiates the server socket to be used as well as waiting for need to create new server threads that will  to the requests done by the corresponding client 
+ * Initiates the server socket to be used as well as waiting for need to create new server threads that will wait
+ * to the requests done by the corresponding client 
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
  */
 public class Server {
 	
@@ -21,7 +23,6 @@ public class Server {
 	}
 	
 	/**
-	 * 
 	 * @param port the server's port 
 	 * @throws IOException 
 	 */
@@ -30,12 +31,8 @@ public class Server {
 		return INSTANCE;
 
 	}
-	public void destroy() throws IOException {
-		serverSocket.close();
-	}
 	
 	/**
-	 * 
 	 * @param port the server's port 
 	 * @throws IOException 
 	 */
@@ -44,7 +41,7 @@ public class Server {
 	}
 	
 	/**
-	 * Starts the server socket and the loop for new server threads
+	 * Starts the server socket and the loop for new server threads.
 	 */
 	public void startServer () throws IOException{
 

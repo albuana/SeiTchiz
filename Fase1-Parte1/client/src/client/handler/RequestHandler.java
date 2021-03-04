@@ -1,82 +1,143 @@
 package client.handler;
 
-
-import java.io.File;
 import client.exceptions.UserCouldNotSendException;
 
-
 /**
- * 
  * Handles the requests
- *
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
  */
 public class RequestHandler {
+
 	/**
-	 * Calls new group handler
+	 * Calls follow handler
 	 * @param groupID
 	 * @return
 	 * @throws UserCouldNotSendException 
 	 */
-	
 	public static String follow(String userID) throws UserCouldNotSendException{
 		return new FollowHandler().addFollower(userID);
 	}
 
+	/**
+	 * Calls unfollow handler
+	 * @param userID
+	 * @return
+	 * @throws UserCouldNotSendException
+	 */
 	public static Object unfollow(String userID) throws UserCouldNotSendException{
 		return new FollowHandler().unfollow(userID);
 	}
 
+	/**
+	 * Calls viewfollowers handler
+	 * @return
+	 * @throws UserCouldNotSendException
+	 */
 	public static Object viewfollowers() throws UserCouldNotSendException{
 		return new FollowHandler().viewFollowers();
 	}
 
+	/**
+	 * Calls post photo handler
+	 * @param photo
+	 * @return
+	 * @throws UserCouldNotSendException
+	 */
 	public static Object post(String photo) throws UserCouldNotSendException{
-        return new PostHandler().createPost(photo);
-    }
+		return new PostHandler().createPost(photo);
+	}
 
+	/**
+	 * Calls wall handler
+	 * @param nPhoto
+	 * @return
+	 * @throws UserCouldNotSendException
+	 */
 	public static Object wall(String nPhoto) throws UserCouldNotSendException{
 		return new PostHandler().wall(nPhoto);
 	}
 
+	/**
+	 * Calls like handler
+	 * @param photoid
+	 * @return
+	 * @throws UserCouldNotSendException
+	 */
 	public static Object like(String photoid) throws UserCouldNotSendException{
 		return new PostHandler().like(photoid);
 	}
-	
+
+	/**
+	 * Calls newgroup handler
+	 * @param groupID
+	 * @return
+	 * @throws UserCouldNotSendException
+	 */
 	public static Object newgroup(String groupID) throws UserCouldNotSendException {
 		return new CreateNewGroupHandler(groupID).newgroup();
 	}
 
-	public static Object addu(String newUser, String groupId) throws UserCouldNotSendException {
-		return new AddMemberGroupHandler(groupId,newUser).addMember();
+	/**
+	 * Calls add user handler
+	 * @param newUser
+	 * @param groupID
+	 * @return
+	 * @throws UserCouldNotSendException
+	 */
+	public static Object addu(String newUser, String groupID) throws UserCouldNotSendException {
+		return new AddMemberGroupHandler(groupID,newUser).addMember();
 	}
 
-	public static Object removeu(String oldUser, String groupId) throws UserCouldNotSendException {
-		return new RemoveOldMemberGroupHandler(groupId,oldUser).removeMember();
+	/**
+	 * Calls remove user handler
+	 * @param oldUser
+	 * @param groupID
+	 * @return
+	 * @throws UserCouldNotSendException
+	 */
+	public static Object removeu(String oldUser, String groupID) throws UserCouldNotSendException {
+		return new RemoveOldMemberGroupHandler(groupID,oldUser).removeMember();
 	}
 
-	public static Object ginfo(String groupId) throws UserCouldNotSendException{
-		return new InfoHandler(groupId).getInfo();
+	/**
+	 * Calls group info handler
+	 * @param groupID
+	 * @return
+	 * @throws UserCouldNotSendException
+	 */
+	public static Object ginfo(String groupID) throws UserCouldNotSendException{
+		return new InfoHandler(groupID).getInfo();
 	}
 
 	public static Object ginfo() throws UserCouldNotSendException{
 		return new InfoHandler().getInfo();
 	}
 
-	public static Object msg(String groupId, String content) throws UserCouldNotSendException{
-		return new GroupMessageHandler(groupId, content).sendmsg();
+	/**
+	 * Calls send message handler
+	 * @param groupID
+	 * @param content
+	 * @return
+	 * @throws UserCouldNotSendException
+	 */
+	public static Object msg(String groupID, String content) throws UserCouldNotSendException{
+		return new GroupMessageHandler(groupID, content).sendmsg();
 	}
 
-	public static Object collect(String groupId) throws UserCouldNotSendException{
-		return new CollectMessageHandler(groupId).collect();
+	/**
+	 * Calls collect messages handler
+	 */
+	public static Object collect(String groupID) throws UserCouldNotSendException{
+		return new CollectMessageHandler(groupID).collect();
 	}
 
-	public static Object history(String groupId) throws UserCouldNotSendException{
-		return new HistoryMessageHandler(groupId).history();
+	/**
+	 * Calls group history handler
+	 * @param groupID
+	 * @return
+	 * @throws UserCouldNotSendException
+	 */
+	public static Object history(String groupID) throws UserCouldNotSendException{
+		return new HistoryMessageHandler(groupID).history();
 	}
-
-
-
-
-
-
 }

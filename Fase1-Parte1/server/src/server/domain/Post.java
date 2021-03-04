@@ -18,6 +18,11 @@ import server.Server;
 import server.exceptions.post.HaveNoPhotosExeption;
 import server.exceptions.post.NoPostExeption;
 
+/**
+ * 
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
+ *
+ */
 public class Post {
 
 	//Post ID counter
@@ -25,7 +30,7 @@ public class Post {
 	private static final String POST_DIRECTORY = Server.DATA_PATH+"posts/";
 
 	/**
-	 * Returns instance
+	 * Returns post instance
 	 * @return
 	 */
 	public static Post getInstance() {
@@ -220,9 +225,8 @@ public class Post {
 
 
 	/**
-	 * returns a list with the users the current user follows
 	 * @param username
-	 * @return
+	 * @return list with the users the current user follows
 	 * @throws FileNotFoundException
 	 */
 	private ArrayList<String> getFollowed(String username) throws FileNotFoundException{

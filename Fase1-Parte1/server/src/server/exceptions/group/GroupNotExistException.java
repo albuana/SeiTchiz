@@ -1,8 +1,7 @@
 package server.exceptions.group;
 
 /**
- * REVISTA
- * Exception for when a group id is used but the group does not exist
+ * @author Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741
  */
 public class GroupNotExistException extends GroupException{
 
