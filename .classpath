@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="Fase1-Parte2/CipherHandler/src"/>
 	<classpathentry kind="src" path="Fase1-Parte2/SeiTchiz/server/src"/>
+	<classpathentry kind="src" path="Fase1-Parte2/Cipher/src"/>
 	<classpathentry kind="src" path="Fase1-Parte2/SeiTchiz/client/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/Fase1-Parte2/SeiTchiz/client/libs/Client.jar"/>
-	<classpathentry kind="lib" path="/Fase1-Parte2/SeiTchiz/server/libs/Server.jar"/>
+	<classpathentry kind="lib" path="/Users/albuana/git/SeiTchiz/Fase1-Parte2/SeiTchiz/server/libs/Server.jar"/>
+	<classpathentry kind="lib" path="/Users/albuana/git/SeiTchiz/Fase1-Parte2/SeiTchiz/client/libs/Client.jar"/>
 	<classpathentry kind="output" path="Fase1-Parte2/SeiTchiz/client/bin"/>
 </classpath>
