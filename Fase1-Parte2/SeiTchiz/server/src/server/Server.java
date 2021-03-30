@@ -23,7 +23,7 @@ public class Server {
 	private static Server INSTANCE = null; 
 	public static final String DATA_PATH = "./Fase1-Parte2/SeiTchiz/server/Data/";
 
-	public static final String KEY_STORE_ALIAS = "ourserverpass";
+	public static final String KEY_STORE_ALIAS = "ourserverpasss";
 	public static final String KEY_STORE_TYPE = "JCEKS"; //para armazenar chaves simétricas
 
 	private SSLServerSocket serverSocket;

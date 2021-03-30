@@ -14,7 +14,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.Certificate;
-import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
@@ -99,7 +98,7 @@ public class ServerThread extends Thread {
 					try {
 						//let's try to regist
 						success = loginUserHandler.register(cer, receivedNonce, signedNonce);
-					} catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | CertificateEncodingException e) {
+					} catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | CertificateException e) {
 						e.printStackTrace();
 					}
 
@@ -121,7 +120,7 @@ public class ServerThread extends Thread {
 					send((new UserCouldNotLoginException()).getMessage());
 				}
 
-			}
+			}//login close
 
 			while(true) {
 				//clients function
@@ -181,9 +180,9 @@ public class ServerThread extends Thread {
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (CertificateException e) {
+		} catch (CertificateException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
 	}
 }

@@ -154,20 +154,31 @@ public class LoginUserHandler {
         Client client = Client.getInstance();
         client.send("login",userID);
         //if flag == true then this is the first login of this user
-        byte [] nonce = (byte[]) client.receive(); //E(privateKeyServidor, nonce)
+//		byte [] signedNonce = (byte[]) client.receive(); //E(privateKeyServidor, nonce)
+        byte [] nonce = (byte[]) client.receive(); //D(pubServidor,E(privateKeyServidor, nonce)) = nonce
         boolean flagNewUser = (boolean) client.receive();
-        System.out.println(nonce);
-        System.out.println(flagNewUser);
+//        System.out.println(nonce);
+//        System.out.println(flagNewUser);
+        
+//		PublicKey pubKey = CipherHandler.getPublicKeyFromPathToKeystore(pathToTruststore, PASS_TRUSTSTORE, alias, keystoreType);
+//		if(!CipherHandler.verifySignature(pubKey, nonce, signedNonce)) {
+//			//exception a assinatura esta errada
+//			System.out.println("a");
+//		}
+        
+        //TODO tem de se verificar a assinatura no client???
+		
+        PrivateKey pk=CipherHandler.getPrivateKeyFromKeystorePath(pathToKeystore, password, alias, keystoreType);
+//		System.out.println(pk);
+
+        byte[] clientSignedNounce=CipherHandler.sign(nonce,pk);
+        
         if(flagNewUser) {
-            PrivateKey key=CipherHandler.getPrivateKeyFromKeystorePath(pathToKeystore, password, alias, keystoreType);
-            byte[] sign=CipherHandler.sign(nonce,key);
             Certificate cer=CipherHandler.getCertificate(pathToKeystore, password, alias, keystoreType);
-            client.send(nonce,sign,cer);
+            client.send(nonce,clientSignedNounce,cer);
         }
         else {
-            PrivateKey key=CipherHandler.getPrivateKeyFromKeystorePath(pathToKeystore, password, alias, keystoreType);
-            byte[] sign=CipherHandler.sign(nonce,key);
-            client.send(nonce,sign);
+            client.send(nonce,clientSignedNounce);
         }
 
         return Client.getInstance().receive();

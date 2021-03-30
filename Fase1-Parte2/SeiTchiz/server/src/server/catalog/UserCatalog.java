@@ -113,6 +113,7 @@ public class UserCatalog {
         String str = user.getUsername() + "," + user.getUsername() + ".cert" + "\n";
         file.writeFile(str);
         userList.put(user.getUsername(), user);
+        
         Path path = Paths.get(CERTIFICATE_FILE_PATH);
         Files.createDirectories(path);
         File file=new File(CERTIFICATE_FILE_PATH+user.getUsername()+".cer");
