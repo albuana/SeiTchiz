@@ -3,6 +3,7 @@
 package server.handler;
 
 import java.io.IOException;
+import java.security.cert.CertificateException;
 
 import server.catalog.GroupCatalog;
 import server.catalog.UserCatalog;
@@ -42,9 +43,10 @@ public class AddNewMemberGroupHandler {
 	 * @throws IOException if an error occurs while trying to add the member to the group
 	 * @throws UserNotExistException if the new user does not exist
 	 * @throws ClassNotFoundException 
+	 * @throws CertificateException 
 	 */
 	@SuppressWarnings("unlikely-arg-type")
-	public String addMember() throws GroupException,IOException, UserNotExistException, ClassNotFoundException {
+	public String addMember() throws GroupException,IOException, UserNotExistException, ClassNotFoundException, CertificateException {
 		Group group = GroupCatalog.getInstance().getGroup(groupId);
 		if(group == null) 
 			throw new GroupNotExistException(); 

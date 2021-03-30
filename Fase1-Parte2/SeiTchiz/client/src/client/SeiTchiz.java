@@ -96,7 +96,9 @@ public class SeiTchiz {
 //			password = args[2];
 //		}
 		
-		LoginUserHandler login = new LoginUserHandler(clientID,keystore,truststore,keystorePassword,"keyRSA","JKS");
+		System.out.println(clientID + ", " +keystore + ", " +truststore + ", " +keystorePassword );
+		
+		LoginUserHandler login = new LoginUserHandler(clientID,keystore,truststore,keystorePassword,"ourclientpass","JKS");
 		
 		//LOGIN
 		Object r;

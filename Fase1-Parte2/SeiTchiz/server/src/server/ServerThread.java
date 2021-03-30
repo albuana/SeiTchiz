@@ -14,6 +14,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,48 +83,35 @@ public class ServerThread extends Thread {
 
 				//flag that tell us if the user is new or not
 				Boolean flagNewUser = loginUserHandler.loginGetFlag();
+				send(originalNonce);
 				send(flagNewUser);
 
-				try {
-					
-					System.out.println(server.getKeystore() + "; " + server.getKeystorePassword() + "; " + Server.KEY_STORE_ALIAS);
-					
-					//the nounce noticed
-					send(CipherHandler.sign(originalNonce, CipherHandler.getPrivateKeyFromKeystore
-							(server.getKeystore(), server.getKeystorePassword(), Server.KEY_STORE_ALIAS))); 
-				} catch (UnrecoverableKeyException | KeyStoreException e) {
-					e.printStackTrace();
-				}
-
-				//what client sends, the server will recieve:
 				boolean success = false;
 				//if the user is new
 				if(flagNewUser.booleanValue()) {
-
-					//if flag is true, that means tha user dont exists in system
-					Certificate userCert = (Certificate) list.get(0);
 					List<Object> lista = (ArrayList<Object>) inStream.readObject();
-					byte []  nounceClient = (byte[]) lista.get(0);
-					byte [] signedNounce = (byte[]) lista.get(1);
+					byte[] receivedNonce=(byte[]) lista.get(0);
+					byte[] signedNonce=(byte[]) lista.get(1);
+					Certificate cer=(Certificate) lista.get(2);
 
 					System.out.println("The client is new in sistem.\n");
 
 					try {
 						//let's try to regist
-						success = loginUserHandler.register(userCert, nounceClient, signedNounce);
-					} catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException e) {
+						success = loginUserHandler.register(cer, receivedNonce, signedNonce);
+					} catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | CertificateEncodingException e) {
 						e.printStackTrace();
 					}
 
-				}else { //if user already exists in system, i mean the flag is false
+				} else { //if user already exists in system, i mean the flag is false 
 
 					//means tha user already exists in system
-					byte []  nounce = (byte[]) list.get(0);
-					byte [] signedNounce = (byte[]) list.get(1);
+					List<Object> lista = (ArrayList<Object>) inStream.readObject();
+					byte []  nounce = (byte[]) lista.get(0);
+					byte [] signedNounce = (byte[]) lista.get(1);
 					success = loginUserHandler.login(nounce,signedNounce);
 					System.out.println("The client already belongs to the sistem.\n");
 				}
-
 				send(success);
 				//if login was made with success
 				if(success) {
@@ -133,7 +121,7 @@ public class ServerThread extends Thread {
 					send((new UserCouldNotLoginException()).getMessage());
 				}
 
-			} //login close
+			}
 
 			while(true) {
 				//clients function
@@ -191,6 +179,9 @@ public class ServerThread extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CertificateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

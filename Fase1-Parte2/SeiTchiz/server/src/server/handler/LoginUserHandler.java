@@ -8,6 +8,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.SignatureException;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateException;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -40,8 +42,9 @@ public class LoginUserHandler {
 	 * @return flag for if the is already registered
 	 * @throws IOException 
 	 * @throws ClassNotFoundException 
+	 * @throws CertificateException 
 	 */
-	public boolean loginGetFlag() throws IOException, ClassNotFoundException {
+	public boolean loginGetFlag() throws IOException, ClassNotFoundException, CertificateException {
 		Boolean flag = false;
 
 		UserCatalog users = UserCatalog.getInstance();
@@ -77,14 +80,16 @@ public class LoginUserHandler {
 	 * @throws NoSuchAlgorithmException 
 	 * @throws InvalidKeyException 
 	 * @throws ClassNotFoundException 
+	 * @throws CertificateException 
 	 */
-	public boolean login(byte[] nonceClient, byte[] signedNonce) throws IOException, UserCouldNotLoginException, InvalidKeyException, NoSuchAlgorithmException, SignatureException, ClassNotFoundException {
+	public boolean login(byte[] nonceClient, byte[] signedNonce) throws IOException, UserCouldNotLoginException, InvalidKeyException, NoSuchAlgorithmException, SignatureException, ClassNotFoundException, CertificateException {
+		//provar que o cliente tem acesso à chave privada daquele utilizador, i.e., que é quem diz ser
 		//nonce enviado igual ao recebido
 		if(!Arrays.equals(nonceClient,originalNonce))
 			return false;
 		//procurar certificado do cliente
 		User user = UserCatalog.getInstance().getUser(userID);
-		//verifica��o da assinatura
+		//verificao da assinatura
 		if(!CipherHandler.verifySignature(user.getPublicKey(), originalNonce, signedNonce))
 			return false;
 		return true;
@@ -113,7 +118,7 @@ public class LoginUserHandler {
 		return this.originalNonce;
 	}
 
-	public boolean register(Certificate userCert, byte[] nounceClient, byte[] signedNounce) throws InvalidKeyException, NoSuchAlgorithmException, SignatureException, ClassNotFoundException, IOException {
+	public boolean register(Certificate userCert, byte[] nounceClient, byte[] signedNounce) throws InvalidKeyException, NoSuchAlgorithmException, SignatureException, ClassNotFoundException, IOException, CertificateException {
 		//provar que o cliente tem acesso ah chave privada daquele utilizador, i.e., que eh quem diz ser
 		//nounce enviado igual ao recebido
 		if(!Arrays.equals(nounceClient,originalNonce))

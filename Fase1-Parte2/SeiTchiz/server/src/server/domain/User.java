@@ -24,7 +24,7 @@ public class User {
 	 * @param username user's username
 	 * @param password user's password
 	 */
-	public User(String username, PublicKey password) {
+	public User(String username, PublicKey pubkey) {
 		this.username = username;
 		this.pubkey = pubkey;
 	}

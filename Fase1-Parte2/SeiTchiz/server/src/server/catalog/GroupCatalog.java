@@ -2,6 +2,7 @@ package server.catalog;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 
 import server.FileManager;
@@ -34,10 +35,11 @@ public class GroupCatalog {
 	/**
 	 * GroupCatalog constructor that does not need parameters
 	 * @throws ClassNotFoundException 
+	 * @throws CertificateException 
 	 * @throws IOException 
 	 * @throws UserAlreadyInGroupException 
 	 */
-	private GroupCatalog () throws ClassNotFoundException{
+	private GroupCatalog () throws ClassNotFoundException, CertificateException{
 		groupsList = new ArrayList<Group>();
 		try {
 			initializeGroupCatalog();
@@ -52,8 +54,9 @@ public class GroupCatalog {
 	 * @throws UserAlreadyInGroupException
 	 * @throws IOException
 	 * @throws ClassNotFoundException 
+	 * @throws CertificateException 
 	 */
-	private void initializeGroupCatalog() throws UserAlreadyInGroupException, IOException, ClassNotFoundException{
+	private void initializeGroupCatalog() throws UserAlreadyInGroupException, IOException, ClassNotFoundException, CertificateException{
 		String [] groupFolders = new File(GROUPS_DIRECTORY).list();
 		if(groupFolders!=null) {
 			for (String g:groupFolders) {
@@ -69,8 +72,9 @@ public class GroupCatalog {
 	 * @throws IOException
 	 * @throws UserAlreadyInGroupException
 	 * @throws ClassNotFoundException 
+	 * @throws CertificateException 
 	 */
-	private Group initializeGroup(String gFolderName) throws IOException, UserAlreadyInGroupException, ClassNotFoundException{
+	private Group initializeGroup(String gFolderName) throws IOException, UserAlreadyInGroupException, ClassNotFoundException, CertificateException{
 		FileManager groupInfo=new FileManager(GROUPS_DIRECTORY+gFolderName,GROUP_INFO_FILE_NAME);
 		ArrayList<String> members=groupInfo.fileToList();
 		UserCatalog users = UserCatalog.getInstance();
@@ -89,8 +93,9 @@ public class GroupCatalog {
 	 * @throws GroupAlreadyExistException if group id already in use
 	 * @throws IOException if an error occurs whilst writing in the user's database
 	 * @throws ClassNotFoundException 
+	 * @throws CertificateException 
 	 */
-	public boolean addGroup(String groupID, String owner) throws GroupAlreadyExistException, IOException, ClassNotFoundException {
+	public boolean addGroup(String groupID, String owner) throws GroupAlreadyExistException, IOException, ClassNotFoundException, CertificateException {
 
 		String [] groupFolders = new File(GROUPS_DIRECTORY).list();
 		Group grupo=new Group(groupID, UserCatalog.getInstance().getUser(owner));

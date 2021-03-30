@@ -1,6 +1,7 @@
 package server.handler;
 
 import java.io.IOException;
+import java.security.cert.CertificateException;
 
 import server.catalog.GroupCatalog;
 import server.catalog.UserCatalog;
@@ -40,8 +41,9 @@ public class RemoveMemberGroupHandler {
 	 * @throws UserNotExistException
 	 * @throws ClassNotFoundException
 	 * @throws CantRemoveOwnerExeption
+	 * @throws CertificateException 
 	 */
-	public String removeMember() throws GroupException,IOException, UserNotExistException, ClassNotFoundException, CantRemoveOwnerExeption {
+	public String removeMember() throws GroupException,IOException, UserNotExistException, ClassNotFoundException, CantRemoveOwnerExeption, CertificateException {
 		Group group = GroupCatalog.getInstance().getGroup(groupId);
 		if(group == null) 
 			throw new GroupNotExistException(); 

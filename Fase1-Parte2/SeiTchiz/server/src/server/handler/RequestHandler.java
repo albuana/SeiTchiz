@@ -2,6 +2,7 @@ package server.handler;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.security.cert.CertificateException;
 
 import server.domain.User;
 import server.exceptions.UserNotExistException;
@@ -35,9 +36,10 @@ public final class RequestHandler {
 	 * @throws UserCantFollowHimselfException
 	 * @throws UserAlreadyBeingFollowedException 
 	 * @throws ClassNotFoundException 
+	 * @throws CertificateException 
 	 * @see server.handlers.FollowerHandler 
 	 */
-	public static String follow(String userID, User currentUserID) throws IOException, UserNotExistException, UserCantFollowHimselfException, UserAlreadyBeingFollowedException, ClassNotFoundException{
+	public static String follow(String userID, User currentUserID) throws IOException, UserNotExistException, UserCantFollowHimselfException, UserAlreadyBeingFollowedException, ClassNotFoundException, CertificateException{
 		return  new FollowerHandler(userID, currentUserID).follow();
 	}
 
@@ -52,8 +54,9 @@ public final class RequestHandler {
 	 * @throws CantUnfollowException 
 	 * @throws UserHaveNoFollowersException 
 	 * @throws ClassNotFoundException 
+	 * @throws CertificateException 
 	 */
-	public static String unfollow(String userID, User currentUserID) throws IOException, UserNotExistException, UserCantFollowHimselfException, CantUnfollowException, UserHaveNoFollowersException, ClassNotFoundException{
+	public static String unfollow(String userID, User currentUserID) throws IOException, UserNotExistException, UserCantFollowHimselfException, CantUnfollowException, UserHaveNoFollowersException, ClassNotFoundException, CertificateException{
 		return  new FollowerHandler(userID, currentUserID).unfollow();
 	}
 
@@ -112,9 +115,10 @@ public final class RequestHandler {
 	 * @throws GroupAlreadyExistException - creation of group failed, mostly because groupID already exists for another group
 	 * @throws IOException
 	 * @throws ClassNotFoundException 
+	 * @throws CertificateException 
 	 * @see server.handlers.CreateGroupHandler
 	 */
-	public static String newgroup(String groupId, User user) throws GroupAlreadyExistException, IOException, ClassNotFoundException {
+	public static String newgroup(String groupId, User user) throws GroupAlreadyExistException, IOException, ClassNotFoundException, CertificateException {
 		return new CreateGroupHandler(groupId, user).newgroup();
 	}
 
@@ -129,9 +133,10 @@ public final class RequestHandler {
 	 * @throws IOException 
 	 * @throws GroupException - if something went wrong with the group
 	 * @throws ClassNotFoundException 
+	 * @throws CertificateException 
 	 * @see server.handlers.AddNewMemberGroupHandler
 	 */
-	public static String addu(String newUser, String groupId, User owner) throws UserNotExistException, ClassNotFoundException, GroupException, IOException {
+	public static String addu(String newUser, String groupId, User owner) throws UserNotExistException, ClassNotFoundException, GroupException, IOException, CertificateException {
 		return new AddNewMemberGroupHandler(newUser,groupId,owner).addMember();
 	}
 
@@ -146,8 +151,9 @@ public final class RequestHandler {
 	 * @throws UserNotExistException - if userID (oldUser) does not exist
 	 * @throws ClassNotFoundException 
 	 * @throws CantRemoveOwnerExeption 
+	 * @throws CertificateException 
 	 */
-	public static String removeu(String oldUser, String groupId, User owner) throws GroupException, IOException, UserNotExistException, ClassNotFoundException, CantRemoveOwnerExeption {
+	public static String removeu(String oldUser, String groupId, User owner) throws GroupException, IOException, UserNotExistException, ClassNotFoundException, CantRemoveOwnerExeption, CertificateException {
 		return new RemoveMemberGroupHandler(oldUser, groupId,  owner).removeMember();
 	}
 

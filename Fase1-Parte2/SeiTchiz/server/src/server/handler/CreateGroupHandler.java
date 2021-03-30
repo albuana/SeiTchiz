@@ -4,6 +4,7 @@ import server.domain.User;
 import server.exceptions.group.GroupAlreadyExistException;
 
 import java.io.IOException;
+import java.security.cert.CertificateException;
 
 import server.catalog.GroupCatalog;
 
@@ -30,8 +31,9 @@ public class CreateGroupHandler {
 	 * @throws GroupAlreadyExistException if the group already exists
 	 * @throws IOException if an error occurs while creating the group
 	 * @throws ClassNotFoundException 
+	 * @throws CertificateException 
 	 */
-	public String newgroup() throws GroupAlreadyExistException, IOException, ClassNotFoundException {
+	public String newgroup() throws GroupAlreadyExistException, IOException, ClassNotFoundException, CertificateException {
 		GroupCatalog.getInstance().addGroup(groupID, user.getUsername());
 		return "Group "+ groupID + " was successfully created.\n";	
 	}

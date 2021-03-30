@@ -1,6 +1,7 @@
 package server.handler;
 
 import java.io.IOException;
+import java.security.cert.CertificateException;
 
 import server.catalog.UserCatalog;
 import server.domain.Follow;
@@ -29,11 +30,12 @@ public class FollowerHandler {
 	 * @throws UserNotExistException
 	 * @throws IOException
 	 * @throws ClassNotFoundException 
+	 * @throws CertificateException 
 	 * @throws UserAlreadyBeingFollowedException 
 	 * @throws UserAlreadyFollowedException 
 	 * @throws UserFollowingHimSelfException
 	 */
-	public FollowerHandler(String userID, User currentUserID) throws UserNotExistException, IOException, UserCantFollowHimselfException, ClassNotFoundException {
+	public FollowerHandler(String userID, User currentUserID) throws UserNotExistException, IOException, UserCantFollowHimselfException, ClassNotFoundException, CertificateException {
 		
 		this.userID = UserCatalog.getInstance().getUser(userID);
 		this.currentUserID = currentUserID;

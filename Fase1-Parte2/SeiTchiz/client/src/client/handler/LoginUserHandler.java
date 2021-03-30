@@ -27,7 +27,7 @@ import client.exceptions.UserCouldNotSendException;
 public class LoginUserHandler {
 
 	private static final String PASS_TRUSTSTORE = "ourserverpass"; //
-	private static final String CLIENT_ALIAS = "keyRSA";
+	private static final String CLIENT_ALIAS = "ourclientpass";
 
 	private String userID;
 	private String pass;
@@ -60,35 +60,118 @@ public class LoginUserHandler {
 	 * @return true if the user was able to login and a string if an error occurred if anything failed
 	 * @throws UserCouldNotSendException
 	 */
+//	public Object login() throws UserCouldNotSendException, KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, UnrecoverableKeyException, SignatureException, NoSuchPaddingException {
+//		
+//		
+//		
+////		Client client = Client.getInstance();
+////		
+////		//Cliente envia clientID ao servidor pedindo para se autenticar
+////        client.send("login",userID);
+////
+////        //O servidor responde com um nonce aleatório de 8 bytes
+////        byte [] signedNonce = (byte[]) client.receive(); //E(privateKeyServidor, nonce)
+////        
+////        byte [] nonce = (byte[]) client.receive(); //D(pubServidor,E(privateKeyServidor, nonce)) = nonce
+////        
+////        boolean flagNewUser = (boolean) client.receive();
+////
+////        //Se clientD ainda não tiver sido registado
+////        if(flagNewUser) {
+////        	//o cliente efetua o registo do utilizador enviando ao servidor o nonce recebido,
+////            client.send(signedNonce);
+////            
+////            //O registo eh bem-sucedido se e somente se o servidor verificar 
+////            //a assinatura do nonce 
+////    		PublicKey pubKey = CipherHandler.getPublicKeyFromPathToKeystore(pathToTruststore, PASS_TRUSTSTORE, alias, keystoreType);
+////    		if(!CipherHandler.verifySignature(pubKey, nonce, signedNonce)) {
+////    			//TODO
+////    			//exception a assinatura esta errada
+////    			System.out.println("Assinatura não eh verificada");
+////    		}
+////            
+////            //a sua assinatura deste gerada com a chave privada do utilizador
+////            PrivateKey pk = CipherHandler.getPrivateKeyFromKeystorePath(pathToKeystore, password, CLIENT_ALIAS, keystoreType);
+////            byte[] clientSignedNounce = CipherHandler.sign(signedNonce, pk);
+////            
+////            //, e o certificado com a chave pública correspondente
+////            Certificate cert = CipherHandler.getCertificate(pathToKeystore, password, CLIENT_ALIAS, keystoreType);
+////            client.send(clientSignedNounce);
+////            client.send(cert);
+////        }
+//		
+//		
+//		Client client = Client.getInstance();
+//		client.send("login",userID);
+//		//if flag == true then this is the first login of this user
+//		boolean flagNewUser = (boolean) client.receive();
+//		byte [] signedNonce = (byte[]) client.receive(); //E(privateKeyServidor, nonce)
+//		byte [] nonce = (byte[]) client.receive(); //D(pubServidor,E(privateKeyServidor, nonce)) = nonce
+////
+////
+//		System.out.println("pubkey: " + pathToTruststore + ", " + PASS_TRUSTSTORE + ", " + alias + ", " + keystoreType + "\n");
+////		
+//		
+////		O login é bem-sucedido se e somente se o servidor verificar a
+//		//assinatura do nonce (que deve ser o mesmo gerado e enviado no
+//		//passo 1) usando a chave pública associada ao clientID. 
+//		//Caso não se verifique a assinatura, é enviada uma mensagem de
+//		//erro ao cliente informando que a autenticação não foi bem-sucedida.
+//		
+//		// PASS_TRUSTSTORE - ourserverpass
+//		
+//		PublicKey pubKey = CipherHandler.getPublicKeyFromPathToKeystore(pathToTruststore, PASS_TRUSTSTORE, alias, keystoreType);
+//		if(!CipherHandler.verifySignature(pubKey, nonce, signedNonce)) {
+//			//exception a assinatura esta errada
+//			System.out.println("a");
+//		}
+//		
+//		//Se clientID estiver registado no servidor,
+//		//o cliente assina o nonce recebido utilizando 
+//		//a chave privada do utilizador
+//		//
+//		System.out.println("pk: " + pathToTruststore + ", " + password + ", " + CLIENT_ALIAS + ", " + keystoreType + "\n");
+//
+//		PrivateKey pk = CipherHandler.getPrivateKeyFromKeystorePath(pathToKeystore, password, CLIENT_ALIAS, keystoreType);
+//		byte[] clientSignedNounce = CipherHandler.sign(nonce, pk);
+////
+//		if(flagNewUser) {
+//			//falta a parte do "Type your name:"
+//			Certificate cert = CipherHandler.getCertificate(pathToKeystore, password, CLIENT_ALIAS, keystoreType);		
+//			client.send(cert);
+//		}
+//		
+//		//e envia esta assinatura ao servidor
+//		client.send(nonce, clientSignedNounce);
+//
+//		return Client.getInstance().receive();
+//	}
+//
+//	
+//	
+	
 	public Object login() throws UserCouldNotSendException, KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, UnrecoverableKeyException, SignatureException, NoSuchPaddingException {
-		Client client = Client.getInstance();
-		client.send("login",userID);
-		//if flag == true then this is the first login of this user
-		boolean flagNewUser = (boolean) client.receive();
-		byte [] signedNonce = (byte[]) client.receive(); //E(privateKeyServidor, nonce)
-		byte [] nonce = (byte[]) client.receive(); //D(pubServidor,E(privateKeyServidor, nonce)) = nonce
+        Client client = Client.getInstance();
+        client.send("login",userID);
+        //if flag == true then this is the first login of this user
+        byte [] nonce = (byte[]) client.receive(); //E(privateKeyServidor, nonce)
+        boolean flagNewUser = (boolean) client.receive();
+        System.out.println(nonce);
+        System.out.println(flagNewUser);
+        if(flagNewUser) {
+            PrivateKey key=CipherHandler.getPrivateKeyFromKeystorePath(pathToKeystore, password, alias, keystoreType);
+            byte[] sign=CipherHandler.sign(nonce,key);
+            Certificate cer=CipherHandler.getCertificate(pathToKeystore, password, alias, keystoreType);
+            client.send(nonce,sign,cer);
+        }
+        else {
+            PrivateKey key=CipherHandler.getPrivateKeyFromKeystorePath(pathToKeystore, password, alias, keystoreType);
+            byte[] sign=CipherHandler.sign(nonce,key);
+            client.send(nonce,sign);
+        }
 
-
-		PublicKey pubkey = CipherHandler.getPublicKeyFromPathToKeystore(pathToTruststore, PASS_TRUSTSTORE, alias, keystoreType);
-		if(!CipherHandler.verifySignature(pubkey, nonce, signedNonce)) {
-			//TODO
-			//exception a assinatura esta errada
-			System.out.println("a");
-		}
-		PrivateKey pk = CipherHandler.getPrivateKeyFromKeystorePath(pathToKeystore, password, CLIENT_ALIAS, keystoreType);
-		byte[] clientSignedNounce = CipherHandler.sign(nonce, pk);
-
-		if(flagNewUser) {
-			//TODO
-			//falta a parte do "Type your name:"
-			Certificate cert = CipherHandler.getCertificate(pathToKeystore, password, CLIENT_ALIAS, keystoreType);		
-			client.send(cert);
-		}
-		client.send(nonce, clientSignedNounce);
-
-		return Client.getInstance().receive();
-	}
-
+        return Client.getInstance().receive();
+    }
 
 
 
