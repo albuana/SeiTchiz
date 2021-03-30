@@ -54,11 +54,11 @@ public class CipherHandler {
 	}
 
 	public static byte [] sign (byte[] buf, PrivateKey pk ) throws NoSuchAlgorithmException, InvalidKeyException, IOException, SignatureException {
-		Signature s = Signature.getInstance("MD5withRSA");
-		s.initSign(pk);
-		s.update(buf);
+		Signature signature = Signature.getInstance("MD5withRSA");
+		signature.initSign(pk);
+		signature.update(buf);
 			
-		return s.sign();
+		return signature.sign();
 	}
 
 	public static PrivateKey getPrivateKeyFromKeystore(KeyStore keystore, String keystorePassword,

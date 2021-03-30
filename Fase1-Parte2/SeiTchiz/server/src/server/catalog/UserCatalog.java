@@ -3,11 +3,10 @@ package server.catalog;
 
 import java.io.IOException;
 import java.security.PublicKey;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import java.security.cert.Certificate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import server.Server;
 import server.domain.User;
@@ -20,12 +19,10 @@ import server.FileManager;
  */
 public class UserCatalog {
 	public static final String USERS_FILE_PATH = Server.DATA_PATH + "users/";
+	public static final String CERTIFICATE_FILE_PATH = Server.DATA_PATH + "publicKeys/";
 	private static UserCatalog INSTANCE;
 	private static Map<String,User> userList;
-	
-	public static final String CERTIFICATE_FILE_PATH = Server.DATA_PATH + "pubKeys/";
-	
-
+	private static FileManager file;
 
 	/**
 	 * @return the user catalog singleton
@@ -40,24 +37,34 @@ public class UserCatalog {
 
 	/**
 	 * Creates the user's catalog instance
+	 * Inicializa the user.txt file
 	 * @throws IOException 
 	 * @throws ClassNotFoundException 
 	 */
 	private UserCatalog () throws IOException, ClassNotFoundException {
 		userList = new HashMap<>();
-		List<String> currentUsersList = new FileManager(USERS_FILE_PATH,"users.txt").loadContent();
-	
-		for(int i=0;i<currentUsersList.size();i++) {
-			
-			String username = currentUsersList.get(i).substring(0,currentUsersList.get(i).indexOf(":"));
-			String certPath = currentUsersList.get(i).substring(currentUsersList.get(i).indexOf(":") + 1);
-			Certificate certificateClient = (Certificate) new FileManager(certPath).loadObjects().get(0);
-			PublicKey pubKey = certificateClient.getPublicKey();
-			
-			userList.put(username,new User(username,pubKey));
-		}
+		file = new FileManager(USERS_FILE_PATH,"users.txt");
+		initiateUserList();
 	}
 
+	/**
+	 * Initialize the users list
+	 * @throws IOException
+	 * @throws ClassNotFoundException 
+	 */
+	private void initiateUserList() throws IOException, ClassNotFoundException {
+		ArrayList<String> list=file.fileToList();
+		for(int i=0;i<list.size();i++) {
+			String[] userAndPass=list.get(i).split(",");
+			String user = userAndPass[1];
+			String certPath = userAndPass[2];
+			Certificate certClient = (Certificate) new FileManager(CERTIFICATE_FILE_PATH + certPath).loadObjects();
+			System.out.println("certClient: " + certClient);
+			PublicKey pubKey = certClient.getPublicKey();
+			userList.put(user,new User(user,pubKey));
+		}
+		//TODO
+	}
 
 	/**
 	 * @param username the user's username to search
@@ -70,25 +77,15 @@ public class UserCatalog {
 	/**
 	 * Add the name; username and the password of the user to the file and to the list
 	 * @param user the user's username
-	 * @param name the user's name
+	 * @param userCert the user's name
 	 * @throws ClassNotFoundException 
 	 * @throws IOException if an error occurs whilst writing in the user's database
 	 */
-//	public void addUser(User user, String name) throws IOException {
-//		String str = name + ":" + user.getUsername() + ":" + user.getPassword() + "\n";
-//		file.writeFile(str);
-//		userList.put(user.getUsername(), user);
-//	}
-
-
-	public void addUser(User user, Certificate userCert) throws ClassNotFoundException, IOException{
-		userList.put(user.getUsername(), user);
-
-		FileManager fileCertificates = new FileManager(CERTIFICATE_FILE_PATH+user.getUsername()+".cert");
-		fileCertificates.writeObjects(userCert);
-
-		new FileManager(USERS_FILE_PATH).writeContent(user.getUsername() + ":" + CERTIFICATE_FILE_PATH+user.getUsername()+".cert");
+	public void addUser(User user, Certificate userCert) throws IOException {
+		String str = user.getUsername() + "," + user.getUsername() + ".cert" + "\n";
+        file.writeFile(str);
+        userList.put(user.getUsername(), user);
 	}
-
-
+	
+	
 }

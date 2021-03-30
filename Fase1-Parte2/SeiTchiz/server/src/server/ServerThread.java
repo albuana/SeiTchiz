@@ -85,6 +85,9 @@ public class ServerThread extends Thread {
 				send(flagNewUser);
 
 				try {
+					
+					System.out.println(server.getKeystore() + "; " + server.getKeystorePassword() + "; " + Server.KEY_STORE_ALIAS);
+					
 					//the nounce noticed
 					send(CipherHandler.sign(originalNonce, CipherHandler.getPrivateKeyFromKeystore
 							(server.getKeystore(), server.getKeystorePassword(), Server.KEY_STORE_ALIAS))); 

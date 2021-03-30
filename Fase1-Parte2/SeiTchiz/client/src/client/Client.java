@@ -91,16 +91,22 @@ public final class Client {
 		SocketFactory sf = SSLSocketFactory.getDefault();
 		
 		socket = (SSLSocket) sf.createSocket(addressport[0],Integer.parseInt(addressport[1]));
-		//handshake ????
+		socket.startHandshake();
 		out = new ObjectOutputStream(socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream());
 		
+		System.out.println("privateKey: " +keystore + ", " + keystorePass + "\n");
+
+		
 		privateKey = CipherHandler.getPrivateKeyFromKeystorePath(keystore,keystorePass, KEY_STORE_ALIAS, KEY_STORE_TYPE); 
 		
-		System.out.println(keystore + ", " + keystorePass);
+		System.out.println("publicKey: " +keystore + ", " + keystorePass + "\n");
 		
-		publicKey = CipherHandler.getPublicKeyFromPathToKeystore(keystore, keystorePass, "keyRSA", "JCEKS");
-		serverPubKey = CipherHandler.getPublicKeyFromPathToKeystore(truststore, "ourserverpass", KEY_STORE_ALIAS, KEY_STORE_TYPE);
+		publicKey = CipherHandler.getPublicKeyFromPathToKeystore(keystore, keystorePass, "ourclientpass", KEY_STORE_TYPE);
+		
+		System.out.println("serverPubKey: " +keystore + ", " + "ourserverpass" + "\n");
+		
+		serverPubKey = CipherHandler.getPublicKeyFromPathToKeystore(truststore, "ourserverpass", "ourserverpass", KEY_STORE_TYPE);
 		this.userID = userID;
 	}
 	 

@@ -23,7 +23,7 @@ public class Server {
 	private static Server INSTANCE = null; 
 	public static final String DATA_PATH = "./Data/";
 
-	public static final String KEY_STORE_ALIAS = "keyRSA";
+	public static final String KEY_STORE_ALIAS = "ourserverpass";
 	public static final String KEY_STORE_TYPE = "JCEKS"; //para armazenar chaves simétricas
 
 	private SSLServerSocket serverSocket;
@@ -71,6 +71,7 @@ public class Server {
 		System.setProperty("javax.net.ssl.keyStorePassword", keystorePassword);
 		System.setProperty("javax.net.ssl.keyStoreType", "jceks");
 		this.keystorePassword = keystorePassword;
+		System.out.println("keystore server: " + keystorePath + "; " + keystorePassword + "; " + KEY_STORE_TYPE);
 		keystore = CipherHandler.getKeystore(keystorePath, keystorePassword, KEY_STORE_TYPE);
 		this.port = port;   
 	}
