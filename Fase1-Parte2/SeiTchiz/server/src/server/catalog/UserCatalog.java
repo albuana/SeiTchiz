@@ -114,7 +114,7 @@ public class UserCatalog {
 	 * @throws IOException if an error occurs whilst writing in the user's database
 	 */
 	public void addUser(User user, Certificate userCert) throws IOException, CertificateEncodingException {
-        String str = user.getUsername() + "," + user.getUsername() + ".cer"+"";
+        String str = user.getUsername() + "," + user.getUsername() + ".cer"+"\n";
         file.writeFile(str);
         userList.put(user.getUsername(), user);
         File file=new File(CERTIFICATE_FILE_PATH+user.getUsername()+".cer");

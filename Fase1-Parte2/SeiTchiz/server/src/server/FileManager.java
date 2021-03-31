@@ -48,8 +48,8 @@ public class FileManager {
 	
 	static {
         try {
-//        	KeyStore ks=CipherHandler.getKeystore(Server.DATA_PATH+"keystore.server", Server.getInstance().getKeystorePassword(), Server.KEY_STORE_TYPE);
-			key = Server.getInstance().getKeystore().getKey("secKey", Server.getInstance().getKeystorePassword().toCharArray());
+        	KeyStore ks=Server.getInstance().getKeystore();
+        	key= ks.getKey(Server.KEY_STORE_ALIAS, Server.getInstance().getKeystorePassword().toCharArray());
 
             encryptCipher = Cipher.getInstance(key.getAlgorithm());
             decryptCipher = Cipher.getInstance(key.getAlgorithm());
