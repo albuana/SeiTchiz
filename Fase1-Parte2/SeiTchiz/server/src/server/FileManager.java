@@ -19,9 +19,12 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.security.InvalidKeyException;
 import java.security.Key;
+import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
 import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +32,9 @@ import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
 import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+
+import cipher.CipherHandler;
 
 public class FileManager {
 
@@ -40,11 +46,46 @@ public class FileManager {
 	private static Cipher decryptCipher;
 	private static Key key;
 	
+	static {
+        try {
+//        	KeyStore ks=CipherHandler.getKeystore(Server.DATA_PATH+"keystore.server", Server.getInstance().getKeystorePassword(), Server.KEY_STORE_TYPE);
+			key = Server.getInstance().getKeystore().getKey("secKey", Server.getInstance().getKeystorePassword().toCharArray());
+
+            encryptCipher = Cipher.getInstance(key.getAlgorithm());
+            decryptCipher = Cipher.getInstance(key.getAlgorithm());
+
+            encryptCipher.init(Cipher.ENCRYPT_MODE, key);
+            decryptCipher.init(Cipher.DECRYPT_MODE, key);
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | KeyStoreException | UnrecoverableKeyException e) {
+            e.printStackTrace();
+        }
+    }
 	
+	private byte[] encryptString(String line, Key key) {
+		try{
+			byte[] text = line.getBytes();
+			byte[] encrypted=encryptCipher.doFinal(text);
+			return encrypted;
+		}
+		catch(Exception e) {
+			return null;
+		}
+	}
+	
+	private String decryptString(String line, Key key) {
+		try{
+			byte[] DecryptedText=decryptCipher.doFinal(line.getBytes());
+			return DecryptedText.toString();
+		}
+		catch(Exception e) {
+			return null;
+		}
+	}
 
 	public FileManager(String file) {
 		this.fileName = file;
 		this.file = new File(fileName);
+		
 	}
 
 	/**
@@ -97,7 +138,7 @@ public class FileManager {
 	 * @throws IOException
 	 */
 	public void writeFile(String str) throws IOException {
-		Files.write(Paths.get(fileName), str.getBytes(), StandardOpenOption.APPEND);
+		Files.write(Paths.get(fileName), encryptString(str, key), StandardOpenOption.APPEND);
 	}
 
 	/**
@@ -110,7 +151,7 @@ public class FileManager {
 		ArrayList<String> ret=new ArrayList<String>();
 		String line;
 		while((line=read.readLine())!=null) {
-			ret.add(line);
+			ret.add(decryptString(line,key));
 		}
 		read.close();
 		return ret;

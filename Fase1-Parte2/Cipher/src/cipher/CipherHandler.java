@@ -13,7 +13,7 @@ import java.security.Signature;
 import java.security.SignatureException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-
+import java.security.cert.CertificateFactory;
 import java.security.cert.Certificate;
 
 public class CipherHandler {
@@ -39,6 +39,12 @@ public class CipherHandler {
 		kstore.load(kfile,keystorePass.toCharArray());
 		return kstore.getCertificate(keystoreAlias); 
 	}
+	
+	public static Certificate getCertificateFromPath(String path) throws CertificateException, FileNotFoundException {
+        FileInputStream fis = new FileInputStream(path);
+        CertificateFactory fac = CertificateFactory.getInstance("X509");
+        return fac.generateCertificate(fis);
+    }
 	
 	public static PublicKey getPublicKeyFromPathToKeystore(String pathToKeystore, String keystorePass, String keystoreAlias,
 			String keystoreType) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
