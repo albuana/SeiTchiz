@@ -48,8 +48,9 @@ public class FileManager {
 	
 	static {
         try {
-        	KeyStore ks=Server.getInstance().getKeystore();
-        	key= ks.getKey(Server.KEY_STORE_ALIAS, Server.getInstance().getKeystorePassword().toCharArray());
+        	KeyStore keystore = Server.getInstance().getKeystore();
+        	String keystorepass = Server.getInstance().getKeystorePassword();
+        	key= keystore.getKey(Server.KEY_STORE_ALIAS, keystorepass.toCharArray());
 
             encryptCipher = Cipher.getInstance(key.getAlgorithm());
             decryptCipher = Cipher.getInstance(key.getAlgorithm());
