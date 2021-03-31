@@ -65,7 +65,6 @@ public class UserCatalog {
 		userList = new HashMap<>();
 		file = new FileManager(USERS_FILE_PATH, "users.txt");
 		ArrayList<String> list;
-
 		try {
 
 			list=file.fileToList();
