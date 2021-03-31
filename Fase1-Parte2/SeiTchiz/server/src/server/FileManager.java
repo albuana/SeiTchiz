@@ -39,7 +39,8 @@ public class FileManager {
 	private static Cipher encryptCipher;
 	private static Cipher decryptCipher;
 	private static Key key;
-
+	
+	
 
 	public FileManager(String file) {
 		this.fileName = file;

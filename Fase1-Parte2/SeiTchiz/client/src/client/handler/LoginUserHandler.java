@@ -167,14 +167,21 @@ public class LoginUserHandler {
 //		}
         
         //TODO tem de se verificar a assinatura no client???
-		
-        PrivateKey pk=CipherHandler.getPrivateKeyFromKeystorePath(pathToKeystore, password, alias, keystoreType);
+        
+        
+    	System.out.println("alias : " + alias);
+    	System.out.println("password : " + password + " " + CLIENT_ALIAS);
+
+    	
+        PrivateKey pk=CipherHandler.getPrivateKeyFromKeystorePath(pathToKeystore, password, CLIENT_ALIAS, keystoreType);
 //		System.out.println(pk);
 
         byte[] clientSignedNounce=CipherHandler.sign(nonce,pk);
         
         if(flagNewUser) {
-            Certificate cer=CipherHandler.getCertificate(pathToKeystore, password, alias, keystoreType);
+        	
+        	System.out.println("alias: " + alias);
+            Certificate cer=CipherHandler.getCertificate(pathToKeystore, password, CLIENT_ALIAS, keystoreType);
             client.send(nonce,clientSignedNounce,cer);
         }
         else {

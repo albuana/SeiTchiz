@@ -95,21 +95,22 @@ public final class Client {
 		out = new ObjectOutputStream(socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream());
 		
-		System.out.println("privateKey: " +keystore + ", " + keystorePass + "\n");
+		System.out.println("privateKey: " +keystore + ", " + keystorePass + ", " + KEY_STORE_ALIAS +"\n");
 
-		
 		privateKey = CipherHandler.getPrivateKeyFromKeystorePath(keystore,keystorePass, KEY_STORE_ALIAS, KEY_STORE_TYPE); 
 		
-		System.out.println("publicKey: " +keystore + ", " + keystorePass + "\n");
+		
+		System.out.println("publicKey: " +keystore + ", " + keystorePass + ", " + "ourclientpass" + "\n");
 		
 		publicKey = CipherHandler.getPublicKeyFromPathToKeystore(keystore, keystorePass, "ourclientpass", KEY_STORE_TYPE);
 		
-		System.out.println("serverPubKey: " +keystore + ", " + "ourserverpass" + "\n");
+		
+		System.out.println("serverPubKey: " +truststore + ", " + "ourserverpass" + "\n");
 		
 		serverPubKey = CipherHandler.getPublicKeyFromPathToKeystore(truststore, "ourserverpass", "ourserverpass", KEY_STORE_TYPE);
 		this.userID = userID;
 	}
-	 
+	  
 
 	/**
 	 * Returns the Client singleton instance after creating the Client and connecting to the server
