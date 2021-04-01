@@ -1,5 +1,11 @@
 package client.handler;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 import client.exceptions.UserCouldNotSendException;
 
 /**
@@ -72,8 +78,12 @@ public class RequestHandler {
 	 * @param groupID
 	 * @return
 	 * @throws UserCouldNotSendException
+	 * @throws IllegalBlockSizeException 
+	 * @throws NoSuchPaddingException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws InvalidKeyException 
 	 */
-	public static Object newgroup(String groupID) throws UserCouldNotSendException {
+	public static Object newgroup(String groupID) throws UserCouldNotSendException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException {
 		return new CreateNewGroupHandler(groupID).newgroup();
 	}
 

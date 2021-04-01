@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.InvalidKeyException;
+import java.security.Key;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -14,6 +15,14 @@ import java.security.SignatureException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+
 import java.security.cert.Certificate;
 
 public class CipherHandler {
@@ -22,6 +31,37 @@ public class CipherHandler {
 		KeyStore ks = KeyStore.getInstance(keystoreType);
 		ks.load(new FileInputStream(path), password.toCharArray());
 		return ks;
+	}
+	
+	//DONE
+	/**
+	 * Generates a key given an algorithm
+	 * @param algortihm to generate key
+	 * @return new key
+	 * @throws NoSuchAlgorithmException
+	 */
+	public static SecretKey generateKey(String algortihm) throws NoSuchAlgorithmException {
+		KeyGenerator kg = KeyGenerator.getInstance(algortihm);
+		kg.init(128);
+		return kg.generateKey();
+	}
+	
+	
+	//DONE
+	/**
+	 * wraps a key with another key
+	 * @param key key which will be wrapped
+	 * @param pk private key
+	 * @return an array og bytes representing a wrapped key
+	 * @throws IllegalBlockSizeException
+	 * @throws InvalidKeyException
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchPaddingException
+	 */
+	public static byte[] encrypt(Key key, Key pk) throws IllegalBlockSizeException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException {
+		Cipher c = Cipher.getInstance(pk.getAlgorithm());
+		c.init(Cipher.WRAP_MODE, pk);
+		return c.wrap(key);
 	}
 
 	public static PrivateKey getPrivateKeyFromKeystorePath(String pathToKeystore, String ketstorePass, String keystoreAlias,
