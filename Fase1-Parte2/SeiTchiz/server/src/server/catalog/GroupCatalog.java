@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
+import java.util.List;
 
 import server.FileManager;
 import server.Server;
@@ -76,7 +77,7 @@ public class GroupCatalog {
 	 */
 	private Group initializeGroup(String gFolderName) throws IOException, UserAlreadyInGroupException, ClassNotFoundException, CertificateException{
 		FileManager groupInfo=new FileManager(GROUPS_DIRECTORY+gFolderName,GROUP_INFO_FILE_NAME);
-		ArrayList<String> members=groupInfo.fileToList();
+		List<String> members=groupInfo.loadContent();
 		UserCatalog users = UserCatalog.getInstance();
 		Group group=new Group(gFolderName, users.getUser(members.get(0)));
 		for(int i=1;i<members.size();i++) {

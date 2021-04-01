@@ -2,6 +2,7 @@ package server.handler;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import server.FileManager;
 import server.catalog.GroupCatalog;
@@ -38,11 +39,12 @@ public class HistoryHandler {
 	 * 
 	 * @return
 	 * @throws IOException
+	 * @throws ClassNotFoundException 
 	 */
-	public String getHistory() throws IOException {
+	public String getHistory() throws IOException, ClassNotFoundException {
 		//adiciona mensagem ao history se ela ainda n�o existe se n�o existirem viewers
 		FileManager history=group.getHistoryFile(user);
-		String retorno = getMessages(history.fileToList());
+		String retorno = getMessages(history.loadContent());
 
 		
 		if(retorno.length()==0)
@@ -54,14 +56,14 @@ public class HistoryHandler {
 	
 	/**
 	 * 
-	 * @param fileToList
+	 * @param list
 	 * @return
 	 * @throws IOException
 	 */
-	private String getMessages(ArrayList<String> fileToList) throws IOException {
+	private String getMessages(List<String> list) throws IOException {
 		StringBuilder retorno = new StringBuilder();
 		
-		for(String s:fileToList) {
+		for(String s:list) {
 			retorno.append(s + "\n");
 		}
 		return retorno.toString();

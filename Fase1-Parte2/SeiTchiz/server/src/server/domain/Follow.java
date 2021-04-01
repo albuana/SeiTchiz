@@ -2,6 +2,7 @@ package server.domain;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import server.FileManager;
 import server.Server;
@@ -44,15 +45,16 @@ public class Follow {
 	 * @return the user that has been followed
 	 * @throws IOException
 	 * @throws UserAlreadyBeingFollowedException 
+	 * @throws ClassNotFoundException 
 	 */
-	public String follow(User userToFollow, User currentUserID) throws IOException, UserAlreadyBeingFollowedException  {
+	public String follow(User userToFollow, User currentUserID) throws IOException, UserAlreadyBeingFollowedException, ClassNotFoundException  {
 
 		
 		FileManager followingCurrentUserID=new FileManager(FOLLOWS_DIRECTORY+currentUserID.getUsername()+"/",FOLLOWING_INFO_FILE_NAME);
 		FileManager followersUserToFollow=new FileManager(FOLLOWS_DIRECTORY+userToFollow.getUsername()+"/",FOLLOWERS_INFO_FILE_NAME);;
 
 
-		ArrayList<String> followingList=followingCurrentUserID.fileToList();
+		List<String> followingList=followingCurrentUserID.loadContent();
 		
 		if(followingList.contains(userToFollow.getUsername()))
 			throw new UserAlreadyBeingFollowedException();
@@ -73,13 +75,14 @@ public class Follow {
 	 * @throws IOException
 	 * @throws CantUnfollowException 
 	 * @throws UserHaveNoFollowersException 
+	 * @throws ClassNotFoundException 
 	 */
-	public String unfollow(User userToUnfollow, User currentUserID) throws IOException, CantUnfollowException, UserHaveNoFollowersException{
+	public String unfollow(User userToUnfollow, User currentUserID) throws IOException, CantUnfollowException, UserHaveNoFollowersException, ClassNotFoundException{
 
 		FileManager followingCurrentUserID=new FileManager(FOLLOWS_DIRECTORY+currentUserID.getUsername()+"/",FOLLOWING_INFO_FILE_NAME);;
 		FileManager followersUserToUnFollow=new FileManager(FOLLOWS_DIRECTORY+userToUnfollow.getUsername()+"/",FOLLOWERS_INFO_FILE_NAME);
 
-		ArrayList<String> followingList=followingCurrentUserID.fileToList();
+		List<String> followingList=followingCurrentUserID.loadContent();
 		
 		if(followingList.isEmpty())
 			throw new CantUnfollowException();
@@ -100,13 +103,14 @@ public class Follow {
 	 * @return
 	 * @throws UserHaveNoFollowersException 
 	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
-	public String viewFollowers(User userID) throws UserHaveNoFollowersException, IOException {
+	public String viewFollowers(User userID) throws UserHaveNoFollowersException, IOException, ClassNotFoundException {
 
 		StringBuilder ret = new StringBuilder();
 
 		FileManager followers=new FileManager(FOLLOWS_DIRECTORY+userID.getUsername()+"/",FOLLOWERS_INFO_FILE_NAME);
-		ArrayList<String> followersList=followers.fileToList();
+		List<String> followersList=followers.loadContent();
 		
 		if(followersList.isEmpty())
 			throw new UserHaveNoFollowersException();

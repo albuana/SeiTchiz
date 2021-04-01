@@ -2,6 +2,7 @@ package server.handler;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 
 import server.domain.User;
@@ -66,8 +67,9 @@ public final class RequestHandler {
 	 * @return
 	 * @throws IOException
 	 * @throws UserHaveNoFollowersException 
+	 * @throws ClassNotFoundException 
 	 */
-	public static String viewFollowers(User currentUserID) throws IOException, UserHaveNoFollowersException{
+	public static String viewFollowers(User currentUserID) throws IOException, UserHaveNoFollowersException, ClassNotFoundException{
 		return  new FollowerHandler(currentUserID).viewFollowers();
 	}
 
@@ -77,8 +79,9 @@ public final class RequestHandler {
 	 * @param username
 	 * @return
 	 * @throws IOException
+	 * @throws NoSuchAlgorithmException 
 	 */
-    public static Object post(byte[] data, String fileName, User username) throws IOException {
+    public static Object post(byte[] data, String fileName, User username) throws IOException, NoSuchAlgorithmException {
         return  new PostHandler(data, fileName, username).createPost();
     }
 
@@ -88,10 +91,11 @@ public final class RequestHandler {
 	 * @param object
 	 * @param username
 	 * @return
-	 * @throws FileNotFoundException 
 	 * @throws HaveNoPhotosExeption 
+	 * @throws IOException 
+	 * @throws NoSuchAlgorithmException 
 	 */
-	public static Object wall(String nPhotos, User username) throws FileNotFoundException, HaveNoPhotosExeption {
+	public static Object wall(String nPhotos, User username) throws HaveNoPhotosExeption, NoSuchAlgorithmException, IOException {
 		return  new WallHandler( nPhotos, username).wall(); 
 	}
 

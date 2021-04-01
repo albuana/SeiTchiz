@@ -25,6 +25,7 @@ public class Server {
 
 	public static final String KEY_STORE_ALIAS = "ourserverpass";
 	public static final String KEY_STORE_TYPE = "JCEKS"; //para armazenar chaves simétricas
+	public static final String POST_PATH = "./Fase1-Parte2/SeiTchiz/server/Data/posts";
 
 	private SSLServerSocket serverSocket;
 

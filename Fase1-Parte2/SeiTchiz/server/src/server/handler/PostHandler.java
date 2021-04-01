@@ -1,8 +1,10 @@
 package server.handler;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 import server.FileManager;
+import server.Server;
 import server.domain.Post;
 import server.domain.User;
 
@@ -24,7 +26,7 @@ public class PostHandler {
         this.file = data;
         this.userID = userID;
         this.fileName = fileName;
-        FileManager manager = new FileManager("./Data/posts","");
+        FileManager manager = new FileManager(Server.POST_PATH);
     }
 
     /*
@@ -34,7 +36,7 @@ public class PostHandler {
      * @return
      * @throws IOException
      */
-    public String createPost() throws IOException {
+    public String createPost() throws IOException, NoSuchAlgorithmException {
         return Post.getInstance().createPost(file, fileName, userID);
     }
 

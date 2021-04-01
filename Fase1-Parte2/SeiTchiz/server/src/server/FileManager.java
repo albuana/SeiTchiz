@@ -33,6 +33,7 @@ import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 import cipher.CipherHandler;
 
@@ -48,8 +49,9 @@ public class FileManager {
 	
 	static {
         try {
-        	KeyStore ks=Server.getInstance().getKeystore();
-        	key= ks.getKey(Server.KEY_STORE_ALIAS, Server.getInstance().getKeystorePassword().toCharArray());
+        	KeyStore keystore = Server.getInstance().getKeystore();
+        	String keystorepass = Server.getInstance().getKeystorePassword();
+        	key =  keystore.getKey("secKey", keystorepass.toCharArray());
 
             encryptCipher = Cipher.getInstance(key.getAlgorithm());
             decryptCipher = Cipher.getInstance(key.getAlgorithm());
@@ -60,31 +62,12 @@ public class FileManager {
             e.printStackTrace();
         }
     }
-	
-	private byte[] encryptString(String line, Key key) {
-		try{
-			byte[] text = line.getBytes();
-			byte[] encrypted=encryptCipher.doFinal(text);
-			return encrypted;
-		}
-		catch(Exception e) {
-			return null;
-		}
-	}
-	
-	private String decryptString(String line, Key key) {
-		try{
-			byte[] DecryptedText=decryptCipher.doFinal(line.getBytes());
-			return DecryptedText.toString();
-		}
-		catch(Exception e) {
-			return null;
-		}
-	}
 
 	public FileManager(String file) {
 		this.fileName = file;
 		this.file = new File(fileName);
+		createFile();
+
 		
 	}
 
@@ -96,6 +79,7 @@ public class FileManager {
 	public FileManager(String filePath, String fileName) {
 		this.filePath = filePath;
 		this.fileName = filePath + "/" + fileName;
+		this.file = new File(fileName);
 		createDirectory();
 		createFile();
 
@@ -124,12 +108,10 @@ public class FileManager {
 		if(!file.exists()) {
 			try {
 				file.createNewFile();
-
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	/**
@@ -138,76 +120,21 @@ public class FileManager {
 	 * @throws IOException
 	 */
 	public void writeFile(String str) throws IOException {
-		Files.write(Paths.get(fileName), encryptString(str, key), StandardOpenOption.APPEND);
+		Files.write(Paths.get(fileName), str.getBytes(), StandardOpenOption.APPEND);
 	}
-
-	/**
-	 * 
-	 * @return
-	 * @throws IOException
-	 */
-	public ArrayList<String> fileToList() throws IOException {
-		BufferedReader read = new BufferedReader( new FileReader (fileName));
-		ArrayList<String> ret=new ArrayList<String>();
-		String line;
-		while((line=read.readLine())!=null) {
-			ret.add(decryptString(line,key));
-		}
-		read.close();
-		return ret;
-	}
+	
 	/**
 	 * 
 	 * @param lineToRemove
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
-	public void removeFromFile(String lineToRemove) {
-
-		try {
-
-			File inFile = new File(fileName);
-
-			if (!inFile.isFile()) {
-				System.out.println("Parameter is not an existing file");
-				return;
-			}
-
-			//Construct the new file that will later be renamed to the original filename.
-			File tempFile = new File(inFile.getAbsolutePath() + ".tmp");
-
-			BufferedReader br = new BufferedReader(new FileReader(fileName));
-			PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
-
-			String line = null;
-
-			//Read from the original file and write to the new
-			//unless content matches data to be removed.
-			while ((line = br.readLine()) != null) {
-
-				if (!line.trim().equals(lineToRemove)) {
-
-					pw.println(line);
-					pw.flush();
-				}
-			}
-			pw.close();
-			br.close();
-
-			//Delete the original file
-			if (!inFile.delete()) {
-				System.out.println("Could not delete file");
-				return;
-			}
-
-			//Rename the new file to the filename the original file had.
-			if (!tempFile.renameTo(inFile))
-				System.out.println("Could not rename file");
-
-		}
-		catch (FileNotFoundException ex) {
-			ex.printStackTrace();
-		}
-		catch (IOException ex) {
-			ex.printStackTrace();
+	public void removeFromFile(String lineToRemove) throws ClassNotFoundException, IOException {
+		List<String> content=loadContent();
+		removeAll();
+		content.remove(lineToRemove);
+		for(String line : content) {
+			writeContent(line);
 		}
 	}
 	/**
@@ -362,6 +289,10 @@ public class FileManager {
 	}
 
 	public List<String> loadContent () throws ClassNotFoundException, IOException {
+		if(!file.exists()) {
+			List<String> everything=new ArrayList<String>();
+			return everything;
+		}
 		synchronized(file) {
 			List<String> everything = loadObjects();
 

@@ -2,6 +2,7 @@
 package server.handler;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import server.FileManager;
 import server.catalog.GroupCatalog;
@@ -42,10 +43,11 @@ public class CollectMessagesHandler {
 	 * @return
 	 * @throws IOException
 	 * @throws NothingToReadException 
+	 * @throws ClassNotFoundException 
 	 */
-	public String collect() throws IOException, NothingToReadException {
+	public String collect() throws IOException, NothingToReadException, ClassNotFoundException {
 		FileManager groupFile = group.getGroupCollectFileManager();
-		String retorno = getMessages(groupFile.fileToList());
+		String retorno = getMessages(groupFile.loadContent());
 
 		if(retorno.length()==0)
 			throw new NothingToReadException();
@@ -55,15 +57,16 @@ public class CollectMessagesHandler {
 
 	/**
 	 * 
-	 * @param fileToList
+	 * @param list
 	 * @return
 	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
-	private String getMessages(ArrayList<String> fileToList) throws IOException {
+	private String getMessages(List<String> list) throws IOException, ClassNotFoundException {
 		StringBuilder retorno = new StringBuilder();
 		boolean notSeen = false;
 		//corre cada linha do file 
-		for(String s:fileToList) {
+		for(String s:list) {
 			//separa cada string e fica do tipo sender:msg:(goncalo:tiago)->viewers mas numa matriz
 			String[] split = s.split(":");
 			notSeen = false;
@@ -99,11 +102,12 @@ public class CollectMessagesHandler {
 	 * @param history
 	 * @param collect
 	 * @throws IOException
+	 * @throws ClassNotFoundException 
 	 */
-	private void CheckAddMsgToHistory(FileManager history, FileManager collect) throws IOException {
+	private void CheckAddMsgToHistory(FileManager history, FileManager collect) throws IOException, ClassNotFoundException {
 		//V� se no collect existe mensagens do tipo sender:msg sem viewers e se houver remove e adiciona ao history
-		ArrayList<String> collectMessages=collect.fileToList();
-		ArrayList<String> collectHistory=history.fileToList();
+		List<String> collectMessages=collect.loadContent();
+		List<String> collectHistory=history.loadContent();
 		for(String c:collectMessages) {
 			String[] split=c.split(":");
 			if(split.length==2 && !collectHistory.contains(c)) {

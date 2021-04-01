@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.security.PublicKey;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateEncodingException;
@@ -16,6 +17,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.crypto.Cipher;
@@ -84,10 +86,9 @@ public class UserCatalog {
 //		//TODO
 //	}
 
-	
-	
+
 	private void initiateUserList() throws IOException, ClassNotFoundException, CertificateException {
-        ArrayList<String> list=file.fileToList();
+        List<String> list=file.loadContent();
         for(int i=0;i<list.size();i++) {
             String[] userAndPass=list.get(i).split(",");
             String user = userAndPass[0];
@@ -113,9 +114,9 @@ public class UserCatalog {
 	 * @throws ClassNotFoundException 
 	 * @throws IOException if an error occurs whilst writing in the user's database
 	 */
-	public void addUser(User user, Certificate userCert) throws IOException, CertificateEncodingException {
-        String str = user.getUsername() + "," + user.getUsername() + ".cer"+"\n";
-        file.writeFile(str);
+	public void addUser(User user, Certificate userCert) throws IOException, CertificateEncodingException, ClassNotFoundException {
+        String str = user.getUsername() + "," + user.getUsername() + ".cer";
+        file.writeContent(str);
         userList.put(user.getUsername(), user);
         File file=new File(CERTIFICATE_FILE_PATH+user.getUsername()+".cer");
         file.createNewFile();

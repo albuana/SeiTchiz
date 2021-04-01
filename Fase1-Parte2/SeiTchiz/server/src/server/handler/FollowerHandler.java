@@ -54,16 +54,16 @@ public class FollowerHandler {
 	}
 
 	
-	public String follow() throws  IOException, UserNotExistException, UserAlreadyBeingFollowedException {
+	public String follow() throws  IOException, UserNotExistException, UserAlreadyBeingFollowedException, ClassNotFoundException {
 		return Follow.getInstance().follow(userID, currentUserID);
 	}
 
-	public String unfollow() throws  IOException, UserNotExistException, CantUnfollowException, UserHaveNoFollowersException {
+	public String unfollow() throws  IOException, UserNotExistException, CantUnfollowException, UserHaveNoFollowersException, ClassNotFoundException {
 
 		return Follow.getInstance().unfollow(userID, currentUserID);
 	}
 	
-	public String viewFollowers() throws  IOException, UserHaveNoFollowersException {
+	public String viewFollowers() throws  IOException, UserHaveNoFollowersException, ClassNotFoundException {
 
 		return Follow.getInstance().viewFollowers(currentUserID);
 	}

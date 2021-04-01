@@ -37,6 +37,14 @@ public class User {
 		return username;
 	}
 	
+	/**
+	 * 
+	 * @return the user's public key
+	 * @since 1.0
+	 */
+	public String getPassword() {
+		return password;
+	}
 
 	@Override
 	public int hashCode() {

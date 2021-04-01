@@ -1,6 +1,8 @@
 package server.handler;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 import server.domain.Post;
 import server.domain.User;
@@ -25,10 +27,11 @@ public class WallHandler {
 	
 	/**
 	 * @return
-	 * @throws FileNotFoundException
 	 * @throws HaveNoPhotosExeption
+	 * @throws IOException 
+	 * @throws NoSuchAlgorithmException 
 	 */
-	public Object wall() throws FileNotFoundException, HaveNoPhotosExeption {
+	public Object wall() throws HaveNoPhotosExeption, NoSuchAlgorithmException, IOException {
 		return Post.getInstance().wall(nPhotos, username);
 	}
 

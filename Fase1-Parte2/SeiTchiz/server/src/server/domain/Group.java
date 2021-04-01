@@ -32,7 +32,7 @@ public class Group {
 	 * @throws IOException if anything happens whilst writing in the group groupInfo file
 	 * @throws ClassNotFoundException 
 	 */
-	public Group(String groupID, User owner) throws IOException {
+	public Group(String groupID, User owner) throws IOException, ClassNotFoundException {
 		this.owner=owner;
 		this.groupID=groupID;
 		this.membersList=new ArrayList<>();
@@ -40,12 +40,12 @@ public class Group {
 		initializeMessages();
 	}
 
-	private void initializeMessages() throws IOException {
+	private void initializeMessages() throws IOException, ClassNotFoundException {
 		String path=GROUPS_DIRECTORY+groupID+"/";
 		groupInfoFM = new FileManager(path, GROUP_INFO_FILE_NAME);
 		groupCollectFM= new FileManager(path,GROUP_COLLECT_FILE_NAME);
-		groupInfoFM.fileToList();
-		groupCollectFM.fileToList();
+		groupInfoFM.loadContent();
+		groupCollectFM.loadContent();
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class Group {
 	 * @throws ClassNotFoundException
 	 * @throws UserDoesNotBelongToGroupException if the given user is not in the group
 	 */
-	public void removeMember(User user) throws UserDoesNotInGroupException, IOException {
+	public void removeMember(User user) throws UserDoesNotInGroupException, IOException, ClassNotFoundException {
 		if(!membersList.remove(user))
 			throw new UserDoesNotInGroupException();
 		else {

@@ -2,6 +2,7 @@ package server.domain;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,11 +10,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
+import server.FileManager;
 import server.Server;
 import server.exceptions.post.HaveNoPhotosExeption;
 import server.exceptions.post.NoPostExeption;
@@ -27,7 +31,7 @@ public class Post {
 
 	//Post ID counter
 	private static Post INSTANCE = null;
-	private static final String POST_DIRECTORY = Server.DATA_PATH+"posts/";
+	private static final String POST_DIRECTORY = Server.POST_PATH;
 
 	/**
 	 * Returns post instance
@@ -43,7 +47,6 @@ public class Post {
 	 * Constructor
 	 */
 	private Post() {
-
 	}
 
 	/**
@@ -52,8 +55,9 @@ public class Post {
 	 * @param userID
 	 * @return
 	 * @throws IOException
+	 * @throws NoSuchAlgorithmException 
 	 */
-	public String createPost(byte[] buff, String fileName ,User userID) throws IOException {
+	public String createPost(byte[] buff, String fileName ,User userID) throws IOException, NoSuchAlgorithmException {
 
 		String extensao = fileName.substring(fileName.lastIndexOf('.') + 1);
 		String fileNameWEx = fileName.replaceFirst("[.][^.]+$", "");
@@ -80,9 +84,8 @@ public class Post {
 				//Creates Post
 				createPostFile(buff, extensao, fileName ,userID);
 
-				//Write on file the id and likes
-				writeFile(postFile, extensao);
-
+				//Write on file the id and likes and digest
+				writeFile(postFile, extensao, getDigestPhoto(buff));
 				return "Post sent.";
 			}
 		}
@@ -102,22 +105,29 @@ public class Post {
 		createPostFile(buff, extensao, fileName ,userID);
 
 		//Write on file the id and likes
-		writeFile(postFile, extensao);
+		writeFile(postFile, extensao, getDigestPhoto(buff));
 
 		return "Post sent.";
 
 	}
 
 
+	private String getDigestPhoto(byte[] buff) throws NoSuchAlgorithmException {
+		MessageDigest md = MessageDigest.getInstance("SHA");
+		byte[] digested= md.digest(buff);
+		return new String(digested);
+	}
+
 	/**
 	 * return a list with n post 
 	 * @param n
 	 * @param username
 	 * @return
-	 * @throws FileNotFoundException 
 	 * @throws HaveNoPhotosExeption 
+	 * @throws IOException 
+	 * @throws NoSuchAlgorithmException 
 	 */
-	public String wall(int n, User username) throws FileNotFoundException, HaveNoPhotosExeption {
+	public String wall(int n, User username) throws HaveNoPhotosExeption, IOException, NoSuchAlgorithmException {
 		int count = n;
 		StringBuilder ret = new StringBuilder();
 		ArrayList<String> followedUsers = getFollowed(username.getUsername());
@@ -150,6 +160,12 @@ public class Post {
 						String id = sc.nextLine();
 						String likes = sc.nextLine();
 						String ext = sc.nextLine();
+						String digest = sc.nextLine();
+						File photo=new File(fileNameWEx+"."+ext);
+						if(!verifyPhoto(photo,ext,digest)) {
+							sc.close();
+							return "Verification Failed";
+						}
 
 						ret.append(fileNameWEx+"."+ext);
 						ret.append("\n"+id);
@@ -169,6 +185,17 @@ public class Post {
 			ret.append("That's all.");
 
 		return ret.toString();
+	}
+
+	private boolean verifyPhoto(File photo,String ext, String digest) throws IOException, NoSuchAlgorithmException {
+		BufferedImage bImage = ImageIO.read(photo);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ImageIO.write(bImage, ext, bos );
+        byte [] data = bos.toByteArray();
+        MessageDigest md = MessageDigest.getInstance("SHA");
+        if (MessageDigest.isEqual(md.digest(data), digest.getBytes()))
+        	return true;
+		return false;
 	}
 
 	/**
@@ -232,7 +259,7 @@ public class Post {
 	private ArrayList<String> getFollowed(String username) throws FileNotFoundException{
 		ArrayList<String> userList = new ArrayList<String>();
 
-		File userFile = new File("./Data/follows/"+username+"/following.txt");
+		File userFile = new File(Server.DATA_PATH+"follows/"+username+"/following.txt");
 
 		if(!userFile.getAbsoluteFile().exists())
 			return null;
@@ -255,11 +282,13 @@ public class Post {
 	 * @param file
 	 * @param userID
 	 * @throws IOException
+	 * @throws NoSuchAlgorithmException 
 	 */
-	private void createPostFile(byte[] buff ,String extensao, String file, User userID) throws IOException {
+	private void createPostFile(byte[] buff ,String extensao, String file, User userID) throws IOException, NoSuchAlgorithmException {
 		ByteArrayInputStream bis = new ByteArrayInputStream(buff);
 		BufferedImage bImage2 = ImageIO.read(bis);
-		ImageIO.write(bImage2, extensao, new File(POST_DIRECTORY+"/"+userID.getUsername()+"/"+file));
+		ImageIO.write(bImage2, extensao, new File(POST_DIRECTORY+"/"+userID.getUsername()+"/"+file));;
+		
 	}
 
 	/**
@@ -277,10 +306,11 @@ public class Post {
 	/**
 	 * Write on file the ID and likes starting from 0
 	 * @param file
+	 * @param string 
 	 * @throws IOException
 	 */
-	private void writeFile(File file, String extensao) throws IOException {
-		Files.write(file.toPath(), ("ID:"+nextID()+"\n"+"Likes:0\n"+extensao).getBytes(), StandardOpenOption.APPEND);
+	private void writeFile(File file, String extensao, String string) throws IOException {
+		Files.write(file.toPath(), ("ID:"+nextID()+"\n"+"Likes:0\n"+extensao+"\n"+string).getBytes(), StandardOpenOption.APPEND);
 	}
 
 	/**
@@ -311,7 +341,7 @@ public class Post {
 	 * @throws IOException
 	 */
 	private void createDirectories(User userID) throws IOException {
-		Path path = Paths.get("./Data/posts/"+userID);
+		Path path = Paths.get(POST_DIRECTORY+userID);
 		Files.createDirectory(path);
 	}
 

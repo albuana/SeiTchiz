@@ -1,9 +1,17 @@
 package server;
 
 import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.Key;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * 
@@ -15,7 +23,7 @@ public class SeiTchizServer {
 
 	private static int port;
 
-	public static void main(String[] args) throws NumberFormatException, IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException{
+	public static void main(String[] args) throws NumberFormatException, IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException{
 		System.out.println("\nserver: main");
 
 		//		if(args.length == 0){
@@ -32,7 +40,7 @@ public class SeiTchizServer {
 //		int p = Integer.parseInt(args[0]);
 //		String kspath = args[1]; 
 //		String kspass = args[2];
-		
+
 		System.out.println("\nVamos saber os args colocados (soh para teste)");
 		
 		System.out.println(Integer.parseInt(args[0]) +"; " + args[1] + "; " +  args[2]);
