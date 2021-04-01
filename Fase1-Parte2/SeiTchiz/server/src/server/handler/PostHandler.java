@@ -22,7 +22,7 @@ public class PostHandler {
     /*
      * Constructor
      */
-    public PostHandler(byte[] data, String fileName ,User userID) {
+    public PostHandler(byte[] data, String fileName ,User userID) throws IOException {
         this.file = data;
         this.userID = userID;
         this.fileName = fileName;

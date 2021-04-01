@@ -1,6 +1,7 @@
 package server.handler;
 
 import java.security.PublicKey;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class GetGroupPubKeysHandler {
 	private Group group;
 	private User user;
 
-	public GetGroupPubKeysHandler(String groupID, User user) throws GroupNotExistException {
+	public GetGroupPubKeysHandler(String groupID, User user) throws GroupNotExistException, ClassNotFoundException, CertificateException {
 		this.group = GroupCatalog.getInstance().getGroup(groupID);
 		this.user = user;
 		if(group == null)

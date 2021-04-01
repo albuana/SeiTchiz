@@ -63,10 +63,11 @@ public class FileManager {
         }
     }
 
-	public FileManager(String file) {
+	public FileManager(String file) throws IOException {
 		this.fileName = file;
+		filePath=file;
 		this.file = new File(fileName);
-		createFile();
+
 
 		
 	}
@@ -80,8 +81,6 @@ public class FileManager {
 		this.filePath = filePath;
 		this.fileName = filePath + "/" + fileName;
 		this.file = new File(fileName);
-		createDirectory();
-		createFile();
 
 	}
 	/**

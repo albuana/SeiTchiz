@@ -15,15 +15,18 @@ import server.catalog.GroupCatalog;
 public class CreateGroupHandler {
 	private String groupID;
 	private User user;
+	private byte[] encryptedKey;
 	
 	/**
 	 * CreateGroupHandler constructor
 	 * @param groupID the name of the group to create
+	 * @param encrypted 
 	 * @param user the user that is creating the group
 	 */
-	public CreateGroupHandler(String groupID, User user) {
+	public CreateGroupHandler(String groupID, byte[] encrypted, User user) {
 		this.user = user;
 		this.groupID = groupID;
+		this.encryptedKey=encrypted;
 	}
 	
 	/**
@@ -34,7 +37,7 @@ public class CreateGroupHandler {
 	 * @throws CertificateException 
 	 */
 	public String newgroup() throws GroupAlreadyExistException, IOException, ClassNotFoundException, CertificateException {
-		GroupCatalog.getInstance().addGroup(groupID, user.getUsername());
+		GroupCatalog.getInstance().addGroup(groupID, user.getUsername(), encryptedKey);
 		return "Group "+ groupID + " was successfully created.\n";	
 	}
 	

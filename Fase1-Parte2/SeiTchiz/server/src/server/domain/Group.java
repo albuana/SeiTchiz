@@ -1,7 +1,13 @@
 package server.domain;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import server.FileManager;
 import server.Server;
@@ -15,12 +21,14 @@ public class Group {
 	private User owner;
 	private String groupID;
 	private ArrayList<User> membersList;
+	private Map<User,List<GroupKey>> groupKeys;
+	private Map<User,Integer> userGroupId;
 	private static final String GROUPS_DIRECTORY = Server.DATA_PATH+"groups/";
 	private static final String GROUP_INFO_FILE_NAME = "groupinfo.txt";
 	private static final String GROUP_COLLECT_FILE_NAME = "groupcollect.txt";
 	private static final String GROUPS_HISTORY_DIRECTORY = "history/";
-
-
+	
+	private int currentGroupKeyId;
 	private FileManager groupInfoFM, groupCollectFM, groupHistoryFM;
 
 
@@ -28,24 +36,44 @@ public class Group {
 	 * 
 	 * @param groupID the name of the name
 	 * @param owner the owner of the group
+	 * @param encryptedKey 
 	 * @param key the group key
 	 * @throws IOException if anything happens whilst writing in the group groupInfo file
 	 * @throws ClassNotFoundException 
 	 */
-	public Group(String groupID, User owner) throws IOException, ClassNotFoundException {
-		this.owner=owner;
-		this.groupID=groupID;
-		this.membersList=new ArrayList<>();
-		this.membersList.add(owner);
-		initializeMessages();
-	}
-
-	private void initializeMessages() throws IOException, ClassNotFoundException {
-		String path=GROUPS_DIRECTORY+groupID+"/";
-		groupInfoFM = new FileManager(path, GROUP_INFO_FILE_NAME);
-		groupCollectFM= new FileManager(path,GROUP_COLLECT_FILE_NAME);
-		groupInfoFM.loadContent();
-		groupCollectFM.loadContent();
+	public Group(String groupID, byte[] encryptedKey,  User owner) throws ClassNotFoundException, IOException{
+        this.groupID=groupID;
+        currentGroupKeyId = 0;
+        this.owner = owner;
+        membersList=new ArrayList<User>();
+        membersList.add(owner);
+        groupKeys=new HashMap<User,List<GroupKey>>();
+        groupKeys.put(owner, new ArrayList<>());
+        groupKeys.get(owner).add(new GroupKey(0,encryptedKey));
+        userGroupId=new HashMap<User,Integer>();
+        userGroupId.put(owner, currentGroupKeyId);
+        //add the secret key to the owner of the group (yes he is going to have a key only 
+        //for himself)
+		Path path = Paths.get(GROUPS_DIRECTORY+groupID);
+		Files.createDirectories(path);
+        //groupInfo
+        //owner
+        //currentKeyId
+        //group members
+        groupInfoFM=new FileManager("Fase1-Parte2/SeiTchiz/server/Data/groups/"+groupID+"/groupinfo.txt");
+        groupInfoFM.writeContent(owner == null ? "" : owner.getUsername() + "," + new GroupKey(currentGroupKeyId,encryptedKey));
+        //TODO verificar porque está em duas linhas não prioritário
+    }
+	//Construtos para inicializar grupos e nao criar pelo newgroup como o de cima
+	public Group(String gFolderName, GroupKey key, User owner) {
+		currentGroupKeyId = key.getIdentifier();
+		this.groupID=gFolderName;
+		this.owner = owner;
+        membersList=new ArrayList<User>();
+        membersList.add(owner);
+        groupKeys.put(owner, new ArrayList<>());
+        groupKeys.get(owner).add(new GroupKey(0,key.getEncryptedKey()));
+        userGroupId.put(owner, currentGroupKeyId);
 	}
 
 	/**

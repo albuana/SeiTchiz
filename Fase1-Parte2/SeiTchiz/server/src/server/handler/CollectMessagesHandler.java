@@ -1,6 +1,7 @@
 
 package server.handler;
 import java.io.IOException;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +27,10 @@ public class CollectMessagesHandler {
 	 * @param currentUser
 	 * @throws GroupNotExistException
 	 * @throws UserDoesNotBelongToGroupException
+	 * @throws CertificateException 
+	 * @throws ClassNotFoundException 
 	 */
-	public CollectMessagesHandler(String groupID,User currentUser) throws GroupNotExistException, UserDoesNotBelongToGroupException {
+	public CollectMessagesHandler(String groupID,User currentUser) throws GroupNotExistException, UserDoesNotBelongToGroupException, ClassNotFoundException, CertificateException {
 		this.group = GroupCatalog.getInstance().getGroup(groupID);
 		this.user = currentUser;
 		if(group ==  null)

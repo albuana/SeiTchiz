@@ -128,8 +128,8 @@ public final class RequestHandler {
 	 * @throws CertificateException 
 	 * @see server.handlers.CreateGroupHandler
 	 */
-	public static String newgroup(String groupId, User user) throws GroupAlreadyExistException, IOException, ClassNotFoundException, CertificateException {
-		return new CreateGroupHandler(groupId, user).newgroup();
+	public static String newgroup(String groupId, byte[] encrypted,User user) throws GroupAlreadyExistException, IOException, ClassNotFoundException, CertificateException {
+		return new CreateGroupHandler(groupId, encrypted, user).newgroup();
 	}
 
 	/**
@@ -150,7 +150,7 @@ public final class RequestHandler {
 		return new AddNewMemberGroupHandler(newUser,groupId,owner).addMember();
 	}
 	
-	public static Object[] getGroupPublicKey(String groupID, User user) throws UserNotOwnerException, GroupNotExistException {
+	public static Object[] getGroupPublicKey(String groupID, User user) throws UserNotOwnerException, GroupNotExistException, ClassNotFoundException, CertificateException {
 		List<PublicKey> k = new GetGroupPubKeysHandler(groupID,user).getPubKeys();
 		ArrayList<User> users =  GroupCatalog.getInstance().getGroup(groupID).getUsers();
 		List<String> usersNames = new ArrayList<>();
@@ -183,14 +183,16 @@ public final class RequestHandler {
 	 * @return owner and total number of members of this group, if currentUser is owner of group
 	 * returns also user names of members
 	 * @throws GroupException 
+	 * @throws CertificateException 
+	 * @throws ClassNotFoundException 
 	 * @throws UserDoesNotBelongToGroupException - in case user does not belong to group
 	 * @see server.handlers.GroupInfoHandler
 	 */
-	public static String ginfo (String groupId, User currentUser) throws GroupException {
+	public static String ginfo (String groupId, User currentUser) throws GroupException, ClassNotFoundException, CertificateException {
 		return new GroupInfoHandler(groupId,currentUser).getInfo();
 	}
 
-	public static String ginfo (User currentUser) throws GroupException {
+	public static String ginfo (User currentUser) throws GroupException, ClassNotFoundException, CertificateException {
 		return new GroupInfoHandler(currentUser).getInfo();
 	}
 
@@ -204,9 +206,10 @@ public final class RequestHandler {
 	 * @throws UserDoesNotBelongToGroupException - if user doesn't belong to group
 	 * @throws IOException
 	 * @throws ClassNotFoundException 
+	 * @throws CertificateException 
 	 * @see server.handlers.CollectMessagesHandler
 	 */
-	public static String msg(String groupId, String content, User sender) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException {
+	public static String msg(String groupId, String content, User sender) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException, CertificateException {
 		return new MessageGroupHandler(groupId, content, sender).sendmsg();
 	}
 
@@ -220,9 +223,10 @@ public final class RequestHandler {
 	 * @throws NoSuchAlgorithmException 
 	 * @throws ClassNotFoundException 
 	 * @throws NothingToReadException 
+	 * @throws CertificateException 
 	 * @see server.handlers.CollectMessagesHandler
 	 */
-	public static String collect (String groupID, User user) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException, NothingToReadException {
+	public static String collect (String groupID, User user) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException, NothingToReadException, CertificateException {
 		return new CollectMessagesHandler(groupID,user).collect();
 	}
 
@@ -237,9 +241,10 @@ public final class RequestHandler {
 	 * @throws UserAlreadyFollowedException 
 	 * @throws UserFollowingHimSelfException 
 	 * @throws ClassNotFoundException 
+	 * @throws CertificateException 
 	 * @see server.handlers.HistoryHandler
 	 */
-	public static String history(String groupId, User user) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException {
+	public static String history(String groupId, User user) throws GroupNotExistException, IOException, ClassNotFoundException, UserDoesNotBelongToGroupException, CertificateException {
 		return new HistoryHandler(groupId, user).getHistory();
 	}
 }

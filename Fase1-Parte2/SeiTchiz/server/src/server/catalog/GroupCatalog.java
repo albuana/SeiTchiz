@@ -9,6 +9,7 @@ import java.util.List;
 import server.FileManager;
 import server.Server;
 import server.domain.Group;
+import server.domain.GroupKey;
 import server.domain.User;
 import server.exceptions.group.UserAlreadyInGroupException;
 import server.exceptions.group.GroupAlreadyExistException;
@@ -22,14 +23,18 @@ public class GroupCatalog {
 	private static GroupCatalog INSTANCE;
 	private static ArrayList<Group> groupsList;
 	
-	private static final String GROUPS_DIRECTORY = Server.DATA_PATH+"groups/";
+	private static final String GROUPS_DIRECTORY = "Fase1-Parte2/SeiTchiz/server/Data/groups/";
 	private static final String GROUP_INFO_FILE_NAME = "groupinfo.txt";
 	private static final String GROUP_COLLECT_FILE_NAME = "groupcollect.txt";
 	
 	/**
 	 * @return GroupCatalog singleton instance
+	 * @throws CertificateException 
+	 * @throws ClassNotFoundException 
 	 */
-	public static GroupCatalog getInstance() {
+	public static GroupCatalog getInstance() throws ClassNotFoundException, CertificateException {
+		if(INSTANCE == null)
+			INSTANCE = new GroupCatalog();
 		return INSTANCE;
 	}
 
@@ -77,9 +82,17 @@ public class GroupCatalog {
 	 */
 	private Group initializeGroup(String gFolderName) throws IOException, UserAlreadyInGroupException, ClassNotFoundException, CertificateException{
 		FileManager groupInfo=new FileManager(GROUPS_DIRECTORY+gFolderName,GROUP_INFO_FILE_NAME);
-		List<String> members=groupInfo.loadContent();
+		List<String> load=groupInfo.loadContent();
+		List<String> members=new ArrayList<String>();
+		List<GroupKey> groupKeys=new ArrayList<GroupKey>();
+
+		for(String s:load) {
+			String[] split=s.split(",");
+			members.add(split[0]);
+			groupKeys.add(new GroupKey().StringToGroupKey(split[1]));
+		}
 		UserCatalog users = UserCatalog.getInstance();
-		Group group=new Group(gFolderName, users.getUser(members.get(0)));
+		Group group=new Group(gFolderName, groupKeys.get(0),users.getUser(members.get(0)));
 		for(int i=1;i<members.size();i++) {
 			group.getUsers().add(users.getUser(members.get(i)));
 		}
@@ -90,20 +103,20 @@ public class GroupCatalog {
 	 * Adds a group to the catalog
 	 * @param groupID Id of the group to add
 	 * @param owner who created the group
+	 * @param encryptedKey 
 	 * @return true if successful
 	 * @throws GroupAlreadyExistException if group id already in use
 	 * @throws IOException if an error occurs whilst writing in the user's database
 	 * @throws ClassNotFoundException 
 	 * @throws CertificateException 
 	 */
-	public boolean addGroup(String groupID, String owner) throws GroupAlreadyExistException, IOException, ClassNotFoundException, CertificateException {
+	public boolean addGroup(String groupID, String owner, byte[] encryptedKey) throws GroupAlreadyExistException, IOException, ClassNotFoundException, CertificateException {
 
 		String [] groupFolders = new File(GROUPS_DIRECTORY).list();
-		Group grupo=new Group(groupID, UserCatalog.getInstance().getUser(owner));
 		User user = UserCatalog.getInstance().getUser(owner);
 		
 		if(groupFolders==null) { //if the group that user want to create don't exist
-			createGroupFiles(groupID, user); //create the folder with the given group name
+			Group grupo=new Group(groupID, encryptedKey,UserCatalog.getInstance().getUser(owner));
 			grupo.createHistory(user); //and create the history file of the user
 			groupsList.add(grupo);
 			return true;
@@ -114,7 +127,7 @@ public class GroupCatalog {
 				throw new GroupAlreadyExistException();
 
 		try {
-			createGroupFiles(groupID, user);
+			Group grupo=new Group(groupID, encryptedKey, UserCatalog.getInstance().getUser(owner));
 			grupo.createHistory(user);
 			groupsList.add(grupo);
 		} catch (IOException e) {
@@ -123,18 +136,6 @@ public class GroupCatalog {
 		return true;
 	}
 
-	/**
-	 * Create the group files (group info and collect)
-	 * @param groupID
-	 * @param user
-	 * @throws IOException
-	 */
-	private void createGroupFiles(String groupID, User user) throws IOException {
-		String path=GROUPS_DIRECTORY+groupID;
-		FileManager groupInfo=new FileManager(path,GROUP_INFO_FILE_NAME);
-		new FileManager(path,GROUP_COLLECT_FILE_NAME);
-		groupInfo.writeFile(user.getUsername()+"\n"); //Primeiro nome a ser escrito no ficheiro eh o do dono
-	}
 
 	/**
 	 * Returns group by their ID

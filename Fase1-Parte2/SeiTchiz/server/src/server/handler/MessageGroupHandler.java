@@ -1,6 +1,7 @@
 package server.handler;
 
 import java.io.IOException;
+import java.security.cert.CertificateException;
 
 import server.FileManager;
 import server.catalog.GroupCatalog;
@@ -26,8 +27,10 @@ public class MessageGroupHandler {
 	 * @param msg
 	 * @param sender
 	 * @throws GroupNotExistException
+	 * @throws CertificateException 
+	 * @throws ClassNotFoundException 
 	 */
-	public MessageGroupHandler(String groupID, String msg, User sender) throws GroupNotExistException {
+	public MessageGroupHandler(String groupID, String msg, User sender) throws GroupNotExistException, ClassNotFoundException, CertificateException {
 		Group group = GroupCatalog.getInstance().getGroup(groupID);
 		if(group == null)
 			throw new GroupNotExistException();

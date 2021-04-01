@@ -1,5 +1,7 @@
 package server.handler;
 
+import java.security.cert.CertificateException;
+
 import server.catalog.GroupCatalog;
 import server.domain.Group;
 import server.domain.User;
@@ -27,8 +29,11 @@ public class GroupInfoHandler {
 	 * @throws GroupNotExistException if the group does not exist
 	 * @throws UserDoesNotBelongToGroupException if user does not belong to group
 	 * @throws UserNotOwnerException 
+	 * @throws CertificateException 
+	 * @throws   
+	 * @throws ClassNotFoundException 
 	 */
-	public GroupInfoHandler(String groupId, User user) throws GroupNotExistException, UserDoesNotBelongToGroupException, UserNotOwnerException {
+	public GroupInfoHandler(String groupId, User user) throws GroupNotExistException, UserDoesNotBelongToGroupException, UserNotOwnerException, ClassNotFoundException, CertificateException   {
 		this.group = GroupCatalog.getInstance().getGroup(groupId);
 		if(this.group == null)
 			throw new GroupNotExistException(); //esse grupo nao existe
@@ -37,7 +42,7 @@ public class GroupInfoHandler {
 		this.user = user;
 	}
 
-	public String getInfo() {
+	public String getInfo() throws ClassNotFoundException, CertificateException {
 		StringBuilder sb = new StringBuilder();
 
 		if(group != null) {
