@@ -3,8 +3,13 @@ package server.handler;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
+import server.catalog.GroupCatalog;
 import server.domain.User;
 import server.exceptions.UserNotExistException;
 import server.exceptions.follow.CantUnfollowException;
@@ -15,6 +20,7 @@ import server.exceptions.group.GroupException;
 import server.exceptions.group.GroupNotExistException;
 import server.exceptions.group.NothingToReadException;
 import server.exceptions.group.UserDoesNotBelongToGroupException;
+import server.exceptions.group.UserNotOwnerException;
 import server.exceptions.post.HaveNoPhotosExeption;
 import server.exceptions.post.NoPostExeption;
 import server.exceptions.group.CantRemoveOwnerExeption;
@@ -142,6 +148,15 @@ public final class RequestHandler {
 	 */
 	public static String addu(String newUser, String groupId, User owner) throws UserNotExistException, ClassNotFoundException, GroupException, IOException, CertificateException {
 		return new AddNewMemberGroupHandler(newUser,groupId,owner).addMember();
+	}
+	
+	public static Object[] getGroupPublicKey(String groupID, User user) throws UserNotOwnerException, GroupNotExistException {
+		List<PublicKey> k = new GetGroupPubKeysHandler(groupID,user).getPubKeys();
+		ArrayList<User> users =  GroupCatalog.getInstance().getGroup(groupID).getUsers();
+		List<String> usersNames = new ArrayList<>();
+		users.stream().forEach(u -> usersNames.add(u.getUsername()));
+		return new Object[] {k,usersNames};
+		
 	}
 
 	/**

@@ -8,7 +8,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/tiago/git/SeiTchiz/Fase1-Parte2/SeiTchiz/server/libs/Server.jar"/>
-	<classpathentry kind="lib" path="C:/Users/tiago/git/SeiTchiz/Fase1-Parte2/SeiTchiz/client/libs/Client.jar"/>
+	<classpathentry kind="lib" path="/Users/albuana/git/SeiTchiz/Fase1-Parte2/SeiTchiz/client/libs/Client.jar"/>
+	<classpathentry kind="lib" path="/Users/albuana/git/SeiTchiz/Fase1-Parte2/SeiTchiz/server/libs/Server.jar"/>
 	<classpathentry kind="output" path="Fase1-Parte2/SeiTchiz/client/bin"/>
 </classpath>

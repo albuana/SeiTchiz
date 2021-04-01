@@ -34,11 +34,11 @@ import server.FileManager;
  *
  */
 public class UserCatalog {
-	public static final String USERS_FILE_PATH = Server.DATA_PATH + "users/";
-	public static final String CERTIFICATE_FILE_PATH = Server.DATA_PATH + "publicKeys/";
+	public static final String USERS_FILE_PATH = "Fase1-Parte2/SeiTchiz/server/Data/users/";
+	public static final String CERTIFICATE_FILE_PATH = "Fase1-Parte2/SeiTchiz/server/Data/publicKeys/";
 	private static UserCatalog INSTANCE;
 	private static Map<String,User> userList;
-	private static FileManager file;
+	private static List<String> file;
 
 	/**
 	 * @return the user catalog singleton
@@ -62,8 +62,10 @@ public class UserCatalog {
 	private UserCatalog () throws IOException, ClassNotFoundException, CertificateException {
 		userList = new HashMap<>();
         //Cria Path para publicKeys
-        FileManager pubKeys=new FileManager(CERTIFICATE_FILE_PATH);
-		file = new FileManager(USERS_FILE_PATH,"users.txt");
+		Path path = Paths.get(CERTIFICATE_FILE_PATH);
+
+		Files.createDirectories(path);
+		file = new FileManager(USERS_FILE_PATH,"users.txt").loadContent();
 		initiateUserList();
 	}
 
@@ -88,7 +90,8 @@ public class UserCatalog {
 
 
 	private void initiateUserList() throws IOException, ClassNotFoundException, CertificateException {
-        List<String> list=file.loadContent();
+        FileManager userTxt = new FileManager("Fase1-Parte2/SeiTchiz/server/Data/users/users.txt");
+		List<String> list=userTxt.loadContent();
         for(int i=0;i<list.size();i++) {
             String[] userAndPass=list.get(i).split(",");
             String user = userAndPass[0];
@@ -96,7 +99,6 @@ public class UserCatalog {
             PublicKey pubKey = CipherHandler.getCertificateFromPath(CERTIFICATE_FILE_PATH+certFileName).getPublicKey();
             userList.put(user,new User(user,pubKey));
         }
-        //TODO
     }
 	
 	/**
@@ -116,7 +118,8 @@ public class UserCatalog {
 	 */
 	public void addUser(User user, Certificate userCert) throws IOException, CertificateEncodingException, ClassNotFoundException {
         String str = user.getUsername() + "," + user.getUsername() + ".cer";
-        file.writeContent(str);
+        FileManager userTxt = new FileManager("Fase1-Parte2/SeiTchiz/server/Data/users/users.txt");
+        userTxt.writeContent(str);
         userList.put(user.getUsername(), user);
         File file=new File(CERTIFICATE_FILE_PATH+user.getUsername()+".cer");
         file.createNewFile();

@@ -16,6 +16,7 @@ import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
@@ -33,23 +34,36 @@ public class CipherHandler {
 	}
 	
 	//DONE
-		/**
-		 * Generates a key given an algorithm
-		 * @param algortihm to generate key
-		 * @return new key
-		 * @throws NoSuchAlgorithmException
-		 */
+	/**
+	 * Generates a key given an algorithm
+	 * @param algortihm to generate key
+	 * @return new key
+	 * @throws NoSuchAlgorithmException
+	 */
 	public static SecretKey generateKey(String algortihm) throws NoSuchAlgorithmException {
 		KeyGenerator kg = KeyGenerator.getInstance(algortihm);
 		kg.init(128);
 		return kg.generateKey();
 	}
 	
-	public static byte[] encrypt(Key key, Key pk) throws IllegalBlockSizeException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException {
+	
+	//DONE
+	/**
+	 * wraps a key with another key
+	 * @param key key which will be wrapped
+	 * @param pk private key
+	 * @return an array og bytes representing a wrapped key
+	 * @throws IllegalBlockSizeException
+	 * @throws InvalidKeyException
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchPaddingException
+	 */
+	public static byte[] encryptKey(Key key, Key pk) throws IllegalBlockSizeException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException {
 		Cipher c = Cipher.getInstance(pk.getAlgorithm());
 		c.init(Cipher.WRAP_MODE, pk);
 		return c.wrap(key);
 	}
+
 	public static PrivateKey getPrivateKeyFromKeystorePath(String pathToKeystore, String ketstorePass, String keystoreAlias,
 			String keystoreType) throws KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException, CertificateException, IOException {
 		FileInputStream kfile = new FileInputStream(pathToKeystore);
@@ -97,6 +111,9 @@ public class CipherHandler {
 			String keyStoreAlias) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
 		return (PrivateKey) keystore.getKey(keyStoreAlias, keystorePassword.toCharArray( ));
 	}
+
+	
+	
 
 
 }

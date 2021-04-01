@@ -46,7 +46,7 @@ public class CreateNewGroupHandler {
 		PublicKey publicKey = Client.getInstance().getPublicKey();
 		
 		//cifrar a chave simetrica do grupo com a chave publica do cliente 
-		byte [] encriptedKey = CipherHandler.encrypt(secKey, publicKey);
+		byte [] encriptedKey = CipherHandler.encryptKey(secKey, publicKey);
 		
 		//enviar ao cliente
 		Client.getInstance().send("newgroup",groupID, encriptedKey);

@@ -93,8 +93,12 @@ public class RequestHandler {
 	 * @param groupID
 	 * @return
 	 * @throws UserCouldNotSendException
+	 * @throws NoSuchPaddingException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws IllegalBlockSizeException 
+	 * @throws InvalidKeyException 
 	 */
-	public static Object addu(String newUser, String groupID) throws UserCouldNotSendException {
+	public static Object addu(String newUser, String groupID) throws UserCouldNotSendException, InvalidKeyException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException {
 		return new AddMemberGroupHandler(groupID,newUser).addMember();
 	}
 
