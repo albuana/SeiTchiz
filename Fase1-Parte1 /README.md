@@ -1,5 +1,5 @@
 <h2 align="center"> 
-	🚧  SeiTchiz - An Instagram clone 🚀 Em construção...  🚧
+	SeiTchiz - An Instagram clone 🚀 DONE ✅
 </h2>
 
 ## Grupo 46
