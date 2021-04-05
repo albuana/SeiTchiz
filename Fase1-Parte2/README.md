@@ -83,5 +83,7 @@ Para o cliente se autenticar com sucesso, é necessário que tenha na sua trusts
 
 Para adicionar um utilizador a um grupo, é necessário que a chave pública do mesmo (no formato <username>.cer) esteja presente no diretório server/Data/publicKeys.
 
-Ao fazer collect, as fotos serão colocadas num diretório server/Data/posts/(nome do uti que fez post)/ .
+Ao fazer post, as fotos serão colocadas num diretório server/Data/posts/(nome do uti que fez post)/ .
+Ao fazer msg, as mensagens serão colocadas num diretório server/Data/group/(nome do grupo)/collect/<nome de utilizador no grupo>collect.txt.
+Ao fazer collect, as mensagens serão colocadas num diretório server/Data/group/(nome do grupo)/collect/<nome de utilizador no grupo>history.txt. e removidas do collect respectivo.
 
