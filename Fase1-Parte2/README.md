@@ -107,4 +107,4 @@ As respectivas keystores de cada cliente encontram-se na pasta Fase1-Parte2/SeiT
 
 Para que o cliente consiga fazer post utilizando o jar é preciso que se encontre uma pasta Userfiles/ com as fotos na localização do jar.
 
-
+Ao ser autenticado um novo utilizador é cirado um novo par <UserId, nomeCerticado>, este é cifrado e guardado no ficheiro users.txt em 
