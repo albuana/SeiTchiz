@@ -1,5 +1,5 @@
 <h2 align="center"> 
-	🚧  SeiTchiz - An Instagram clone 🚀 Em construção...  🚧
+	SeiTchiz - An Instagram clone 🚀 DONE ✅
 </h2>
 
 ## Grupo 46
@@ -10,32 +10,44 @@
 
 - Tiago Cabrita 52741
 
-## Como executar o projeto?
+## Como compilar o projeto?
 
-Abra o terminal dentro da pasta 'SeiTchiz/Fase1-Parte2' para executar os próximos comandos.
+Abra o terminal dentro da pasta 'SegC-grupo46-proj1-2' para executar os próximos comandos.
 
 ### RUN
-Para correr o programa com os ficheiros de permissões corretamente é necessario e que este se encontre localizado na home do utilizador: $HOME/SeiTchiz/Fase1-Parte2
+Para correr o programa com os ficheiros de permissões corretamente é necessario e que este se encontre localizado na home do utilizador: $HOME/SegC-grupo46-proj1-2/Fase1-Parte2/SeiTchiz/
 
 ### Servidor:
 
 Navege para a pasta server:
-cd server/
+cd server/libs/
 
 Coloque este comando no terminal:
-java -cp bin -Djava.security.manager -Djava.security.policy=server.policy server.SeiTchizServer <Port>
+java -jar Server.jar [Port] <keystore> <keystore-password>
 
 ### Cliente:
 
 Navege para a pasta client:
-cd client/
+cd client/libs/
 
 Coloque este comando no terminal:
-java -cp bin -Djava.security.manager -Djava.security.policy=client.policy client.SeiTchiz <IP>[:Port] <username> [password]
+java -jar Client.jar <IP>[:Port] <username> <truststore> <keystore> <keystore-password> <localUserID>
 
 Nota: Os campos contidos dentro de [ ] podem não ser colocados.
 
+### Keystores:
+A keystore presente no servidor (server/keystore.server) utiliza a palavra-passe: ourserverpass. Qualquer uma das keystores do cliente (client/keystore.client) utilizam a mesma palavra-passe: ourclientpass.
+
+#### Exemplo de utilização:
+##### Servidor:  
+   `cd Fase1-Parte2/server/libs`  
+   `java -jar Server.jar 45678 ../keystore.server ourserverpass`  
+##### Cliente:    
+   `java -jar Client.jar 127.0.0.1:45678 ../truststore.client ../keystore.ana ourclientpass ana`
+
 ## Limitações:
+
+Na parte 1 fase 2, não conseguimos colocar o cliente e o servidor a correr numa sandbox.
 
 ### Cliente:
 
