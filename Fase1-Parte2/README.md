@@ -52,7 +52,7 @@ Na parte 1 fase 2, não conseguimos colocar o cliente e o servidor a correr numa
 ### Cliente:
 
 - Por omissão a conexão é no porto 45678 (porto onde escuta o servidor).
-- Para postar uma foto é colocá-la na pasta UserFiles que está na pasta ``` client/ ```.
+- Para postar uma foto é necessário colocá-la na pasta UserFiles que está na pasta ``` client/ ```. Tem de verificar se está a correr pelo eclipse. Se não estiver, terá de colocar na pasta UserFiles que está na pasta libs (onde está o executável).
 
 O cliente apenas reconhece os seguintes comandos/atalhos:
 
@@ -62,7 +62,7 @@ O cliente apenas reconhece os seguintes comandos/atalhos:
 |			follow [userID]					| f [userID]             |
 | unfollow [userID]	          | u [userID] 	        	 |
 | viewfollowers								| v                      |
-| post [photo]								|	p [photo]              |
+| post [photo]	*							|	p [photo]              |
 | wall [nPhotos]							| w [nPhotos]            |
 | like [photoID]							| l [photoID]	           |
 | newgroup [groupID]					| n [groupID]            |
@@ -78,4 +78,10 @@ O cliente apenas reconhece os seguintes comandos/atalhos:
 ### Servidor:
 - Dentro da pasta ``` Data/ ``` estão as pastas com as diversas informações relativas ao group; post; follow.
 - Não é possível eliminar posts; grupos e mensagens.
+
+Para o cliente se autenticar com sucesso, é necessário que tenha na sua truststore o certificado do servidor, assim como o seu par de chaves assimétricas RSA na sua keystore.
+
+Para adicionar um utilizador a um grupo, é necessário que a chave pública do mesmo (no formato <username>.cer) esteja presente no diretório server/Data/publicKeys.
+
+Ao fazer collect, as fotos serão colocadas num diretório server/Data/posts/(nome do uti que fez post)/ .
 
