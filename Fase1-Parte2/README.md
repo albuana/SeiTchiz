@@ -17,18 +17,18 @@ Abra o terminal dentro da pasta 'SegC-grupo46-proj1-2/SeiTchiz/' para executar o
 ### Servidor:
 
 Navege para a pasta server:
-cd server/libs/
+`cd server/libs/`
 
 Coloque este comando no terminal:
-java -jar Server.jar [Port] <keystore> <keystore-password>
+`java -jar Server.jar [Port] <keystore> <keystore-password>`
 
 ### Cliente:
 
 Navege para a pasta client:
-cd client/libs/
+`cd client/libs/`
 
 Coloque este comando no terminal:
-java -jar Client.jar <IP>[:Port] <username> <truststore> <keystore> <keystore-password> <localUserID>
+`java -jar Client.jar <IP>[:Port] <username> <truststore> <keystore> <keystore-password> <localUserID>`
 
 Nota: Os campos contidos dentro de [ ] podem não ser colocados.
 
