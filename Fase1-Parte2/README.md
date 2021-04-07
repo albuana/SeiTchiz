@@ -46,7 +46,7 @@ A keystore presente no servidor (server/keystore.server) utiliza a palavra-passe
 
 O sistema SiTchiz pode-se dividir em dois, cliente e servidor. Contudo, de modo a facilitar o trabalho e a não repetir código foi ainda criado um módulo que trata das operações de cifra, decrifra, etc.
 
-![Drag Racing](https://user-images.githubusercontent.com/72214330/113876746-f0cd7600-97af-11eb-8771-bea357fe86a3.png)
+<img src="https://user-images.githubusercontent.com/72214330/113876746-f0cd7600-97af-11eb-8771-bea357fe86a3.png" width="600">
 
 
 ### Cliente:
