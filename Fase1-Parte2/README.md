@@ -51,36 +51,6 @@ foto aqui
 
 ## Gestão de dados cifrados (persistência em disco)
 
-## Limitações:
-
-- Na parte 1 fase 2, não conseguimos colocar o cliente e o servidor a correr numa sandbox.
-- Não é possível eliminar posts; grupos e mensagens.
-
-### Cliente:
-
-- Por omissão a conexão é no porto 45678 (porto onde escuta o servidor).
-- Para postar uma foto é necessário colocá-la na pasta UserFiles que está na pasta ``` client/ ```. Tem de verificar se está a correr pelo eclipse. Se não estiver, terá de colocar na pasta UserFiles que está na pasta libs (onde está o executável).
-
-O cliente apenas reconhece os seguintes comandos/atalhos:
-
-
-|       Comandos              |          Atalhos       |
-|-----------------------------|:----------------------:|
-|			follow [userID]					| f [userID]             |
-| unfollow [userID]	          | u [userID] 	        	 |
-| viewfollowers								| v                      |
-| post [photo]	*							|	p [photo]              |
-| wall [nPhotos]							| w [nPhotos]            |
-| like [photoID]							| l [photoID]	           |
-| newgroup [groupID]					| n [groupID]            |
-| addu/a [userID]	[groupID]		| a [userID] [groupID]   |
-| removeu [userID] [groupID]	| r [userID] [groupID]   |
-| ginfo [groupID]							| g	                     |
-| msg [groupID] [msg]					| m [groupID] [msg]      |
-| collect [groupID]						| c [groupID]            |
-| history [groupID]						| h [groupID]	           |
-| menu												| --                     |
-| quit												|	q		          	       |
 
 ### Servidor:
 
@@ -128,8 +98,6 @@ server
 
 Nota: (*) significa que o ficheiro está cifrado
 
-Para adicionar um utilizador a um grupo, é necessário que a chave pública do mesmo (no formato <username>.cer) esteja presente no diretório ``` server/Data/publicKeys ```;
-	
 Ao fazer follow <User> o programa cria um diretorio com o nome do utilizador no directorio ``` server/Data/follows/ ``` e dentro dele cria 2 ficheiros .txt um follows e um following, no following deve estar o nome do utilizador seguido;
 	
 Ao fazer unfollow <User> o programa atualiza os ficheiros following do utilizador e o follower do user a deixar de ser seguido;
@@ -146,16 +114,57 @@ Ao fazer msg, as mensagens serão colocadas num diretório ``` server/Data/group
 	
 Ao fazer collect, as mensagens serão colocadas num diretório  ``` server/Data/group/(nome do grupo)/collect/<nome de utilizador no grupo>history.txt ``` e removidas do collect respectivo.
 
-	
 
 ### Cliente:
-As respectivas keystores de cada cliente encontram-se na pasta Fase1-Parte2/SeiTchiz/client
 
-Para o cliente se autenticar com sucesso, é necessário que tenha na sua truststore o certificado do servidor, assim como o seu par de chaves assimétricas RSA na sua keystore.
+Ao ser autenticado um novo utilizador é cifrado um novo par <UserId, nomeCerticado>, este é cifrado e guardado no ficheiro users.txt em ``` Data/users/ ```
 
-Para que o cliente consiga fazer post utilizando o jar é preciso que se encontre uma pasta ``` Userfiles/ ```com as fotos na localização do jar.
 
-Ao ser autenticado um novo utilizador é cirado um novo par <UserId, nomeCerticado>, este é cifrado e guardado no ficheiro users.txt em ``` Data/users/ ```
+
+## Limitações:
+
+- Na parte 1 fase 2, não conseguimos colocar o cliente e o servidor a correr numa sandbox.
+
+### Cliente:
+
+- Por omissão a conexão é no porto 45678 (porto onde escuta o servidor).
+- Para postar uma foto é necessário colocá-la na pasta UserFiles que está na pasta ``` client/ ```. 
+- Tem de verificar se está a correr pelo eclipse. Se não estiver, terá de colocar na pasta UserFiles que está na pasta libs (onde está o executável).
+- As respectivas keystores de cada cliente encontram-se na pasta ``` Fase1-Parte2/SeiTchiz/client/ ```;
+
+- Para o cliente se autenticar com sucesso, é necessário que tenha na sua truststore o certificado do servidor, assim como o seu par de chaves assimétricas RSA na sua keystore;
+
+- Para adicionar um utilizador a um grupo, é necessário que a chave pública do mesmo (no formato <username>.cer) esteja presente no diretório ``` server/Data/publicKeys/ ```;
+
+- Para que o cliente consiga fazer post utilizando o jar é preciso que se encontre uma pasta ``` Userfiles/ ```com as fotos na localização do jar.
+
+O cliente apenas reconhece os seguintes comandos/atalhos:
+
+|       Comandos              |          Atalhos       |
+|-----------------------------|:----------------------:|
+|			follow [userID]					| f [userID]             |
+| unfollow [userID]	          | u [userID] 	        	 |
+| viewfollowers								| v                      |
+| post [photo]	*							|	p [photo]              |
+| wall [nPhotos]							| w [nPhotos]            |
+| like [photoID]							| l [photoID]	           |
+| newgroup [groupID]					| n [groupID]            |
+| addu/a [userID]	[groupID]		| a [userID] [groupID]   |
+| removeu [userID] [groupID]	| r [userID] [groupID]   |
+| ginfo [groupID]							| g	                     |
+| msg [groupID] [msg]					| m [groupID] [msg]      |
+| collect [groupID]						| c [groupID]            |
+| history [groupID]						| h [groupID]	           |
+| menu												| --                     |
+| quit												|	q		          	       |
+
+### Servidor:
+
+* Apesar de todos os ficheiros com informação sensível estarem devidamente cifrados, os nomes dos diretórios presentes em `Data/` revelam os nomes dos grupos.
+
+* Apesar de todos os ficheiros com informação sensível estarem devidamente cifrados, os nomes dos ficheiros de certificados revelam os nomes dos users.
+
+* Não é possível eliminar posts; grupos e mensagens.
 
 
 
