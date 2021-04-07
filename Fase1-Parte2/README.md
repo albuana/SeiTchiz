@@ -127,16 +127,13 @@ Ao ser autenticado um novo utilizador é cifrado um novo par <UserId, nomeCertic
 
 ### Cliente:
 
-- Por omissão a conexão é no porto 45678 (porto onde escuta o servidor).
-- Para postar uma foto é necessário colocá-la na pasta UserFiles que está na pasta ``` client/ ```. 
-- Tem de verificar se está a correr pelo eclipse. Se não estiver, terá de colocar na pasta UserFiles que está na pasta libs (onde está o executável).
+- Por omissão a conexão é no porto 45678 (porto onde escuta o servidor);
 - As respectivas keystores de cada cliente encontram-se na pasta ``` Fase1-Parte2/SeiTchiz/client/ ```;
-
 - Para o cliente se autenticar com sucesso, é necessário que tenha na sua truststore o certificado do servidor, assim como o seu par de chaves assimétricas RSA na sua keystore;
+- Para postar uma foto é necessário colocá-la na pasta UserFiles que está na pasta ``` client/ ```. 
+- Tem de verificar se está a correr pelo eclipse. Se não estiver, terá de a colocar na pasta ``` UserFiles ``` que está na pasta ``` libs``` (onde está o jar);
+- Para adicionar um utilizador a um grupo, é necessário que a chave pública do mesmo (no formato <username>.cer) esteja presente no diretório ``` server/Data/publicKeys/ ```.
 
-- Para adicionar um utilizador a um grupo, é necessário que a chave pública do mesmo (no formato <username>.cer) esteja presente no diretório ``` server/Data/publicKeys/ ```;
-
-- Para que o cliente consiga fazer post utilizando o jar é preciso que se encontre uma pasta ``` Userfiles/ ```com as fotos na localização do jar.
 
 O cliente apenas reconhece os seguintes comandos/atalhos:
 
