@@ -98,11 +98,11 @@ server
 
 ``` Nota: (*) significa que o ficheiro está cifrado ```
 
-Ao fazer follow <User> o programa cria um diretorio com o nome do utilizador no directorio ``` server/Data/follows/ ``` e dentro dele cria 2 ficheiros .txt um follows e um following, no following deve estar o nome do utilizador seguido;
+Ao fazer **follow <User>** o programa cria um diretorio com o nome do utilizador no directorio ``` server/Data/follows/ ``` e dentro dele cria 2 ficheiros .txt um follows e um following, no following deve estar o nome do utilizador seguido;
 	
-Ao fazer unfollow <User> o programa atualiza os ficheiros following do utilizador e o follower do user a deixar de ser seguido;
+Ao fazer **unfollow <User>** o programa atualiza os ficheiros following do utilizador e o follower do user a deixar de ser seguido;
 	
-Ao fazer post, as fotos serão colocadas num diretório  ``` server/Data/posts/<nome do utilizador que fez post>/ ```;
+Ao fazer **post<photo>**, as fotos serão colocadas num diretório  ``` server/Data/posts/<nome do utilizador que fez post>/ ```;
 
 Ao fazer wall<N> o programa retorna N posts dos seguidores do Utilizador e em caso de nao haver posts o programa informa o utilizador;
 
