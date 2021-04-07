@@ -47,7 +47,8 @@ A keystore presente no servidor (server/keystore.server) utiliza a palavra-passe
 
 ## Limitações:
 
-Na parte 1 fase 2, não conseguimos colocar o cliente e o servidor a correr numa sandbox.
+- Na parte 1 fase 2, não conseguimos colocar o cliente e o servidor a correr numa sandbox.
+- Não é possível eliminar posts; grupos e mensagens.
 
 ### Cliente:
 
@@ -76,10 +77,7 @@ O cliente apenas reconhece os seguintes comandos/atalhos:
 | quit												|	q		          	       |
 
 ### Servidor:
-- Dentro da pasta ``` Data/ ``` estão as pastas com as diversas informações relativas ao group; post; follow.
-- Não é possível eliminar posts; grupos e mensagens.
-
-Para o cliente se autenticar com sucesso, é necessário que tenha na sua truststore o certificado do servidor, assim como o seu par de chaves assimétricas RSA na sua keystore.
+Dentro da pasta ``` Data/ ``` estão as pastas com as diversas informações relativas ao group; post; follow.
 
 Para adicionar um utilizador a um grupo, é necessário que a chave pública do mesmo (no formato <username>.cer) esteja presente no diretório server/Data/publicKeys.
 
@@ -105,6 +103,8 @@ Ao fazer newgroup <groupId> o programa cria um ficheiro groupInfo.txt onde guard
 ### Cliente:
 As respectivas keystores de cada cliente encontram-se na pasta Fase1-Parte2/SeiTchiz/client
 
+Para o cliente se autenticar com sucesso, é necessário que tenha na sua truststore o certificado do servidor, assim como o seu par de chaves assimétricas RSA na sua keystore.
+
 Para que o cliente consiga fazer post utilizando o jar é preciso que se encontre uma pasta Userfiles/ com as fotos na localização do jar.
 
-Ao ser autenticado um novo utilizador é cirado um novo par <UserId, nomeCerticado>, este é cifrado e guardado no ficheiro users.txt em 
+Ao ser autenticado um novo utilizador é cirado um novo par <UserId, nomeCerticado>, este é cifrado e guardado no ficheiro users.txt em ``` Data/users ``
