@@ -83,12 +83,12 @@ server
 			| N
 	└─── groups
 		└─── <nome do grupo criado> - Cada grupo tem a sua pasta
-				| groupinfo.txt* - guarda os users do grupo e o id chave do grupo*
-				| groupkeys.txt* - guarda a chave de cada user*
+				| groupinfo.txt - guarda os users do grupo e o id chave do grupo*
+				| groupkeys.txt - guarda a chave de cada user*
 			└─── collect 
-				| <nome do user>collect.txt* - 'caixa' para onde vão as mensagens não lidas de cada utilizador antes de ser feito collect*
+				| <nome do user>collect.txt - 'caixa' para onde vão as mensagens não lidas de cada utilizador antes de ser feito collect*
 			└─── history
-				| <nome do user>history.txt* - guarda as mensagens de cada utilizador depois de ter sido feito collect*
+				| <nome do user>history.txt - guarda as mensagens de cada utilizador depois de ter sido feito collect*
 		└───  <group example N> outra pasta
 				| ...
 				| N
@@ -96,7 +96,7 @@ server
 		└─── <nome do user> - Cada user que postou tem a sua pasta
 				| <nome da foto postada>.<extensão da foto>
 				| <nome da foto postada>.txt - guarda a informação da foto, como os likes, o id e a extensão
-				| <nome da foto postada>digest.txt* - guarda a síntese da foto para poder verificar a sua integridade
+				| <nome da foto postada>digest.txt - guarda a síntese da foto para poder verificar a sua integridade*
 			| nextID.txt - guarda o id da foto mais recente
 		└───  <nome do user example N> outra pasta
 				| ...
@@ -105,7 +105,7 @@ server
 		|   certSeiTchizServer.cer - certificado do servidor
 		|   <nome do user>.cer - certificado para um user do sistema
 	└─── users
-		│   users.txt* - guarda o par <UserId, nomeCerticado> cada vez que é autenticado um novo utilizador*
+		│   users.txt - guarda o par <UserId, nomeCerticado> cada vez que é autenticado um novo utilizador*
 	|   keystore.server - guarda a chave privada do servidor no fomato JCEKS
 ```
 
