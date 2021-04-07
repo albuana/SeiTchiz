@@ -54,7 +54,7 @@ foto aqui
 
 ### Servidor:
 
-Dentro da pasta ``` Data/ ``` estão as pastas com as diversas informações relativas ao group; post; follow; publicKey e users;
+- Dentro da pasta ``` Data/ ``` estão as pastas com as diversas informações relativas ao group; post; follow; publicKey e users;
 
 Fizemos um esquema para melhor compreender a vista do projeto:
 
@@ -96,7 +96,7 @@ server
 	|   keystore.server - guarda a chave privada do servidor no fomato JCEKS
 ```
 
-Nota: (*) significa que o ficheiro está cifrado
+``` Nota: (*) significa que o ficheiro está cifrado ```
 
 Ao fazer follow <User> o programa cria um diretorio com o nome do utilizador no directorio ``` server/Data/follows/ ``` e dentro dele cria 2 ficheiros .txt um follows e um following, no following deve estar o nome do utilizador seguido;
 	
@@ -118,8 +118,6 @@ Ao fazer collect, as mensagens serão colocadas num diretório  ``` server/Data/
 ### Cliente:
 
 Ao ser autenticado um novo utilizador é cifrado um novo par <UserId, nomeCerticado>, este é cifrado e guardado no ficheiro users.txt em ``` Data/users/ ```
-
-
 
 ## Limitações:
 
