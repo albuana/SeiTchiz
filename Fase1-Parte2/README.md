@@ -83,8 +83,8 @@ server
 			| N
 	└─── groups
 		└─── <nome do grupo criado> - Cada grupo tem a sua pasta
-				| groupinfo.txt - guarda os users do grupo e o id chave do grupo*
-				| groupkeys.txt - guarda a chave de cada user*
+				| groupinfo.txt - guarda os users do grupo e o id chave do grupo (*)
+				| groupkeys.txt - guarda a chave de cada user (*)
 			└─── collect 
 				| <nome do user>collect.txt - (1)
 			└─── history
@@ -105,16 +105,16 @@ server
 		| certSeiTchizServer.cer - certificado do servidor
 		| <nome do user>.cer - certificado para um user do sistema
 	└─── users
-		│ users.txt - guarda o par <UserId,nomeCerticado> cada vez que é autenticado um novo utilizador(*)
+		│ users.txt - guarda o par <UserId,nomeCerticado> cada vez que é autenticado um novo utilizador (*)
 	| keystore.server - guarda a chave privada do servidor no fomato JCEKS
 ```
 
 ``` 
 Nota: (*) significa que o ficheiro está cifrado 
-      (1) 'caixa' para onde vão as mensagens não lidas de cada utilizador antes de ser feito collect*
-      (2) guarda as mensagens de cada utilizador depois de ter sido feito collect*
+      (1) 'caixa' para onde vão as mensagens não lidas de cada utilizador antes de ser feito collect (*)
+      (2) guarda as mensagens de cada utilizador depois de ter sido feito collect (*)
       (3) guarda a informação da foto, como os likes, o id e a extensão
-      (4) guarda a síntese da foto para poder verificar a sua integridade*
+      (4) guarda a síntese da foto para poder verificar a sua integridade (*)
 ```
 
 Ao ser autenticado um novo utilizador é cifrado um novo par <UserId, nomeCerticado>, este é cifrado e guardado no ficheiro users.txt em ``` Data/users/ ```
