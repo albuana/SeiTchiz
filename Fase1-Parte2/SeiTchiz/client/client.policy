@@ -1,0 +1,11 @@
+/* authors: Ana Albuquerque 53512, Gonçalo Antunes 52831, Tiago Cabrita 52741*/
+
+grant codeBase "file:bin/-"{
+	permission java.util.PropertyPermission "*", "write";
+	permission java.net.SocketPermission "*:45678", "connect";
+	permission java.io.FilePermission "-", "read,write"; 	 
+};
+
+grant codeBase "file:libs/-"{
+    permission java.io.FilePermission "-", "read,write,delete";
+};
