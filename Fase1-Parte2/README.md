@@ -12,10 +12,7 @@
 
 ## Como compilar o projeto?
 
-Abra o terminal dentro da pasta 'SegC-grupo46-proj1-2' para executar os próximos comandos.
-
-### RUN
-Para correr o programa com os ficheiros de permissões corretamente é necessario e que este se encontre localizado na home do utilizador: $HOME/SegC-grupo46-proj1-2/Fase1-Parte2/SeiTchiz/
+Abra o terminal dentro da pasta 'SegC-grupo46-proj1-2/SeiTchiz/' para executar os próximos comandos.
 
 ### Servidor:
 
