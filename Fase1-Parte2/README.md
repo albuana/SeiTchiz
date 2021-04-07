@@ -86,7 +86,7 @@ server
 				| groupinfo.txt - guarda os users do grupo e o id chave do grupo*
 				| groupkeys.txt - guarda a chave de cada user*
 			└─── collect 
-				| <nome do user>collect.txt - 'caixa' para onde vão as mensagens não lidas de cada utilizador antes de ser feito collect*
+				| <nome do user>collect.txt - 'caixa' para onde vão as sms não lidas de cada utilizador antes de ser feito collect*
 			└─── history
 				| <nome do user>history.txt - guarda as mensagens de cada utilizador depois de ter sido feito collect*
 		└───  <group example N> outra pasta
