@@ -45,6 +45,12 @@ A keystore presente no servidor (server/keystore.server) utiliza a palavra-passe
 ##### Cliente:    
    `java -jar Client.jar 127.0.0.1:45678 ../truststore.client ../keystore.ana ourclientpass ana`
 
+## Arquitetura do Software
+
+foto aqui
+
+## Gestão de dados cifrados (persistência em disco)
+
 ## Limitações:
 
 - Na parte 1 fase 2, não conseguimos colocar o cliente e o servidor a correr numa sandbox.
