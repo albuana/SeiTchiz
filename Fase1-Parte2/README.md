@@ -51,8 +51,6 @@ O sistema SiTchiz pode-se dividir em dois, cliente e servidor. Contudo, de modo 
 
 foto aqui
 
-## Gestão de dados cifrados (persistência em disco)
-
 ### Cliente:
 
 O cliente está organizado de forma a que haja uma classe que trate de todos os pedidos da conexão ao servidor. Os pedidos do cliente quando chegam são reencaminhados para um Handler (de pedidos - Request Handler) que tem como função reencaminhá-los para o Handler específico da operação a ser executada.
@@ -134,7 +132,7 @@ Ao fazer msg, as mensagens serão colocadas num diretório ``` server/Data/group
 	
 Ao fazer collect, as mensagens serão colocadas num diretório  ``` server/Data/group/(nome do grupo)/collect/<nome de utilizador no grupo>history.txt ``` e removidas do collect respectivo.
 
-### Cipher
+### Cipher:
 
 O cliente faz a encriptação e desencriptação das chaves e das mensagens; e o servidor do conteúdo dos ficheiros. Para isso foi criado o Cipher que é partilhado tanto pelo cliente como pelo servidor através de um jar.
 Com esta decisão aumentámos a escalabilidade do código uma vez que não irá haver código repetido no cliente e no servidor, pois ambos usam uma biblioteca que trata das operações de cifra e decifra.
