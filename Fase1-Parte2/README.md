@@ -47,12 +47,30 @@ A keystore presente no servidor (server/keystore.server) utiliza a palavra-passe
 
 ## Arquitetura do Software
 
+O sistema SiTchiz pode-se dividir em dois, cliente e servidor. Contudo, de modo a facilitar o trabalho e a não repetir código foi ainda criado um módulo que trata das operações de cifra, decrifra, etc.
+
 foto aqui
 
 ## Gestão de dados cifrados (persistência em disco)
 
+### Cliente:
+
+O cliente está organizado de forma a que haja uma classe que trate de todos os pedidos da conexão ao servidor. Os pedidos do cliente quando chegam são reencaminhados para um Handler (de pedidos - Request Handler) que tem como função reencaminhá-los para o Handler específico da operação a ser executada.
+
+```
+client
+   | keystore.<nome do client> - guarda a chave privada do cliente no fomato JCEKS
+   | truststore.client - trust store do cliente
+   └───UserFiles
+	  │ <nome da foto>.<extensão da foto> - foto que o cliente quer postar
+```
 
 ### Servidor:
+
+O servidor está organizado de forma semelhante ao cliente. O processamento dos pedidos faz-se em 3 passos:
+1. Receção do pedido;
+2. Encaminhamento do mesmo para o Request Handler;
+3. Request Handler envia para o Handler respetivo.
 
 - Dentro da pasta ``` Data/ ``` estão as pastas com as diversas informações relativas ao group; post; follow; publicKey e users;
 
@@ -98,6 +116,8 @@ server
 
 ``` Nota: (*) significa que o ficheiro está cifrado ```
 
+Ao ser autenticado um novo utilizador é cifrado um novo par <UserId, nomeCerticado>, este é cifrado e guardado no ficheiro users.txt em ``` Data/users/ ```
+
 Ao fazer follow <User> o programa cria um diretorio com o nome do utilizador no directorio ``` server/Data/follows/ ``` e dentro dele cria 2 ficheiros .txt um follows e um following, no following deve estar o nome do utilizador seguido;
 	
 Ao fazer unfollow <User> o programa atualiza os ficheiros following do utilizador e o follower do user a deixar de ser seguido;
@@ -114,10 +134,10 @@ Ao fazer msg, as mensagens serão colocadas num diretório ``` server/Data/group
 	
 Ao fazer collect, as mensagens serão colocadas num diretório  ``` server/Data/group/(nome do grupo)/collect/<nome de utilizador no grupo>history.txt ``` e removidas do collect respectivo.
 
+### Cipher
 
-### Cliente:
-
-Ao ser autenticado um novo utilizador é cifrado um novo par <UserId, nomeCerticado>, este é cifrado e guardado no ficheiro users.txt em ``` Data/users/ ```
+O cliente faz a encriptação e desencriptação das chaves e das mensagens; e o servidor do conteúdo dos ficheiros. Para isso foi criado o Cipher que é partilhado tanto pelo cliente como pelo servidor através de um jar.
+Com esta decisão aumentámos a escalabilidade do código uma vez que não irá haver código repetido no cliente e no servidor, pois ambos usam uma biblioteca que trata das operações de cifra e decifra.
 
 ## Limitações:
 
@@ -131,7 +151,6 @@ Ao ser autenticado um novo utilizador é cifrado um novo par <UserId, nomeCertic
 - Para postar uma foto é necessário colocá-la na pasta UserFiles que está na pasta ``` client/ ```. 
 - Tem de verificar se está a correr pelo eclipse. Se não estiver, terá de a colocar na pasta ``` UserFiles ``` que está na pasta ``` libs``` (onde está o jar);
 - Para adicionar um utilizador a um grupo, é necessário que a chave pública do mesmo (no formato <username>.cer) esteja presente no diretório ``` server/Data/publicKeys/ ```.
-
 
 O cliente apenas reconhece os seguintes comandos/atalhos:
 
