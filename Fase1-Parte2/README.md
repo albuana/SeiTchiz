@@ -96,8 +96,8 @@ server
 		└─── <nome do user> - Cada user que postou tem a sua pasta
 				| <nome da foto postada>.<extensão da foto>
 				| <nome da foto postada>.txt - guarda a informação da foto, como os likes, o id e a extensão
-				| <nome da foto postada>digest.txt - COMPLETAR AAAAAAAA ------------ !!!!!!!!!
-			| nextID.txt - guarda ..... COMPLETAR AAAAAAAA ------------ !!!!!!!!!
+				| <nome da foto postada>digest.txt - guarda a síntese da foto para poder verificar a sua integridade
+			| nextID.txt - guarda o id da foto mais recente
 		└───  <nome do user example N> outra pasta
 				| ...
 				| N
