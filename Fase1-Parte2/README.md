@@ -1,5 +1,5 @@
 <h2 align="center"> 
-	SeiTchiz - An Instagram clone 🚀 DONE ✅
+	SeiTchiz - An Instagram clone
 </h2>
 
 ## Grupo 46
@@ -76,8 +76,8 @@ server
   └─── Data
   	└─── follows
 		└─── <nome do user>
-			| follower.txt*
-			| following.txt*
+			| follower.txt (*)
+			| following.txt (*)
 		└─── <nome do user example N> outra pasta
 			| ...
 			| N
@@ -98,15 +98,15 @@ server
 				| <nome da foto postada>.txt - (3)
 				| <nome da foto postada>digest.txt - (4)
 			| nextID.txt - guarda o id da foto mais recente
-		└───  <nome do user example N> outra pasta
+		└─── <nome do user example N> outra pasta
 				| ...
 				| N
 	└─── PubKeys
-		|   certSeiTchizServer.cer - certificado do servidor
-		|   <nome do user>.cer - certificado para um user do sistema
+		| certSeiTchizServer.cer - certificado do servidor
+		| <nome do user>.cer - certificado para um user do sistema
 	└─── users
-		│   users.txt - guarda o par <UserId,nomeCerticado> cada vez que é autenticado um novo utilizador*
-	|   keystore.server - guarda a chave privada do servidor no fomato JCEKS
+		│ users.txt - guarda o par <UserId,nomeCerticado> cada vez que é autenticado um novo utilizador(*)
+	| keystore.server - guarda a chave privada do servidor no fomato JCEKS
 ```
 
 ``` 
