@@ -77,25 +77,27 @@ O cliente apenas reconhece os seguintes comandos/atalhos:
 | quit												|	q		          	       |
 
 ### Servidor:
-Dentro da pasta ``` Data/ ``` estão as pastas com as diversas informações relativas ao group; post; follow.
+Dentro da pasta ``` Data/ ``` estão as pastas com as diversas informações relativas ao group; post; follow; publicKey e users;
 
-Para adicionar um utilizador a um grupo, é necessário que a chave pública do mesmo (no formato <username>.cer) esteja presente no diretório server/Data/publicKeys.
+Para adicionar um utilizador a um grupo, é necessário que a chave pública do mesmo (no formato <username>.cer) esteja presente no diretório ``` server/Data/publicKeys ```;
+	
+Ao fazer post, as fotos serão colocadas num diretório  ``` server/Data/posts/<nome do utilizador que fez post>/ ```;
 
-Ao fazer post, as fotos serão colocadas num diretório server/Data/posts/(nome do uti que fez post)/.
+Ao fazer like <PhotoID> o programa verifica a sintese da foto com o id dado, que foi guardada num ficheiro .txt, o programa atualiza o file .txt da foto a informação relativa aos likes;
+	
+Ao fazer wall<N> o programa retorna N posts dos seguidores do Utilizador e em caso de nao haver posts o programa informa o utilizador;
+	
+Ao fazer msg, as mensagens serão colocadas num diretório ``` server/Data/group/(nome do grupo)/collect/<nome de utilizador no grupo>collect.txt ```;
+	
 
-Ao fazer like <PhotoID> o programa verifica a sintese da foto com o id dado, que foi guardada num ficheiro .txt, o programa atualiza o file .txt da foto a informaçao relativa aos likes
 	
-Ao fazer wall<N> o programa retorna N posts dos seguidores do Utilizador e em caso de nao haver posts o programa informa o utilizador
+Ao fazer collect, as mensagens serão colocadas num diretório  ``` server/Data/group/(nome do grupo)/collect/<nome de utilizador no grupo>history.txt ``` e removidas do collect respectivo;
 	
-Ao fazer msg, as mensagens serão colocadas num diretório server/Data/group/(nome do grupo)/collect/<nome de utilizador no grupo>collect.txt.
+Ao fazer follow <User> o programa cria um diretorio com o nome do utilizador no directorio ``` server/Data/follows/ ``` e dentro dele cria 2 ficheiros .txt um follows e um following, no following deve estar o nome do utilizador seguido;
 	
-Ao fazer collect, as mensagens serão colocadas num diretório server/Data/group/(nome do grupo)/collect/<nome de utilizador no grupo>history.txt. e removidas do collect respectivo.
-	
-Ao fazer follow <User> o programa cria um diretorio com o nome do utilizador no directorio server/Data/follows e dentro dele cria 2 ficheiros .txt um follows e um following, no following deve estar o nome do utilizador seguido
-	
-Ao fazer unfollow <User> o programa atualiza os ficheiros following do utilizador e o follower do user a deixar de ser seguido
+Ao fazer unfollow <User> o programa atualiza os ficheiros following do utilizador e o follower do user a deixar de ser seguido;
 
-Ao fazer newgroup <groupId> o programa cria um ficheiro groupInfo.txt onde guarda os users do grupo e o id chave do grupo, e a chave cifrada de cada user fica guardada num ficheiro groupKeys.txt
+Ao fazer newgroup <groupId> o programa cria um ficheiro groupInfo.txt onde guarda os users do grupo e o id chave do grupo, e a chave cifrada de cada user fica guardada num ficheiro groupKeys.txt.
 	
 
 	
@@ -105,6 +107,6 @@ As respectivas keystores de cada cliente encontram-se na pasta Fase1-Parte2/SeiT
 
 Para o cliente se autenticar com sucesso, é necessário que tenha na sua truststore o certificado do servidor, assim como o seu par de chaves assimétricas RSA na sua keystore.
 
-Para que o cliente consiga fazer post utilizando o jar é preciso que se encontre uma pasta Userfiles/ com as fotos na localização do jar.
+Para que o cliente consiga fazer post utilizando o jar é preciso que se encontre uma pasta ``` Userfiles/ ```com as fotos na localização do jar.
 
-Ao ser autenticado um novo utilizador é cirado um novo par <UserId, nomeCerticado>, este é cifrado e guardado no ficheiro users.txt em ``` Data/users ``
+Ao ser autenticado um novo utilizador é cirado um novo par <UserId, nomeCerticado>, este é cifrado e guardado no ficheiro users.txt em ``` Data/users/ ```
